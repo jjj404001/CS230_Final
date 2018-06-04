@@ -78,13 +78,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			main_opengl.quit = true;
 			return 0;
 		case WM_SIZE:
-			main_opengl.ResizeOpenGLViewport(hWnd);
+			main_opengl.ResizeOpenGLViewport();
 			break;
 		case WM_KEYDOWN://if keyboard key is pressed.
 		{
 			// check if fullscreen 
 			//auto wndStyle = GetWindowLong(hWnd, GWL_STYLE);
-			main_opengl.Input_KeyDown(hWnd, wParam, lParam);
+			main_opengl.Input_KeyDown( wParam, lParam);
 		}
 		break;
 		case WM_KEYUP: //if keyboard key is released.
@@ -113,7 +113,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 		case WM_MOUSEMOVE: //if mouse is moved.
 		{
-			main_opengl.Input_MouseMove(hWnd, lParam);
+			main_opengl.Input_MouseMove(lParam);
 		}
 		break;
 		case WM_DESTROY: //if mouse is moved.

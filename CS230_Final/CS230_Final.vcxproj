@@ -161,6 +161,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="OpenGL_window.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ShaderSource.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="VirtualKeyCodes.h" />
   </ItemGroup>

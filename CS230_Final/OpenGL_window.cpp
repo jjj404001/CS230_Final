@@ -1,6 +1,8 @@
 #include "OpenGL_window.h"
 #include "resource.h"
 #include <winuser.h>
+#include "VirtualKeyCodes.h"
+
 
 #define GREEN 0.0f, 0.586f, 0.0f, 1.0f
 // Prototype
@@ -134,9 +136,9 @@ HDC* OpenGL_window::GetDeviceContext()
 	return &device_context;
 }
 
-void OpenGL_window::ResizeOpenGLViewport(HWND hWnd)
+void OpenGL_window::ResizeOpenGLViewport()
 {
-	if (hWnd == NULL)
+	if (hWnd == nullptr)
 		return;
 
 	RECT rRect;
@@ -151,7 +153,7 @@ void OpenGL_window::ResizeOpenGLViewport(HWND hWnd)
 	graphic.SetRect(rRect);
 }
 
-void OpenGL_window::Input_KeyDown(HWND hWnd, WPARAM wParam, LPARAM lParam)
+void OpenGL_window::Input_KeyDown(WPARAM wParam, LPARAM lParam)
 {
 	WINDOWINFO test;
 	test.cbSize = sizeof(WINDOWINFO);
@@ -163,22 +165,40 @@ void OpenGL_window::Input_KeyDown(HWND hWnd, WPARAM wParam, LPARAM lParam)
 			SendMessage(hWnd, WM_CLOSE, wParam, lParam);
 			break;
 		case VK_RETURN:
-			Check_and_Set_Fullscreen(hWnd);
+			Check_and_Set_Fullscreen();
 			break;
 		case VK_G:
-			graphic.MoveEverything();
+			if (selected_object.empty())
+			{
+				std::cout << "WARNING :: Nothing selected." << std::endl;
+				break;
+			}
+			graphic.MoveSelected(*selected_object.back());
 			break;
 		case VK_S:
-			graphic.ScaleEverything();
+			if (selected_object.empty())
+			{
+				std::cout << "WARNING :: Nothing selected." << std::endl;
+				break;
+			}
+			graphic.ScaleSelected(*selected_object.back());
 			break;
 		case VK_R:
-			graphic.RotateEverything();
+			if (selected_object.empty())
+			{
+				std::cout << "WARNING :: Nothing selected." << std::endl;
+				break;
+			}
+			graphic.RotateSelected(*selected_object.back());
+			break;
+		case VK_SPACE:
+			SelectNextObject();
 			break;
 		default: ;
 	}
 }
 
-void OpenGL_window::Input_MouseMove(HWND hWnd, LPARAM lParam)
+void OpenGL_window::Input_MouseMove(LPARAM lParam)
 {
 	const auto result = MAKEPOINTS(lParam);
 	RECT rect;
@@ -195,7 +215,7 @@ void OpenGL_window::Input_MouseMove(HWND hWnd, LPARAM lParam)
 }
 
 
-void OpenGL_window::Check_and_Set_Fullscreen(HWND hWnd)
+void OpenGL_window::Check_and_Set_Fullscreen()
 {
 	if (!is_fullscreen) // fullscreen
 	{
@@ -216,12 +236,45 @@ void OpenGL_window::Check_and_Set_Fullscreen(HWND hWnd)
 	}
 }
 
+
+
+void OpenGL_window::SelectNextObject()
+{
+	Object* obj = nullptr;
+
+	// if nothing selected, select first object in the list.
+	if(selected_object.empty())
+		obj = &(graphic.GetObjectList()[selected_object_index]);
+	else
+	{
+		for (auto current_object : selected_object)
+			current_object->shader = graphic.shader_program_POS_BLACK;
+
+		if (selected_object_index == graphic.GetObjectList().size() - 1)
+		{
+			obj = &(graphic.GetObjectList()[0]);
+			selected_object_index = 0;
+		}
+		else
+			obj = &(graphic.GetObjectList()[selected_object_index += 1]);
+	}
+
+
+	obj->shader = graphic.shader_program_POS_RED;
+
+	selected_object.clear();
+	selected_object.push_back(obj);
+}
+
+
+
 void OpenGL_window::Update()
 {
 	timer.Clock_Start();
 
 	if (fps >= 60)
-		Sleep(static_cast<DWORD>(timer.GetDuration().count()));
+		Sleep(static_cast<DWORD>(timer.GetDuration().count())); // For lab
+		//Sleep(static_cast<DWORD>(1000 - timer.GetDuration().count())); // For home
 	// Sleep for 1second - ellapsed time. so we can rest remaining of second.
 
 	
@@ -253,7 +306,7 @@ void OpenGL_window::Update()
 	SwapBuffers(*GetDeviceContext());
 
 
-	const float duration = timer.Clock_End();
+	const auto duration = timer.Clock_End();
 
 	ellapsed_time += duration;
 	fps++;

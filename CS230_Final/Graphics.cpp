@@ -5,7 +5,8 @@
 
 void Graphics::Initialize()
 {
-	SetUpShader(vertex_shader_source, fragment_shader_source);
+	SetUpShader(shader_program_POS_BLACK, VERT_SOURCE_POSITION, FRAG_SOURCE_COLOR_BLACK);
+	SetUpShader(shader_program_POS_RED, VERT_SOURCE_POSITION, FRAG_SOURCE_COLOR_RED);
 	Object o1;
 	o1.mesh_ = Mesh::Create_Triangle();
 	Object o2;
@@ -15,28 +16,29 @@ void Graphics::Initialize()
 	Object o4;
 	o4.mesh_ = Mesh::Create_Line(1.0f, 0.1f);
 
-	AddObject(o1);
-	AddObject(o2);
-	AddObject(o3);
-	AddObject(o4);
+	AddObject(o1, shader_program_POS_BLACK);
+	AddObject(o2, shader_program_POS_BLACK);
+	AddObject(o3, shader_program_POS_BLACK);
+	AddObject(o4, shader_program_POS_BLACK);
 }
 
 
 void Graphics::Update()
 {
 
-	for (auto i : objects_list)
+	for (auto current_object : objects_list)
 	{
-		i.Update(rect_);
+		current_object.Update(rect_);
 
-		glUseProgram(shader_program);
-		glBindVertexArray(i.mesh_.Get_VAO());
-		glDrawArrays(i.mesh_.Get_Primitive(), FIXED_INDEX, i.mesh_.Get_Num_of_vert());
+		glUseProgram(current_object.shader);
+		glBindVertexArray(current_object.mesh_.Get_VAO());
+		glDrawArrays(current_object.mesh_.Get_Primitive(), FIXED_INDEX, current_object.mesh_.Get_Num_of_vert());
 	}
 }
 
-void Graphics::AddObject(Object input_object)
+void Graphics::AddObject(Object input_object, unsigned int input_shader)
 {
+	input_object.shader = input_shader;
 	objects_list.emplace_back(input_object);
 	objects_list.back().mesh_.Set_Index(current_index_of_mesh);
 	current_index_of_mesh += objects_list.back().mesh_.Get_Num_of_vert();
@@ -70,8 +72,29 @@ void Graphics::RotateEverything()
 	}
 }
 
+void Graphics::MoveSelected(Object& input_object)
+{
+	std::cout << "!!Graphics::MoveSelected" << std::endl;
 
-void Graphics::SetUpShader(const char* input_vertext_source, const char*  input_fragment_source)
+	input_object.transform_.translation_.y += 1.0f;
+}
+
+void Graphics::ScaleSelected(Object& input_object)
+{
+	std::cout << "!!Graphics::ScaleSelected" << std::endl;
+
+	input_object.transform_.scale_ *= 1.1f;
+}
+
+void Graphics::RotateSelected(Object& input_object)
+{
+	std::cout << "!!Graphics::RotateSelected" << std::endl;
+
+	input_object.transform_.rotation_ += 0.1f;
+}
+
+
+void Graphics::SetUpShader(unsigned int& input_shader_program, const char* input_vertext_source, const char*  input_fragment_source)
 {
 	if (vertex_shader_source != input_vertext_source)
 		vertex_shader_source = input_vertext_source;
@@ -111,18 +134,18 @@ void Graphics::SetUpShader(const char* input_vertext_source, const char*  input_
 	}
 
 
-	shader_program = glCreateProgram();
-	glAttachShader(shader_program, vertex_shader);
-	glAttachShader(shader_program, fragment_shader);
-	glLinkProgram(shader_program);
+	input_shader_program = glCreateProgram();
+	glAttachShader(input_shader_program, vertex_shader);
+	glAttachShader(input_shader_program, fragment_shader);
+	glLinkProgram(input_shader_program);
 
-	glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
+	glGetProgramiv(input_shader_program, GL_LINK_STATUS, &success);
 	if (!success) {
-		glGetProgramInfoLog(shader_program, 512, NULL, infoLog);
+		glGetProgramInfoLog(input_shader_program, 512, NULL, infoLog);
 		std::cout << "Error!! Shader program link failed. : \n" << infoLog << std::endl;
 	}
 
-	glUseProgram(shader_program);
+	glUseProgram(input_shader_program);
 	glDeleteShader(vertex_shader);   // delete shaders after make program.
 	glDeleteShader(fragment_shader); // delete shaders after make program.
 }

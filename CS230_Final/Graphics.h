@@ -1,16 +1,18 @@
 #pragma once
 #include <string>
 #include "Object.h"
+#include "ShaderSource.h"
+
 
 class Graphics
 {
 	unsigned int vertex_shader;
-	const char*  vertex_shader_source = VERT_SOURCE;
+	const char*  vertex_shader_source = VERT_SOURCE_POSITION;
 
 	unsigned int fragment_shader;
-	const char*  fragment_shader_source = FRAG_SOURCE;
+	const char*  fragment_shader_source = FRAG_SOURCE_COLOR_BLACK;
 
-	unsigned int shader_program;
+	
 
 	unsigned int polygon_mod = GL_FILL;
 
@@ -18,9 +20,11 @@ class Graphics
 	unsigned int current_index_of_mesh = 0;
 
 	RECT rect_;
-
-	void SetUpShader(const char* input_vertext_source, const char*  input_fragment_source);
 public:
+	unsigned int shader_program_POS_BLACK;
+	unsigned int shader_program_POS_RED;
+
+
 	void Initialize();
 	void Update();
 
@@ -29,10 +33,18 @@ public:
 	unsigned int GetPolyMode() { return polygon_mod; }
 	void SetPolyMode(unsigned int input) { polygon_mod = input; }
 
+	std::vector<Object>& GetObjectList() { return objects_list; }
 
-	void AddObject(Object input_object);
+
+	void AddObject(Object input_object, unsigned int input_shader);
+
+	void SetUpShader(unsigned int& shader_program, const char* input_vertext_source, const char*  input_fragment_source);
 
 	void MoveEverything();
 	void ScaleEverything();
 	void RotateEverything();
+
+	void MoveSelected(Object& input_object);
+	void ScaleSelected(Object& input_object);
+	void RotateSelected(Object& input_object);
 };

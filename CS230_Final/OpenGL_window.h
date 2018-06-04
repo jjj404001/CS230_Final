@@ -1,8 +1,8 @@
 #pragma once
 #include"Attributes.h"
-#include "VirtualKeyCodes.h"
 #include "Timer.h"
 #include "Graphics.h"
+#include <list>
 #include <iostream>
 
 #define CLASS_NAME "OpenGL_window.h man we a"
@@ -32,7 +32,10 @@ class OpenGL_window
 	int PFDID = NULL;
 	int PixelFormat = NULL;
 
-	void Check_and_Set_Fullscreen(HWND hWnd);
+	void Check_and_Set_Fullscreen();
+
+	std::list<Object*> selected_object;
+	unsigned int selected_object_index = 0;
 public:
 	int major_version = 3;
 	int minor_version = 3;
@@ -42,6 +45,7 @@ public:
 	
 
 
+	void SelectNextObject();
 
 
 
@@ -56,9 +60,9 @@ public:
 	MSG& GetGLMessage();
 	HDC* GetDeviceContext();
 	HWND& GetHWND() { return hWnd; };
-	void ResizeOpenGLViewport(HWND hWnd);
-	void Input_KeyDown(HWND hWnd, WPARAM wParam, LPARAM lParam);
-	void Input_MouseMove(HWND hWnd, LPARAM lParam);
+	void ResizeOpenGLViewport();
+	void Input_KeyDown(WPARAM wParam, LPARAM lParam);
+	void Input_MouseMove(LPARAM lParam);
 
 	Graphics& GetGraphicHandle() { return graphic; };
 };

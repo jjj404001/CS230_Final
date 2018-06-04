@@ -1,0 +1,19 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+*.user
+/.vs/CS230_Final/v15
+/x64
+/Release
+/Debug
+/MathLibrary/x64
+/MathLibrary/Release
+/MathLibrary/Debug
+/glew/Debug
+/glew/Release
+/glew/x64/Debug
+/glew/x64/Release
+/CS230_Final/x64
+/CS230_Final/Release
+/CS230_Final/Debug

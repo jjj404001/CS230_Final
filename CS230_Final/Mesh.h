@@ -3,24 +3,6 @@
 #include <GL/glew.h>
 #include <GL/wglew.h>
 #include "vector3.hpp"
-#define VERT_SOURCE R"(
-							#version 330 core
-							layout(location = 0) in vec3 aPos;
-							void main()
-							{
-								gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
-							}
-							)"
-#define FRAG_SOURCE R"(
-								#version 330 core
-								out vec4 FragColor;
-
-								void main()
-								{
-									FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
-								} 
-								)"
-
 
 
 class Mesh
@@ -29,8 +11,7 @@ class Mesh
 
 
 	std::vector<vector3> vertices; // Collection of vertices.
-	const char * vertex_shader_source = VERT_SOURCE;  // Shader sources.
-	const char * fragment_shader_source = FRAG_SOURCE;
+
 
 	unsigned int number_of_vertex_ = 0;// number of vertecies.
 	unsigned int index_ = 0;      // Index in vao.
