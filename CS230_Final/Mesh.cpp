@@ -7,6 +7,7 @@ namespace Math
 {
 	float inversed_radian = (PI) / 180;
 }
+//TODO: Apply ndc
 Mesh Mesh::Create_Triangle(float size)
 {
 	Mesh tri;

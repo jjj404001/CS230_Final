@@ -168,31 +168,40 @@ void OpenGL_window::Input_KeyDown(WPARAM wParam, LPARAM lParam)
 			Check_and_Set_Fullscreen();
 			break;
 		case VK_G:
-			if (selected_object.empty())
+			edit_mode_ = Translation;
+			/*if (selected_object.empty())
 			{
 				std::cout << "WARNING :: Nothing selected." << std::endl;
 				break;
 			}
-			graphic.MoveSelected(*selected_object.back());
+			graphic.MoveSelected(*selected_object.back());*/
 			break;
 		case VK_S:
-			if (selected_object.empty())
+			edit_mode_ = Scale;
+			/*if (selected_object.empty())
 			{
 				std::cout << "WARNING :: Nothing selected." << std::endl;
 				break;
 			}
-			graphic.ScaleSelected(*selected_object.back());
+			graphic.ScaleSelected(*selected_object.back());*/
 			break;
 		case VK_R:
-			if (selected_object.empty())
+			edit_mode_ = Rotation;
+			/*if (selected_object.empty())
 			{
 				std::cout << "WARNING :: Nothing selected." << std::endl;
 				break;
 			}
-			graphic.RotateSelected(*selected_object.back());
+			graphic.RotateSelected(*selected_object.back());*/
 			break;
 		case VK_SPACE:
 			SelectNextObject();
+			break;
+		case VK_UP:
+		case VK_DOWN:
+		case VK_LEFT:
+		case VK_RIGHT:
+			HandleTransform(wParam);
 			break;
 		default: ;
 	}
@@ -266,7 +275,38 @@ void OpenGL_window::SelectNextObject()
 	selected_object.push_back(obj);
 }
 
+void OpenGL_window::HandleTransform(WPARAM wParam)
+{
+	auto input_vector = vector2();
 
+
+	// Check input and set vector for transform.
+	// Use if statement for diagonal functionality.
+	if(wParam == VK_UP)
+		input_vector.y += TRANSFORM_FACTOR;
+	if(wParam == VK_DOWN)
+		input_vector.y -= TRANSFORM_FACTOR;
+	if(wParam == VK_LEFT)
+		input_vector.x -= TRANSFORM_FACTOR;
+	if(wParam == VK_RIGHT)
+		input_vector.x += TRANSFORM_FACTOR;
+
+
+	if (selected_object.empty())
+	{
+		std::cout << "!!WARNING!! No object selected" << std::endl;
+		return;
+	}
+	
+	// Check current edit mode and transform.
+	auto current_object = selected_object.back();
+	if(edit_mode_ == Translation)
+		graphic.MoveSelected(current_object, input_vector);
+	else if (edit_mode_ == Scale)
+		graphic.ScaleSelected(current_object, input_vector);
+	else if (edit_mode_ == Rotation) // ONLY WORKS WITH HORIZONTAL ARROW.
+		graphic.RotateSelected(current_object, input_vector);
+}
 
 void OpenGL_window::Update()
 {
@@ -292,17 +332,14 @@ void OpenGL_window::Update()
 
 	
 
-	graphic.SetPolyMode(GL_LINE);
+	//graphic.SetPolyMode(GL_LINE);
 	glPolygonMode(GL_FRONT_AND_BACK, graphic.GetPolyMode());
+
+
 
 	glClearColor(GREEN);
 	glClear(GL_COLOR_BUFFER_BIT);
-
-
 	graphic.Update();
-
-
-
 	SwapBuffers(*GetDeviceContext());
 
 

@@ -2,11 +2,13 @@
 #include"Attributes.h"
 #include "Timer.h"
 #include "Graphics.h"
+#include "Edit.h"
 #include <list>
 #include <iostream>
 
 #define CLASS_NAME "OpenGL_window.h man we a"
 #define WINDOW_SIZE 1000
+#define TRANSFORM_FACTOR 1.0f // move for 10 pixel
 
 class OpenGL_window
 {
@@ -23,6 +25,8 @@ class OpenGL_window
 
 	Timer timer;
 	Graphics graphic;
+
+	EditMode edit_mode_;
 	
 
 	unsigned int fps = 0;
@@ -46,6 +50,7 @@ public:
 
 
 	void SelectNextObject();
+	void HandleTransform(WPARAM wParam);
 
 
 

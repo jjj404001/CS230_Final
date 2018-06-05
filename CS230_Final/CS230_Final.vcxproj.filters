@@ -62,6 +62,9 @@
     <ClInclude Include="ShaderSource.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Edit.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc">

@@ -44,7 +44,7 @@ public:
 	void ScaleEverything();
 	void RotateEverything();
 
-	void MoveSelected(Object& input_object);
-	void ScaleSelected(Object& input_object);
-	void RotateSelected(Object& input_object);
+	void MoveSelected(Object* input_object, vector2 translation_input);
+	void ScaleSelected(Object* input_object, vector2 translation_input);
+	void RotateSelected(Object* input_object, vector2 translation_input);
 };

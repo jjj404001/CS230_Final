@@ -7,6 +7,6 @@ class Transform
 	friend class Graphics;
 
 	vector2 translation_ = vector2(0.0f, 0.0f);
-	float rotation_ = 0.0f;
-	float scale_    = 1.0f;
+	float rotation_   = 0.0f;
+	vector2 scale_    = 1.0f;
 };

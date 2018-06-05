@@ -2,6 +2,10 @@
 #include <iostream>
 
 #define FIXED_INDEX 0
+#define PI 3.14159265f // TODO: Duplicate with mesh file. fix it
+#define TRANSLATION_FACTOR 10.0f
+#define SCALE_FACTOR 1.0f
+#define ROTATION_FACTOR 3.14159265f *2.0f / 20.0f
 
 void Graphics::Initialize()
 {
@@ -12,7 +16,7 @@ void Graphics::Initialize()
 	Object o2;
 	o2.mesh_ = Mesh::Create_Square(0.4f);
 	Object o3;
-	o3.mesh_ = Mesh::Create_Circle(100.0f, 50);
+	o3.mesh_ = Mesh::Create_Circle(1.0f, 50);
 	Object o4;
 	o4.mesh_ = Mesh::Create_Line(1.0f, 0.1f);
 
@@ -72,25 +76,29 @@ void Graphics::RotateEverything()
 	}
 }
 
-void Graphics::MoveSelected(Object& input_object)
+void Graphics::MoveSelected(Object* input_object, vector2 translation_input)
 {
 	std::cout << "!!Graphics::MoveSelected" << std::endl;
 
-	input_object.transform_.translation_.y += 1.0f;
+	input_object->transform_.translation_ += translation_input * TRANSLATION_FACTOR;
 }
 
-void Graphics::ScaleSelected(Object& input_object)
+void Graphics::ScaleSelected(Object* input_object, vector2 translation_input)
 {
 	std::cout << "!!Graphics::ScaleSelected" << std::endl;
 
-	input_object.transform_.scale_ *= 1.1f;
+	translation_input.x /= 10.0f;
+	translation_input.y /= 10.0f;
+
+	input_object->transform_.scale_.x += translation_input.x *SCALE_FACTOR;
+	input_object->transform_.scale_.y += translation_input.y *SCALE_FACTOR;
 }
 
-void Graphics::RotateSelected(Object& input_object)
+void Graphics::RotateSelected(Object* input_object, vector2 translation_input)
 {
 	std::cout << "!!Graphics::RotateSelected" << std::endl;
-
-	input_object.transform_.rotation_ += 0.1f;
+	// ONLY WORKS WITH HORIZONTAL ARROW.
+	input_object->transform_.rotation_ += translation_input.x * ROTATION_FACTOR;
 }
 
 
