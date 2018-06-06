@@ -5,7 +5,7 @@
 #include "vector3.hpp"
 #include "Color.h"
 
-#define NUMBER_OF_COMP_PER_STRIDE 7 // position 3 + color 4
+
 
 class Mesh
 {
@@ -48,5 +48,5 @@ public:
 	unsigned int Get_VAO() const { return VAO; };
 
 	int bytes_of_data = 0; // Size of vertices in bytes.
-	static unsigned int stride;
+	static unsigned int number_of_element_per_stride;
 };

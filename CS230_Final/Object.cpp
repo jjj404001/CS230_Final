@@ -28,7 +28,7 @@ void Object::Update(RECT input_rect)
 
 
 		// Move to next vertext position's x.
-		current_vertex += NUMBER_OF_COMP_PER_STRIDE;
+		current_vertex += Mesh::number_of_element_per_stride;
 	}
 
 

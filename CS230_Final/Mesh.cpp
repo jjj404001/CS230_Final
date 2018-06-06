@@ -2,7 +2,7 @@
 #include <cmath>
 #define PI 3.14159265f
 
-unsigned int Mesh::stride = sizeof(float) * 6; // number of position + color = 6
+unsigned int Mesh::number_of_element_per_stride = 10; // Position 3 + Color 4 + Texture 3
 
 namespace Math
 {
@@ -14,9 +14,9 @@ Mesh Mesh::Create_Triangle(float size, Color input_color)
 	Mesh tri;
 
 
-	const auto bottom_left  = vector3(-size, -size, 0.0f);
-	const auto bottom_right = vector3(size, -size, 0.0f);
-	const auto top_middle   = vector3(0.0f,   size, 0.0f);
+	const auto bottom_left  = vector3{-size, -size, 0.0f};
+	const auto bottom_right = vector3{size, -size, 0.0f};
+	const auto top_middle   = vector3{0.0f, size, 0.0f};
 
 
 
@@ -27,6 +27,9 @@ Mesh Mesh::Create_Triangle(float size, Color input_color)
 	tri.vertices.emplace_back(input_color.Green);
 	tri.vertices.emplace_back(input_color.Blue);
 	tri.vertices.emplace_back(input_color.Alpha);
+	tri.vertices.emplace_back(0.0f);
+	tri.vertices.emplace_back(1.0f);
+	tri.vertices.emplace_back(0.0f);
 	tri.number_of_vertex_++;
 
 	tri.vertices.emplace_back(bottom_right.x);
@@ -36,6 +39,9 @@ Mesh Mesh::Create_Triangle(float size, Color input_color)
 	tri.vertices.emplace_back(input_color.Green);
 	tri.vertices.emplace_back(input_color.Blue);
 	tri.vertices.emplace_back(input_color.Alpha);
+	tri.vertices.emplace_back(1.0f);
+	tri.vertices.emplace_back(1.0f);
+	tri.vertices.emplace_back(0.0f);
 	tri.number_of_vertex_++;
 
 	tri.vertices.emplace_back(top_middle.x);
@@ -45,6 +51,9 @@ Mesh Mesh::Create_Triangle(float size, Color input_color)
 	tri.vertices.emplace_back(input_color.Green);
 	tri.vertices.emplace_back(input_color.Blue);
 	tri.vertices.emplace_back(input_color.Alpha);
+	tri.vertices.emplace_back(0.5f);
+	tri.vertices.emplace_back(0.0f);
+	tri.vertices.emplace_back(0.0f);
 	tri.number_of_vertex_++;
 
 
@@ -62,7 +71,7 @@ Mesh Mesh::Create_Triangle(float size, Color input_color)
 }
 
 //TODO : fix below with vertex.
-
+/*
 Mesh Mesh::Create_Square(float size, Color input_color)
 {
 	Mesh square;
@@ -233,7 +242,7 @@ Mesh Mesh::Create_Line(float size, float angle, Color input_color)
 
 	return line;
 }
-
+*/
 void Mesh::Initialize_VAO_VBO()
 {
 	glGenVertexArrays(1, &VAO);
@@ -249,12 +258,15 @@ void Mesh::Initialize_VAO_VBO()
 
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * NUMBER_OF_COMP_PER_STRIDE, static_cast<void*>(0));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * Mesh::number_of_element_per_stride, static_cast<void*>(0));
 
 
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * NUMBER_OF_COMP_PER_STRIDE, reinterpret_cast<void*>(sizeof(float) * 3));// Works?
-	
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * Mesh::number_of_element_per_stride, reinterpret_cast<void*>(sizeof(float) * 3));// Works?
+
+
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * Mesh::number_of_element_per_stride, reinterpret_cast<void*>(sizeof(float) * 7));// Works?
 }
 
 void Mesh::Update_VAO_VBO()
@@ -267,9 +279,13 @@ void Mesh::Update_VAO_VBO()
 
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * NUMBER_OF_COMP_PER_STRIDE, static_cast<void*>(0));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * Mesh::number_of_element_per_stride, static_cast<void*>(0));
 
 
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * NUMBER_OF_COMP_PER_STRIDE, reinterpret_cast<void*>(sizeof(float) * 3));// Works?
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * Mesh::number_of_element_per_stride, reinterpret_cast<void*>(sizeof(float) * 3));// Works?
+
+
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * Mesh::number_of_element_per_stride, reinterpret_cast<void*>(sizeof(float) * 7));// Works?
 }

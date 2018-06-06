@@ -238,6 +238,7 @@ vector3& vector3::operator/=(int InputInt)
 	return *this;
 }
 
+
 //Dot product. !!not scaling!!
 float vector3::operator*(vector3 InputVector) const
 {

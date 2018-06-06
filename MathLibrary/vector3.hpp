@@ -74,6 +74,7 @@ brief  :
 */
 /******************************************************************************/
 #pragma once
+#include <array>
 
 struct vector3
 {
@@ -128,7 +129,7 @@ struct vector3
     //Dot product. !!not scaling!!
     float operator*(vector3 InputVector) const;
 
-
+	// 
     
 };
 ///////////////////////////////////////////////////////////////////////////////
