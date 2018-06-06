@@ -1,6 +1,7 @@
 #pragma once
 #include "Mesh.h"
 #include "Transform.h"
+#include "Texture.h"
 
 class Object
 {
@@ -8,6 +9,7 @@ class Object
 
 	Transform transform_;
 	Mesh mesh_;
+	Texture texture_;
 public:
 	unsigned int shader;
 

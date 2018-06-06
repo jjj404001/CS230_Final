@@ -1,6 +1,6 @@
 #pragma once
 #define RGBA32 unsigned int
-#define ColorChannel unsigned char
+#define ColorChannel float
 
 struct Color
 {

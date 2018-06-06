@@ -2,6 +2,7 @@
 #include <string>
 #include "Object.h"
 #include "ShaderSource.h"
+#include "Texture.h"
 
 
 class Graphics
@@ -23,6 +24,7 @@ class Graphics
 public:
 	unsigned int shader_program_POS_BLACK;
 	unsigned int shader_program_POS_RED;
+	unsigned int shader_program_POS_COLOR;
 
 
 	void Initialize();

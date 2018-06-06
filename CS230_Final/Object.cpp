@@ -1,37 +1,34 @@
 #include "Object.h"
 #include <iostream>
 
+
 // TODO : after check, implement with ndc.
 void Object::Update(RECT input_rect)
 {
 	// Loop through every vertecies.
-	for (auto& current_mesh : mesh_.vertices)
+	auto current_vertex = mesh_.vertices.begin();
+	while (current_vertex != mesh_.vertices.end())
 	{
-		// Looks cool
-		/*i.x = (i.x * cosf(transform_.rotation_))  + (i.y * sinf(transform_.rotation_));
-		i.x *= transform_.scale_;
-		i.x += transform_.translation_.x / input_rect.right;
-
-		i.y = (i.x * -sinf(transform_.rotation_)) + (i.y * cosf(transform_.rotation_));
-		i.y *= transform_.scale_;
-		i.y += transform_.translation_.y / input_rect.bottom;*/
-
-		
-
-		
-		current_mesh.x *= transform_.scale_.x;
-		current_mesh.y *= transform_.scale_.y;
-
-		auto original_x = current_mesh.x;
-
-		current_mesh.x = (original_x *  cosf(transform_.rotation_)) + (current_mesh.y * sinf(transform_.rotation_));
-		current_mesh.y = (original_x * -sinf(transform_.rotation_)) + (current_mesh.y * cosf(transform_.rotation_));
-
-		current_mesh.x += transform_.translation_.x / input_rect.right;
-		current_mesh.y += transform_.translation_.y / input_rect.bottom;
+		const auto x_comp = current_vertex;
+		const auto y_comp = (current_vertex + 1);
+		const auto z_comp = (current_vertex + 2);
 
 
-		//i.z = 0.0f; ?? Dont need to
+		*x_comp *= transform_.scale_.x;
+		*y_comp *= transform_.scale_.y;
+
+		const auto original_x = *x_comp;
+
+		*x_comp = (original_x *  cosf(transform_.rotation_)) + (*y_comp * sinf(transform_.rotation_));
+		*y_comp = (original_x * -sinf(transform_.rotation_)) + (*y_comp * cosf(transform_.rotation_));
+
+		*x_comp += transform_.translation_.x / input_rect.right;
+		*y_comp += transform_.translation_.y / input_rect.bottom;
+
+
+
+		// Move to next vertext position's x.
+		current_vertex += NUMBER_OF_COMP_PER_STRIDE;
 	}
 
 

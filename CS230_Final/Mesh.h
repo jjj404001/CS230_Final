@@ -3,14 +3,16 @@
 #include <GL/glew.h>
 #include <GL/wglew.h>
 #include "vector3.hpp"
+#include "Color.h"
 
+#define NUMBER_OF_COMP_PER_STRIDE 7 // position 3 + color 4
 
 class Mesh
 {
 	friend class Object;
 
 
-	std::vector<vector3> vertices; // Collection of vertices.
+	std::vector<float> vertices; // Collection of vertices position and color.
 
 
 	unsigned int number_of_vertex_ = 0;// number of vertecies.
@@ -21,12 +23,12 @@ class Mesh
 	GLuint VBO; // ....Waste or not? GLuint or unsigned int?
 	GLuint VAO; // ....Waste or not? GLuint or unsigned int?
 	 
-
+	
 public:
-	static Mesh Create_Triangle(float size = 0.5f);
-	static Mesh Create_Square(float size = 0.5f);
-	static Mesh Create_Circle(float size = 0.5f, int resolution = 10);
-	static Mesh Create_Line(float size = 0.5f, float angle = 0.0f);
+	static Mesh Create_Triangle(float size = 0.5f, Color input_color = Color(0.3f, 0.0f, 0.0f));
+	static Mesh Create_Square(float size = 0.5f, Color input_color = Color(0.0f, 0.3f, 0.0f));
+	static Mesh Create_Circle(float size = 0.5f, int resolution = 10, Color input_color = Color(0.0f, 0.0f, 0.3f));
+	static Mesh Create_Line(float size = 0.5f, float angle = 0.0f, Color input_color = Color(0.3f, 0.0f, 0.0f));
 
 	void Initialize_VAO_VBO();
 	void Update_VAO_VBO();
@@ -45,5 +47,6 @@ public:
 
 	unsigned int Get_VAO() const { return VAO; };
 
-	int bytse_of_data = 0; // Size of vertices in bytes.
+	int bytes_of_data = 0; // Size of vertices in bytes.
+	static unsigned int stride;
 };

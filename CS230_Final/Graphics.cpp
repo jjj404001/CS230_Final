@@ -1,6 +1,7 @@
 #include "Graphics.h"
 #include <iostream>
 
+
 #define FIXED_INDEX 0
 #define PI 3.14159265f // TODO: Duplicate with mesh file. fix it
 #define TRANSLATION_FACTOR 10.0f
@@ -9,21 +10,25 @@
 
 void Graphics::Initialize()
 {
-	SetUpShader(shader_program_POS_BLACK, VERT_SOURCE_POSITION, FRAG_SOURCE_COLOR_BLACK);
-	SetUpShader(shader_program_POS_RED, VERT_SOURCE_POSITION, FRAG_SOURCE_COLOR_RED);
+	//SetUpShader(shader_program_POS_BLACK, VERT_SOURCE_POSITION, FRAG_SOURCE_COLOR_BLACK);
+	//SetUpShader(shader_program_POS_RED, VERT_SOURCE_POSITION, FRAG_SOURCE_COLOR_RED);
+	SetUpShader(shader_program_POS_COLOR, VERT_SOURCE_COLOR_INPUT, FRAG_SOURCE_COLOR_INPUT);
+
+
 	Object o1;
 	o1.mesh_ = Mesh::Create_Triangle();
+	o1.texture_.LoadFromImage("Texture/test_texture.bmp");
 	Object o2;
 	o2.mesh_ = Mesh::Create_Square(0.4f);
 	Object o3;
-	o3.mesh_ = Mesh::Create_Circle(1.0f, 50);
+	o3.mesh_ = Mesh::Create_Circle(0.4f, 50);
 	Object o4;
-	o4.mesh_ = Mesh::Create_Line(1.0f, 0.1f);
+	o4.mesh_ = Mesh::Create_Line(0.4f, 0.1f);
 
-	AddObject(o1, shader_program_POS_BLACK);
-	AddObject(o2, shader_program_POS_BLACK);
-	AddObject(o3, shader_program_POS_BLACK);
-	AddObject(o4, shader_program_POS_BLACK);
+	AddObject(o1, shader_program_POS_COLOR);
+	AddObject(o2, shader_program_POS_COLOR);
+	AddObject(o3, shader_program_POS_COLOR);
+	AddObject(o4, shader_program_POS_COLOR);
 }
 
 
@@ -106,13 +111,17 @@ void Graphics::SetUpShader(unsigned int& input_shader_program, const char* input
 {
 	if (vertex_shader_source != input_vertext_source)
 		vertex_shader_source = input_vertext_source;
+	else
+		return;
 
 	if (fragment_shader_source != input_fragment_source)
 		fragment_shader_source = input_fragment_source;
+	else
+		return;
 
 
 	vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertex_shader, 1, &vertex_shader_source, NULL);
+	glShaderSource(vertex_shader, 1, &vertex_shader_source, nullptr);
 	glCompileShader(vertex_shader);
 
 
@@ -130,7 +139,7 @@ void Graphics::SetUpShader(unsigned int& input_shader_program, const char* input
 
 
 	fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragment_shader, 1, &fragment_shader_source, NULL);
+	glShaderSource(fragment_shader, 1, &fragment_shader_source, nullptr);
 	glCompileShader(fragment_shader);
 
 
@@ -154,6 +163,10 @@ void Graphics::SetUpShader(unsigned int& input_shader_program, const char* input
 	}
 
 	glUseProgram(input_shader_program);
+
+	glDetachShader(input_shader_program, vertex_shader);
+	glDetachShader(input_shader_program, fragment_shader);
+
 	glDeleteShader(vertex_shader);   // delete shaders after make program.
 	glDeleteShader(fragment_shader); // delete shaders after make program.
 }

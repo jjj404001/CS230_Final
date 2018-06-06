@@ -257,7 +257,7 @@ void OpenGL_window::SelectNextObject()
 	else
 	{
 		for (auto current_object : selected_object)
-			current_object->shader = graphic.shader_program_POS_BLACK;
+			current_object->shader = graphic.shader_program_POS_COLOR;
 
 		if (selected_object_index == graphic.GetObjectList().size() - 1)
 		{
@@ -268,8 +268,8 @@ void OpenGL_window::SelectNextObject()
 			obj = &(graphic.GetObjectList()[selected_object_index += 1]);
 	}
 
-
-	obj->shader = graphic.shader_program_POS_RED;
+	
+	obj->shader = graphic.shader_program_POS_COLOR;
 
 	selected_object.clear();
 	selected_object.push_back(obj);
