@@ -17,7 +17,7 @@ void Graphics::Initialize()
 
 	Object o1;
 	o1.mesh_ = Mesh::Create_Triangle();
-	o1.texture_.LoadFromImage("Texture/test_texture.bmp");
+	o1.texture_.LoadFromImage("Texture/test_texture.png");
 	//Object o2;
 	//o2.mesh_ = Mesh::Create_Square(0.4f);
 	//o1.texture_.LoadFromImage("Texture/test_texture.bmp");

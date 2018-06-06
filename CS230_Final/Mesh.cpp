@@ -1,5 +1,6 @@
 #include "Mesh.h"
 #include <cmath>
+#include "vector2.hpp"
 #define PI 3.14159265f
 
 unsigned int Mesh::number_of_element_per_stride = 10; // Position 3 + Color 4 + Texture 3
@@ -14,9 +15,13 @@ Mesh Mesh::Create_Triangle(float size, Color input_color)
 	Mesh tri;
 
 
+
 	const auto bottom_left  = vector3{-size, -size, 0.0f};
+	const auto bottom_left_uv  = vector3{ 0.0f, 1.0f, 0.0f};
 	const auto bottom_right = vector3{size, -size, 0.0f};
+	const auto bottom_right_uv = vector3{ 1.0f, 1.0f, 0.0f};
 	const auto top_middle   = vector3{0.0f, size, 0.0f};
+	const auto top_middle_uv = vector3{ 0.5f, 0.0f, 0.0f};
 
 
 
@@ -27,9 +32,9 @@ Mesh Mesh::Create_Triangle(float size, Color input_color)
 	tri.vertices.emplace_back(input_color.Green);
 	tri.vertices.emplace_back(input_color.Blue);
 	tri.vertices.emplace_back(input_color.Alpha);
-	tri.vertices.emplace_back(0.0f);
-	tri.vertices.emplace_back(1.0f);
-	tri.vertices.emplace_back(0.0f);
+	tri.vertices.emplace_back(bottom_left_uv.x);
+	tri.vertices.emplace_back(bottom_left_uv.y);
+	tri.vertices.emplace_back(bottom_left_uv.z);
 	tri.number_of_vertex_++;
 
 	tri.vertices.emplace_back(bottom_right.x);
@@ -39,9 +44,9 @@ Mesh Mesh::Create_Triangle(float size, Color input_color)
 	tri.vertices.emplace_back(input_color.Green);
 	tri.vertices.emplace_back(input_color.Blue);
 	tri.vertices.emplace_back(input_color.Alpha);
-	tri.vertices.emplace_back(1.0f);
-	tri.vertices.emplace_back(1.0f);
-	tri.vertices.emplace_back(0.0f);
+	tri.vertices.emplace_back(bottom_right_uv.x);
+	tri.vertices.emplace_back(bottom_right_uv.y);
+	tri.vertices.emplace_back(bottom_right_uv.z);
 	tri.number_of_vertex_++;
 
 	tri.vertices.emplace_back(top_middle.x);
@@ -51,9 +56,9 @@ Mesh Mesh::Create_Triangle(float size, Color input_color)
 	tri.vertices.emplace_back(input_color.Green);
 	tri.vertices.emplace_back(input_color.Blue);
 	tri.vertices.emplace_back(input_color.Alpha);
-	tri.vertices.emplace_back(0.5f);
-	tri.vertices.emplace_back(0.0f);
-	tri.vertices.emplace_back(0.0f);
+	tri.vertices.emplace_back(top_middle_uv.x);
+	tri.vertices.emplace_back(top_middle_uv.y);
+	tri.vertices.emplace_back(top_middle_uv.z);
 	tri.number_of_vertex_++;
 
 
