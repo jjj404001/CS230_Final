@@ -12,26 +12,27 @@ void Graphics::Initialize()
 {
 	//SetUpShader(shader_program_POS_BLACK, VERT_SOURCE_POSITION, FRAG_SOURCE_COLOR_BLACK);
 	//SetUpShader(shader_program_POS_RED, VERT_SOURCE_POSITION, FRAG_SOURCE_COLOR_RED);
-	SetUpShader(shader_program_POS_COLOR, VERT_SOURCE_TEXTURE_POS, FRAG_SOURCE_TEXTURE_POS);
+	SetUpShader(shader_program_POS_COLOR, VERT_SOURCE_COLOR_INPUT, FRAG_SOURCE_COLOR_INPUT);
+	SetUpShader(shader_program_POS_TEX, VERT_SOURCE_TEXTURE_POS, FRAG_SOURCE_TEXTURE_POS);
 
 
 	Object o1;
 	o1.mesh_ = Mesh::Create_Triangle();
 	o1.texture_.LoadFromImage("Texture/test_texture.bmp");
-	//Object o2;
-	//o2.mesh_ = Mesh::Create_Square(0.4f);
-	//o1.texture_.LoadFromImage("Texture/test_texture.bmp");
-	/*Object o3;
-	o3.mesh_ = Mesh::Create_Circle(0.4f, 50);
+	Object o2;
+	o2.mesh_ = Mesh::Create_Square(0.4f);
+	o2.texture_.LoadFromImage("Texture/test_texture.bmp");
+	Object o3;
+	o3.mesh_ = Mesh::Create_Circle(0.4f, 0.4f,50);
 	o3.texture_.LoadFromImage("Texture/test_texture.bmp");
 	Object o4;
 	o4.mesh_ = Mesh::Create_Line(0.4f, 0.1f);
 	o4.texture_.LoadFromImage("Texture/test_texture.bmp");
-*/
+
 	AddObject(o1, shader_program_POS_COLOR);
-	//AddObject(o2, shader_program_POS_COLOR);
-	/*AddObject(o3, shader_program_POS_COLOR);
-	AddObject(o4, shader_program_POS_COLOR);*/
+	AddObject(o2, shader_program_POS_COLOR);
+	AddObject(o3, shader_program_POS_COLOR);
+	AddObject(o4, shader_program_POS_COLOR);
 }
 
 

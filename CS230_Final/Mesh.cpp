@@ -8,60 +8,46 @@ namespace Math
 {
 	float inversed_radian = (PI) / 180;
 }
+
+void Mesh::Emplemplace_back_vertices(const float size, const vector3 input_Positon, const Color input_Color)
+{
+	// Position
+	vertices.emplace_back(input_Positon.x);
+	vertices.emplace_back(input_Positon.y);
+	vertices.emplace_back(input_Positon.z);
+
+	// Color
+	vertices.emplace_back(input_Color.Red);
+	vertices.emplace_back(input_Color.Green);
+	vertices.emplace_back(input_Color.Blue);
+	vertices.emplace_back(input_Color.Alpha);
+
+	const auto uv = vector3{ (size / 2 + input_Positon.x) / size, (size / 2 - input_Positon.y) / size, 0.0f };
+	vertices.emplace_back(uv.x);
+	vertices.emplace_back(uv.y);
+	vertices.emplace_back(uv.z);
+
+
+	number_of_vertex_++;
+}
+
 //TODO: Apply ndc
-Mesh Mesh::Create_Triangle(float size, Color input_color)
+Mesh Mesh::Create_Triangle(vector2 input_vector, float size, Color input_color)
 {
 	Mesh tri;
 
 
-	const auto bottom_left  = vector3{-size, -size, 0.0f};
-	const auto bottom_right = vector3{size, -size, 0.0f};
-	const auto top_middle   = vector3{0.0f, size, 0.0f};
+	const auto bottom_left  = vector3{-size / 2, -size / 2, 0.0f};
+	const auto bottom_right = vector3{size / 2, -size / 2, 0.0f};
+	const auto top_middle   = vector3{0.0f, size / 2, 0.0f};
 
 
-
-	tri.vertices.emplace_back(bottom_left.x);
-	tri.vertices.emplace_back(bottom_left.y);
-	tri.vertices.emplace_back(bottom_left.z);
-	tri.vertices.emplace_back(input_color.Red);
-	tri.vertices.emplace_back(input_color.Green);
-	tri.vertices.emplace_back(input_color.Blue);
-	tri.vertices.emplace_back(input_color.Alpha);
-	tri.vertices.emplace_back(0.0f);
-	tri.vertices.emplace_back(1.0f);
-	tri.vertices.emplace_back(0.0f);
-	tri.number_of_vertex_++;
-
-	tri.vertices.emplace_back(bottom_right.x);
-	tri.vertices.emplace_back(bottom_right.y);
-	tri.vertices.emplace_back(bottom_right.z);
-	tri.vertices.emplace_back(input_color.Red);
-	tri.vertices.emplace_back(input_color.Green);
-	tri.vertices.emplace_back(input_color.Blue);
-	tri.vertices.emplace_back(input_color.Alpha);
-	tri.vertices.emplace_back(1.0f);
-	tri.vertices.emplace_back(1.0f);
-	tri.vertices.emplace_back(0.0f);
-	tri.number_of_vertex_++;
-
-	tri.vertices.emplace_back(top_middle.x);
-	tri.vertices.emplace_back(top_middle.y);
-	tri.vertices.emplace_back(top_middle.z);
-	tri.vertices.emplace_back(input_color.Red);
-	tri.vertices.emplace_back(input_color.Green);
-	tri.vertices.emplace_back(input_color.Blue);
-	tri.vertices.emplace_back(input_color.Alpha);
-	tri.vertices.emplace_back(0.5f);
-	tri.vertices.emplace_back(0.0f);
-	tri.vertices.emplace_back(0.0f);
-	tri.number_of_vertex_++;
-
-
+	tri.Emplemplace_back_vertices(size, bottom_left, input_color);
+	tri.Emplemplace_back_vertices(size, bottom_right, input_color);
+	tri.Emplemplace_back_vertices(size, top_middle, input_color);
 
 
 	tri.Initialize_VAO_VBO();
-
-
 
 
 	tri.bytes_of_data     = static_cast<unsigned int>(tri.vertices.size()) * sizeof(float);
@@ -71,71 +57,25 @@ Mesh Mesh::Create_Triangle(float size, Color input_color)
 }
 
 //TODO : fix below with vertex.
-/*
-Mesh Mesh::Create_Square(float size, Color input_color)
+
+Mesh Mesh::Create_Square(vector2 input_vector, float size, Color input_color)
 {
 	Mesh square;
 
-	const auto bottom_left  = vector3(-size, -size, 0.0f);
-	const auto bottom_right = vector3(size, -size, 0.0f);
-	const auto top_right    = vector3(size, size, 0.0f);
-	const auto top_left     = vector3(-size, size, 0.0f);
+	const auto bottom_left  = vector3(-size / 2, -size / 2, 0.0f);
+	const auto bottom_right = vector3(size / 2, -size / 2, 0.0f);
+	const auto top_right    = vector3(size / 2, size / 2, 0.0f);
+	const auto top_left     = vector3(-size / 2, size / 2, 0.0f);
 
 
 
-	square.vertices.emplace_back(bottom_left.x);
-	square.vertices.emplace_back(bottom_left.y);
-	square.vertices.emplace_back(bottom_left.z);
-	square.vertices.emplace_back(input_color.Red);
-	square.vertices.emplace_back(input_color.Green);
-	square.vertices.emplace_back(input_color.Blue);
-	square.vertices.emplace_back(input_color.Alpha);
-	square.number_of_vertex_++;
+	square.Emplemplace_back_vertices(size, bottom_left, input_color);
+	square.Emplemplace_back_vertices(size, bottom_right, input_color);
+	square.Emplemplace_back_vertices(size, top_right, input_color);
 
-	square.vertices.emplace_back(bottom_right.x);
-	square.vertices.emplace_back(bottom_right.y);
-	square.vertices.emplace_back(bottom_right.z);
-	square.vertices.emplace_back(input_color.Red);
-	square.vertices.emplace_back(input_color.Green);
-	square.vertices.emplace_back(input_color.Blue);
-	square.vertices.emplace_back(input_color.Alpha);
-	square.number_of_vertex_++;
-
-	square.vertices.emplace_back(top_right.x);
-	square.vertices.emplace_back(top_right.y);
-	square.vertices.emplace_back(top_right.z);
-	square.vertices.emplace_back(input_color.Red);
-	square.vertices.emplace_back(input_color.Green);
-	square.vertices.emplace_back(input_color.Blue);
-	square.vertices.emplace_back(input_color.Alpha);
-	square.number_of_vertex_++;
-
-	square.vertices.emplace_back(top_right.x);
-	square.vertices.emplace_back(top_right.y);
-	square.vertices.emplace_back(top_right.z);
-	square.vertices.emplace_back(input_color.Red);
-	square.vertices.emplace_back(input_color.Green);
-	square.vertices.emplace_back(input_color.Blue);
-	square.vertices.emplace_back(input_color.Alpha);
-	square.number_of_vertex_++;
-
-	square.vertices.emplace_back(top_left.x);
-	square.vertices.emplace_back(top_left.y);
-	square.vertices.emplace_back(top_left.z);
-	square.vertices.emplace_back(input_color.Red);
-	square.vertices.emplace_back(input_color.Green);
-	square.vertices.emplace_back(input_color.Blue);
-	square.vertices.emplace_back(input_color.Alpha);
-	square.number_of_vertex_++;
-
-	square.vertices.emplace_back(bottom_left.x);
-	square.vertices.emplace_back(bottom_left.y);
-	square.vertices.emplace_back(bottom_left.z);
-	square.vertices.emplace_back(input_color.Red);
-	square.vertices.emplace_back(input_color.Green);
-	square.vertices.emplace_back(input_color.Blue);
-	square.vertices.emplace_back(input_color.Alpha);
-	square.number_of_vertex_++;
+	square.Emplemplace_back_vertices(size, top_right, input_color);
+	square.Emplemplace_back_vertices(size, top_left, input_color);
+	square.Emplemplace_back_vertices(size, bottom_left, input_color);
 
 
 	square.Initialize_VAO_VBO();
@@ -150,7 +90,7 @@ Mesh Mesh::Create_Square(float size, Color input_color)
 
 
 
-Mesh Mesh::Create_Circle(float size, int resolution, Color input_color)
+Mesh Mesh::Create_Circle(vector2 input_vector, float size, int resolution, Color input_color)
 {
 	Mesh circle;
 
@@ -158,32 +98,17 @@ Mesh Mesh::Create_Circle(float size, int resolution, Color input_color)
 	const auto angle = 360.0f / resolution * Math::inversed_radian;
 
 	// Point in origin.
-	circle.vertices.emplace_back(0.0f);
-	circle.vertices.emplace_back(0.0f);
-	circle.vertices.emplace_back(0.0f);
-	circle.vertices.emplace_back(input_color.Red);
-	circle.vertices.emplace_back(input_color.Green);
-	circle.vertices.emplace_back(input_color.Blue);
-	circle.vertices.emplace_back(input_color.Alpha);
-	circle.number_of_vertex_++;
-
+	circle.Emplemplace_back_vertices(size, vector3(0.0f, 0.0f, 0.0f), input_color);
 	while (i <= resolution)
 	{
-		const auto x = cosf(i * angle) * size;
-		const auto y = sinf(i * angle) * size;
+		const auto x = cosf(i * angle) * size / 2;
+		const auto y = sinf(i * angle) * size / 2;
 
-		const auto vector = vector3(x, y, 0.0f);
+		const auto current_vertex = vector3(x, y, 0.0f);
 
 
 
-		circle.vertices.emplace_back(vector.x);
-		circle.vertices.emplace_back(vector.y);
-		circle.vertices.emplace_back(vector.z);
-		circle.vertices.emplace_back(input_color.Red);
-		circle.vertices.emplace_back(input_color.Green);
-		circle.vertices.emplace_back(input_color.Blue);
-		circle.vertices.emplace_back(input_color.Alpha);
-		circle.number_of_vertex_++;
+		circle.Emplemplace_back_vertices(size, current_vertex, input_color);
 		i++;
 	}
 
@@ -199,38 +124,21 @@ Mesh Mesh::Create_Circle(float size, int resolution, Color input_color)
 	return circle;
 }
 
-Mesh Mesh::Create_Line(float size, float angle, Color input_color)
+Mesh Mesh::Create_Line(vector2 input_vector, float size, float angle, Color input_color)
 {
 	Mesh line;
 
-	auto x = cosf(angle) * size;
-	auto y = sinf(angle) * size;
+	auto x = cosf(angle) * size / 2;
+	auto y = sinf(angle) * size / 2;
 	const auto start = vector3(x, y, 0.0f);
 
-	x = cos(angle + PI) * size;
-	y = sin(angle + PI) * size;
+	x = cos(angle + PI) * size / 2;
+	y = sin(angle + PI) * size / 2;
 	const auto end   = vector3(x, y, 0.0f);
 
 
-	line.vertices.emplace_back(start.x);
-	line.vertices.emplace_back(start.y);
-	line.vertices.emplace_back(start.z);
-	line.vertices.emplace_back(input_color.Red);
-	line.vertices.emplace_back(input_color.Green);
-	line.vertices.emplace_back(input_color.Blue);
-	line.vertices.emplace_back(input_color.Alpha);
-	line.number_of_vertex_++;
-
-	line.vertices.emplace_back(end.x);
-	line.vertices.emplace_back(end.y);
-	line.vertices.emplace_back(end.z);
-	line.vertices.emplace_back(input_color.Red);
-	line.vertices.emplace_back(input_color.Green);
-	line.vertices.emplace_back(input_color.Blue);
-	line.vertices.emplace_back(input_color.Alpha);
-	line.number_of_vertex_++;
-
-
+	line.Emplemplace_back_vertices(size, start, input_color);
+	line.Emplemplace_back_vertices(size, end, input_color);
 
 
 
@@ -242,7 +150,7 @@ Mesh Mesh::Create_Line(float size, float angle, Color input_color)
 
 	return line;
 }
-*/
+
 void Mesh::Initialize_VAO_VBO()
 {
 	glGenVertexArrays(1, &VAO);

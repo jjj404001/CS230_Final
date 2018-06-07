@@ -84,6 +84,7 @@ void main()
     TexCoord = aTexCoord;
 }
 )"
+
 #define FRAG_SOURCE_TEXTURE_POS R"(
 #version 330 core
 out vec4 FragColor;

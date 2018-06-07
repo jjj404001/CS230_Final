@@ -269,7 +269,7 @@ void OpenGL_window::SelectNextObject()
 	}
 
 	
-	obj->shader = graphic.shader_program_POS_COLOR;
+	obj->shader = graphic.shader_program_POS_TEX;
 
 	selected_object.clear();
 	selected_object.push_back(obj);

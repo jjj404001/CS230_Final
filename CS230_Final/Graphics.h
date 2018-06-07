@@ -25,6 +25,7 @@ public:
 	unsigned int shader_program_POS_BLACK;
 	unsigned int shader_program_POS_RED;
 	unsigned int shader_program_POS_COLOR;
+	unsigned int shader_program_POS_TEX;
 
 
 	void Initialize();
