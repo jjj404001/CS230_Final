@@ -32,7 +32,7 @@ void Mesh::Emplemplace_back_vertices(const float size, const vector3 input_Posit
 }
 
 //TODO: Apply ndc
-Mesh Mesh::Create_Triangle(vector2 input_vector, float size, Color input_color)
+Mesh Mesh::Create_Triangle(float size, Color input_color)
 {
 	Mesh tri;
 
@@ -58,7 +58,7 @@ Mesh Mesh::Create_Triangle(vector2 input_vector, float size, Color input_color)
 
 //TODO : fix below with vertex.
 
-Mesh Mesh::Create_Square(vector2 input_vector, float size, Color input_color)
+Mesh Mesh::Create_Square(float size, Color input_color)
 {
 	Mesh square;
 
@@ -90,7 +90,7 @@ Mesh Mesh::Create_Square(vector2 input_vector, float size, Color input_color)
 
 
 
-Mesh Mesh::Create_Circle(vector2 input_vector, float size, int resolution, Color input_color)
+Mesh Mesh::Create_Circle(float size, int resolution, Color input_color)
 {
 	Mesh circle;
 
@@ -124,7 +124,7 @@ Mesh Mesh::Create_Circle(vector2 input_vector, float size, int resolution, Color
 	return circle;
 }
 
-Mesh Mesh::Create_Line(vector2 input_vector, float size, float angle, Color input_color)
+Mesh Mesh::Create_Line(float size, float angle, Color input_color)
 {
 	Mesh line;
 

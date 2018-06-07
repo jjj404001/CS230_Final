@@ -27,10 +27,10 @@ class Mesh
 
 	void Emplemplace_back_vertices(const float size, const vector3 input_Positon, const Color input_Color);
 public:
-	static Mesh Create_Triangle(vector2 input_vector = vector2(1000.0f, 1000.0f), float size = 0.5f, Color input_color = Color(0.3f, 0.0f, 0.0f));
-	static Mesh Create_Square(vector2 input_vector = vector2(1000.0f, 1000.0f), float size = 0.5f, Color input_color = Color(0.0f, 0.3f, 0.0f));
-	static Mesh Create_Circle(vector2 input_vector = vector2(1000.0f, 1000.0f), float size = 0.5f, int resolution = 10, Color input_color = Color(0.0f, 0.0f, 0.3f));
-	static Mesh Create_Line(vector2 input_vector = vector2(1000.0f, 1000.0f), float size = 0.5f, float angle = 0.0f, Color input_color = Color(0.3f, 0.0f, 0.0f));
+	static Mesh Create_Triangle(float size = 100.0f, Color input_color = Color(0.3f, 0.0f, 0.0f));
+	static Mesh Create_Square(float size = 100.0f, Color input_color = Color(0.0f, 0.3f, 0.0f));
+	static Mesh Create_Circle(float size = 100.0f, int resolution = 10, Color input_color = Color(0.0f, 0.0f, 0.3f));
+	static Mesh Create_Line(float size = 100.0f, float angle = 0.0f, Color input_color = Color(0.3f, 0.0f, 0.0f));
 
 	void Initialize_VAO_VBO();
 	void Update_VAO_VBO();
