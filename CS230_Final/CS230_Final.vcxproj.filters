@@ -16,6 +16,9 @@
     <Filter Include="Source Files\Graphic">
       <UniqueIdentifier>{e983ecab-7276-4c6c-bbe6-c1891bdbeb7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Graphic\Font">
+      <UniqueIdentifier>{869c5d27-e703-4889-b143-8d616a2e4e79}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -33,14 +36,17 @@
     <ClCompile Include="Graphics.cpp">
       <Filter>Source Files\Graphic</Filter>
     </ClCompile>
-    <ClCompile Include="Image.cpp">
-      <Filter>Source Files\Graphic</Filter>
-    </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files\Graphic</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Source Files\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source Files\Graphic\Font</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,9 +77,6 @@
     <ClInclude Include="Color.h">
       <Filter>Source Files\Graphic</Filter>
     </ClInclude>
-    <ClInclude Include="Image.h">
-      <Filter>Source Files\Graphic</Filter>
-    </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>Source Files\Graphic</Filter>
     </ClInclude>
@@ -82,6 +85,12 @@
     </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Source Files\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>Source Files\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Source Files\Graphic\Font</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

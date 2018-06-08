@@ -26,7 +26,7 @@ class OpenGL_window
 	Timer timer;
 	Graphics graphic;
 
-	EditMode edit_mode_;
+	EditMode edit_mode_ = Translation;
 	
 
 	unsigned int fps = 0;

@@ -12,5 +12,6 @@ class  Texture
 
 
 public: 
-	void LoadFromImage(std::string file_name);
+	bool LoadFromImageFile(std::string file_name);
+	TextureData GetTextureData() { return texture_; };
 };

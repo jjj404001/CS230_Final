@@ -9,7 +9,7 @@ namespace Math
 	float inversed_radian = (PI) / 180;
 }
 
-void Mesh::Emplemplace_back_vertices(const float size, const vector3 input_Positon, const Color input_Color)
+void Mesh::Emplemplace_back_whole_attrib(const float size, const vector3 input_Positon, const Color input_Color)
 {
 	// Position
 	vertices.emplace_back(input_Positon.x);
@@ -31,6 +31,28 @@ void Mesh::Emplemplace_back_vertices(const float size, const vector3 input_Posit
 	number_of_vertex_++;
 }
 
+void Mesh::Emplemplace_back_whole_attrib(const vector2 size, const vector3 input_Positon, const Color input_Color)
+{
+	// Position
+	vertices.emplace_back(input_Positon.x);
+	vertices.emplace_back(input_Positon.y);
+	vertices.emplace_back(input_Positon.z);
+
+	// Color
+	vertices.emplace_back(input_Color.Red);
+	vertices.emplace_back(input_Color.Green);
+	vertices.emplace_back(input_Color.Blue);
+	vertices.emplace_back(input_Color.Alpha);
+
+	const auto uv = vector3{ (size.x / 2 + input_Positon.x) / size.x, (size.y / 2 - input_Positon.y) / size.y, 0.0f };
+	vertices.emplace_back(uv.x);
+	vertices.emplace_back(uv.y);
+	vertices.emplace_back(uv.z);
+
+
+	number_of_vertex_++;
+}
+
 //TODO: Apply ndc
 Mesh Mesh::Create_Triangle(float size, Color input_color)
 {
@@ -42,9 +64,9 @@ Mesh Mesh::Create_Triangle(float size, Color input_color)
 	const auto top_middle   = vector3{0.0f, size / 2, 0.0f};
 
 
-	tri.Emplemplace_back_vertices(size, bottom_left, input_color);
-	tri.Emplemplace_back_vertices(size, bottom_right, input_color);
-	tri.Emplemplace_back_vertices(size, top_middle, input_color);
+	tri.Emplemplace_back_whole_attrib(size, bottom_left, input_color);
+	tri.Emplemplace_back_whole_attrib(size, bottom_right, input_color);
+	tri.Emplemplace_back_whole_attrib(size, top_middle, input_color);
 
 
 	tri.Initialize_VAO_VBO();
@@ -69,13 +91,13 @@ Mesh Mesh::Create_Square(float size, Color input_color)
 
 
 
-	square.Emplemplace_back_vertices(size, bottom_left, input_color);
-	square.Emplemplace_back_vertices(size, bottom_right, input_color);
-	square.Emplemplace_back_vertices(size, top_right, input_color);
+	square.Emplemplace_back_whole_attrib(size, bottom_left, input_color);
+	square.Emplemplace_back_whole_attrib(size, bottom_right, input_color);
+	square.Emplemplace_back_whole_attrib(size, top_right, input_color);
 
-	square.Emplemplace_back_vertices(size, top_right, input_color);
-	square.Emplemplace_back_vertices(size, top_left, input_color);
-	square.Emplemplace_back_vertices(size, bottom_left, input_color);
+	square.Emplemplace_back_whole_attrib(size, top_right, input_color);
+	square.Emplemplace_back_whole_attrib(size, top_left, input_color);
+	square.Emplemplace_back_whole_attrib(size, bottom_left, input_color);
 
 
 	square.Initialize_VAO_VBO();
@@ -88,6 +110,35 @@ Mesh Mesh::Create_Square(float size, Color input_color)
 	return square;
 }
 
+Mesh Mesh::Create_Square(vector2 size, Color input_color)
+{
+	Mesh square;
+
+	const auto bottom_left = vector3(-size.x / 2, -size.y / 2, 0.0f);
+	const auto bottom_right = vector3(size.x / 2, -size.y / 2, 0.0f);
+	const auto top_right = vector3(size.x / 2, size.y / 2, 0.0f);
+	const auto top_left = vector3(-size.x / 2, size.y / 2, 0.0f);
+
+
+
+	square.Emplemplace_back_whole_attrib(size, bottom_left, input_color);
+	square.Emplemplace_back_whole_attrib(size, bottom_right, input_color);
+	square.Emplemplace_back_whole_attrib(size, top_right, input_color);
+
+	square.Emplemplace_back_whole_attrib(size, top_right, input_color);
+	square.Emplemplace_back_whole_attrib(size, top_left, input_color);
+	square.Emplemplace_back_whole_attrib(size, bottom_left, input_color);
+
+
+	square.Initialize_VAO_VBO();
+
+
+
+	square.bytes_of_data = static_cast<unsigned int>(square.vertices.size()) * sizeof(float);
+	square.primitive_ = GL_TRIANGLES;
+
+	return square;
+}
 
 
 Mesh Mesh::Create_Circle(float size, int resolution, Color input_color)
@@ -98,7 +149,7 @@ Mesh Mesh::Create_Circle(float size, int resolution, Color input_color)
 	const auto angle = 360.0f / resolution * Math::inversed_radian;
 
 	// Point in origin.
-	circle.Emplemplace_back_vertices(size, vector3(0.0f, 0.0f, 0.0f), input_color);
+	circle.Emplemplace_back_whole_attrib(size, vector3(0.0f, 0.0f, 0.0f), input_color);
 	while (i <= resolution)
 	{
 		const auto x = cosf(i * angle) * size / 2;
@@ -108,7 +159,7 @@ Mesh Mesh::Create_Circle(float size, int resolution, Color input_color)
 
 
 
-		circle.Emplemplace_back_vertices(size, current_vertex, input_color);
+		circle.Emplemplace_back_whole_attrib(size, current_vertex, input_color);
 		i++;
 	}
 
@@ -137,8 +188,8 @@ Mesh Mesh::Create_Line(float size, float angle, Color input_color)
 	const auto end   = vector3(x, y, 0.0f);
 
 
-	line.Emplemplace_back_vertices(size, start, input_color);
-	line.Emplemplace_back_vertices(size, end, input_color);
+	line.Emplemplace_back_whole_attrib(size, start, input_color);
+	line.Emplemplace_back_whole_attrib(size, end, input_color);
 
 
 
@@ -149,6 +200,19 @@ Mesh Mesh::Create_Line(float size, float angle, Color input_color)
 	line.primitive_        = GL_LINE_STRIP;
 
 	return line;
+}
+
+void Mesh::AddPoint(vector2 input_vector)
+{
+	vertices.emplace_back(input_vector.x);
+	vertices.emplace_back(input_vector.y);
+}
+
+void Mesh::AddPoint(vector3 input_vector)
+{
+	vertices.emplace_back(input_vector.x);
+	vertices.emplace_back(input_vector.y);
+	vertices.emplace_back(input_vector.z); // Maybe always 0.0f
 }
 
 void Mesh::Initialize_VAO_VBO()

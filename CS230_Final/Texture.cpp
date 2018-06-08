@@ -4,7 +4,7 @@
 
 
 
-void Texture::LoadFromImage(std::string file_name)
+bool Texture::LoadFromImageFile(std::string file_name)
 {
 	glGenTextures(1, &texture_);
 	glBindTexture(GL_TEXTURE_2D, texture_);
@@ -17,12 +17,22 @@ void Texture::LoadFromImage(std::string file_name)
 
 	// Load texture from image
 	if (!image_.LoadFromPNG_File(file_name))
+	{
 		std::cout << "Fail to load image from file!" << std::endl;
-
+		return false;
+	}
 
 	// Generate texture
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image_.width_, image_.height_, 0, GL_RGB, GL_UNSIGNED_BYTE, image_.data_);
+	if (image_.number_of_channel_ == 4)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image_.width_, image_.height_, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_.data_);
+	else if (image_.number_of_channel_ == 3)// In case of no alpha
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image_.width_, image_.height_, 0, GL_RGB, GL_UNSIGNED_BYTE, image_.data_);
+	else if(image_.number_of_channel_ == 1) // In case of bitmap font
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, image_.width_, image_.height_, 0, GL_RED, GL_UNSIGNED_BYTE, image_.data_);
+
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	stbi_image_free(image_.data_);
+
+	return true;
 }

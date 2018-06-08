@@ -25,15 +25,21 @@ class Mesh
 	GLuint VAO; // ....Waste or not? GLuint or unsigned int?
 	 
 
-	void Emplemplace_back_vertices(const float size, const vector3 input_Positon, const Color input_Color);
+	void Emplemplace_back_whole_attrib(const float size, const vector3 input_Positon, const Color input_Color);
+	void Emplemplace_back_whole_attrib(const vector2 size, const vector3 input_Positon, const Color input_Color);
 public:
 	static Mesh Create_Triangle(float size = 100.0f, Color input_color = Color(0.3f, 0.0f, 0.0f));
 	static Mesh Create_Square(float size = 100.0f, Color input_color = Color(0.0f, 0.3f, 0.0f));
+	static Mesh Create_Square(vector2 size = vector2(100.0f), Color input_color = Color(0.0f, 0.3f, 0.0f));
 	static Mesh Create_Circle(float size = 100.0f, int resolution = 10, Color input_color = Color(0.0f, 0.0f, 0.3f));
 	static Mesh Create_Line(float size = 100.0f, float angle = 0.0f, Color input_color = Color(0.3f, 0.0f, 0.0f));
 
+	void AddPoint(vector2 input_vector);
+	void AddPoint(vector3 input_vector);
+
 	void Initialize_VAO_VBO();
 	void Update_VAO_VBO();
+
 
 
 

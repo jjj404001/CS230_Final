@@ -7,6 +7,7 @@ class Object
 {
 	friend class Graphics;
 
+
 	Transform transform_;
 	Mesh mesh_;
 	Texture texture_;

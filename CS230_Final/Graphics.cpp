@@ -18,21 +18,26 @@ void Graphics::Initialize()
 
 	Object o1;
 	o1.mesh_ = Mesh::Create_Triangle(100.0f);
-	o1.texture_.LoadFromImage("Texture/test_texture.png");
+	o1.texture_.LoadFromImageFile("Texture/EnglishFont_0.png");
 	Object o2;
 	o2.mesh_ = Mesh::Create_Square(200.0f);
-	o2.texture_.LoadFromImage("Texture/test_texture.png");
+	o2.texture_.LoadFromImageFile("Texture/EnglishFont_0.png");
 	Object o3;
 	o3.mesh_ = Mesh::Create_Circle(300.0f, 50);
-	o3.texture_.LoadFromImage("Texture/test_texture.png");
+	o3.texture_.LoadFromImageFile("Texture/EnglishFont_0.png");
 	Object o4;
-	o4.mesh_ = Mesh::Create_Line(400.0f, 0.1f);
-	o4.texture_.LoadFromImage("Texture/test_texture.png");
+	o4.mesh_ = Mesh::Create_Line(2000.0f, 0.0f);
+	o4.texture_.LoadFromImageFile("Texture/EnglishFont_0.png");
+
+	Object o5;
+	o5.mesh_ = Mesh::Create_Square(vector2(700.0f, 900.0f));
+	o5.texture_.LoadFromImageFile("Texture/test_texture.png");
 
 	AddObject(o1, shader_program_POS_COLOR);
 	AddObject(o2, shader_program_POS_COLOR);
 	AddObject(o3, shader_program_POS_COLOR);
 	AddObject(o4, shader_program_POS_COLOR);
+	AddObject(o5, shader_program_POS_COLOR);
 }
 
 
@@ -42,8 +47,12 @@ void Graphics::Update()
 	for (auto current_object : objects_list)
 	{
 		current_object.Update(rect_);
-
+		if (current_object.texture_.GetTextureData() != NULL)
+			glBindTexture(GL_TEXTURE_2D, current_object.texture_.GetTextureData());
 		glUseProgram(current_object.shader);
+
+		
+
 		glBindVertexArray(current_object.mesh_.Get_VAO());
 		glDrawArrays(current_object.mesh_.Get_Primitive(), FIXED_INDEX, current_object.mesh_.Get_Num_of_vert());
 	}
