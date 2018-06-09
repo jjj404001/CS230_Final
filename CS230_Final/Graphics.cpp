@@ -15,6 +15,7 @@ void Graphics::Initialize()
 	SetUpShader(shader_program_POS_COLOR, VERT_SOURCE_COLOR_INPUT, FRAG_SOURCE_COLOR_INPUT);
 	SetUpShader(shader_program_POS_TEX, VERT_SOURCE_TEXTURE_POS, FRAG_SOURCE_TEXTURE_POS);
 
+	font.Initialize();
 
 	Object o1;
 	o1.mesh_ = Mesh::Create_Triangle(100.0f);

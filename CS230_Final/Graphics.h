@@ -2,11 +2,13 @@
 #include <string>
 #include "Object.h"
 #include "ShaderSource.h"
-#include "Texture.h"
+#include "Font.h"
 
 
 class Graphics
 {
+	Font font;
+
 	unsigned int vertex_shader;
 	const char*  vertex_shader_source = VERT_SOURCE_POSITION;
 
