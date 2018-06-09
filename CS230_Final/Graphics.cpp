@@ -15,10 +15,10 @@ void Graphics::Initialize()
 	SetUpShader(shader_program_POS_COLOR, VERT_SOURCE_COLOR_INPUT, FRAG_SOURCE_COLOR_INPUT);
 	SetUpShader(shader_program_POS_TEX, VERT_SOURCE_TEXTURE_POS, FRAG_SOURCE_TEXTURE_POS);
 
-	font.Initialize(shader_program_POS_TEX);
+	font.Initialize(shader_program_POS_TEX, "Texture/Arial.fnt");
 
 	Text text;
-	text.Initialize("ABCDEFG", font);
+	text.Initialize("Font success...", font);
 	text_list.push_back(text);
 
 	/*for(auto i : text.text_objects_)
@@ -55,7 +55,7 @@ void Graphics::Initialize()
 
 void Graphics::Update()
 {
-	Objects_update();
+	//Objects_update();
 	Texts_update();
 }
 

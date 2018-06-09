@@ -3,9 +3,9 @@
 #include <iostream>
 #define MAX_LINE 255
 
-void Font::Initialize(unsigned int& input_shader)
+void Font::Initialize(unsigned int& input_shader, std::string file_name)
 {
-	std::ifstream file("Texture/EnglishFont.fnt");
+	std::ifstream file(file_name);
 	char input_string[MAX_LINE];
 	std::string line;
 

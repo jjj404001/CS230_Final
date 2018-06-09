@@ -54,7 +54,7 @@ void Mesh::Emplemplace_back_whole_attrib(const vector2 size, const vector3 input
 	number_of_vertex_++;
 }
 
-void Mesh::Emplemplace_back_whole_attrib_UV(const char input_char, const vector2 size, Font* input_font, const vector3 input_Positon, const Color input_Color)
+void Mesh::Emplemplace_back_whole_attrib(const vector3 input_Positon, const Color input_Color, const vector3 input_uv)
 {
 	// Position
 	vertices.emplace_back(input_Positon.x);
@@ -67,7 +67,34 @@ void Mesh::Emplemplace_back_whole_attrib_UV(const char input_char, const vector2
 	vertices.emplace_back(input_Color.Blue);
 	vertices.emplace_back(input_Color.Alpha);
 
-	auto uv = vector3{ (size.x / 2 + input_Positon.x) / size.x, (size.y / 2 - input_Positon.y) / size.y, 0.0f };
+	// Texture coordinate
+	vertices.emplace_back(input_uv.x);
+	vertices.emplace_back(input_uv.y);
+	vertices.emplace_back(input_uv.z);
+
+
+	number_of_vertex_++;
+}
+
+void Mesh::Emplemplace_back_whole_attrib_UV(const char input_char, Font* input_font, const vector3 input_Positon, const Color input_Color)
+{
+	vector2 size = vector2(input_font->GetCharDesc().at(input_char).width_, input_font->GetCharDesc().at(input_char).height_);
+
+
+	// Position
+	vertices.emplace_back(input_Positon.x);
+	vertices.emplace_back(input_Positon.y);
+	vertices.emplace_back(input_Positon.z);
+
+	// Color
+	vertices.emplace_back(input_Color.Red);
+	vertices.emplace_back(input_Color.Green);
+	vertices.emplace_back(input_Color.Blue);
+	vertices.emplace_back(input_Color.Alpha);
+
+	auto uv = vector3{ (size.x / 2 + input_Positon.x) / size.x, (size.y / 2 + input_Positon.y) / size.y, 0.0f };
+
+	
 
 	uv.x += input_font->GetCharDesc().at(input_char).x_ ;
 	uv.x /= input_font->GetInfos().common_.scaleW_;
@@ -232,26 +259,158 @@ Mesh Mesh::Create_Line(float size, float angle, Color input_color)
 	return line;
 }
 
-Mesh Mesh::Create_Font_Square(const char input_char, Font* input_font, vector2 size, Color input_color)
+Mesh Mesh::Create_Font_Square(const char input_char, Font* input_font, Color input_color)
 {
 	Mesh square;
+	const auto current_char_desc = input_font->GetCharDesc().at(input_char);
+	vector2 size = vector2(input_font->GetCharDesc().at(input_char).width_, input_font->GetCharDesc().at(input_char).height_);
 
 	const auto bottom_left = vector3(-size.x / 2, -size.y / 2, 0.0f);
 	const auto bottom_right = vector3(size.x / 2, -size.y / 2, 0.0f);
 	const auto top_right = vector3(size.x / 2, size.y / 2, 0.0f);
 	const auto top_left = vector3(-size.x / 2, size.y / 2, 0.0f);
 
+	
+
+	// Position
+	square.vertices.emplace_back(bottom_left.x);
+	square.vertices.emplace_back(bottom_left.y);
+	square.vertices.emplace_back(bottom_left.z);
+
+	// Color
+	square.vertices.emplace_back(input_color.Red);
+	square.vertices.emplace_back(input_color.Green);
+	square.vertices.emplace_back(input_color.Blue);
+	square.vertices.emplace_back(input_color.Alpha);
+
+	auto uv = vector3{ 0.0f, 1.0f, 0.0f };
+	uv.x = static_cast<float>(current_char_desc.x_) / input_font->GetInfos().common_.scaleW_;
+	uv.y = static_cast<float>(current_char_desc.y_ + current_char_desc.height_) / input_font->GetInfos().common_.scaleH_;
 
 
-	square.Emplemplace_back_whole_attrib_UV(input_char, size, input_font, bottom_left, input_color);
-	square.Emplemplace_back_whole_attrib_UV(input_char, size, input_font, bottom_right, input_color);
-	square.Emplemplace_back_whole_attrib_UV(input_char, size, input_font, top_right, input_color);
 
-	square.Emplemplace_back_whole_attrib_UV(input_char, size, input_font, top_right, input_color);
-	square.Emplemplace_back_whole_attrib_UV(input_char, size, input_font, top_left, input_color);
-	square.Emplemplace_back_whole_attrib_UV(input_char, size, input_font, bottom_left, input_color);
+	square.vertices.emplace_back(uv.x);
+	square.vertices.emplace_back(uv.y);
+	square.vertices.emplace_back(uv.z);
 
 
+
+	// Position
+	square.vertices.emplace_back(bottom_right.x);
+	square.vertices.emplace_back(bottom_right.y);
+	square.vertices.emplace_back(bottom_right.z);
+
+	// Color
+	square.vertices.emplace_back(input_color.Red);
+	square.vertices.emplace_back(input_color.Green);
+	square.vertices.emplace_back(input_color.Blue);
+	square.vertices.emplace_back(input_color.Alpha);
+
+	uv = vector3{ 1.0f, 1.0f, 0.0f };
+	uv.x = static_cast<float>(current_char_desc.x_ + current_char_desc.width_) / input_font->GetInfos().common_.scaleW_;
+	uv.y = static_cast<float>(current_char_desc.y_ + current_char_desc.height_) / input_font->GetInfos().common_.scaleH_;
+
+	square.vertices.emplace_back(uv.x);
+	square.vertices.emplace_back(uv.y);
+	square.vertices.emplace_back(uv.z);
+
+
+
+
+	// Position
+	square.vertices.emplace_back(top_right.x);
+	square.vertices.emplace_back(top_right.y);
+	square.vertices.emplace_back(top_right.z);
+
+	// Color
+	square.vertices.emplace_back(input_color.Red);
+	square.vertices.emplace_back(input_color.Green);
+	square.vertices.emplace_back(input_color.Blue);
+	square.vertices.emplace_back(input_color.Alpha);
+
+	uv = vector3{ 1.0f, 0.0f, 0.0f };
+	uv.x = static_cast<float>(current_char_desc.x_ + current_char_desc.width_) / input_font->GetInfos().common_.scaleW_;
+	uv.y = static_cast<float>(current_char_desc.y_) / input_font->GetInfos().common_.scaleH_;
+
+	square.vertices.emplace_back(uv.x);
+	square.vertices.emplace_back(uv.y);
+	square.vertices.emplace_back(uv.z);
+
+
+
+
+
+
+
+	// Position
+	square.vertices.emplace_back(top_right.x);
+	square.vertices.emplace_back(top_right.y);
+	square.vertices.emplace_back(top_right.z);
+
+	// Color
+	square.vertices.emplace_back(input_color.Red);
+	square.vertices.emplace_back(input_color.Green);
+	square.vertices.emplace_back(input_color.Blue);
+	square.vertices.emplace_back(input_color.Alpha);
+
+	uv = vector3{ 1.0f, 0.0f, 0.0f };
+	uv.x = static_cast<float>(current_char_desc.x_ + current_char_desc.width_) / input_font->GetInfos().common_.scaleW_;
+	uv.y = static_cast<float>(current_char_desc.y_) / input_font->GetInfos().common_.scaleH_;
+
+	square.vertices.emplace_back(uv.x);
+	square.vertices.emplace_back(uv.y);
+	square.vertices.emplace_back(uv.z);
+
+
+
+
+	// Position
+	square.vertices.emplace_back(top_left.x);
+	square.vertices.emplace_back(top_left.y);
+	square.vertices.emplace_back(top_left.z);
+
+	// Color
+	square.vertices.emplace_back(input_color.Red);
+	square.vertices.emplace_back(input_color.Green);
+	square.vertices.emplace_back(input_color.Blue);
+	square.vertices.emplace_back(input_color.Alpha);
+
+	uv = vector3{ 0.0f, 0.0f, 0.0f };
+	uv.x = static_cast<float>(current_char_desc.x_) / input_font->GetInfos().common_.scaleW_;
+	uv.y = static_cast<float>(current_char_desc.y_) / input_font->GetInfos().common_.scaleH_;
+
+	square.vertices.emplace_back(uv.x);
+	square.vertices.emplace_back(uv.y);
+	square.vertices.emplace_back(uv.z);
+
+
+
+
+	// Position
+	square.vertices.emplace_back(bottom_left.x);
+	square.vertices.emplace_back(bottom_left.y);
+	square.vertices.emplace_back(bottom_left.z);
+
+	// Color
+	square.vertices.emplace_back(input_color.Red);
+	square.vertices.emplace_back(input_color.Green);
+	square.vertices.emplace_back(input_color.Blue);
+	square.vertices.emplace_back(input_color.Alpha);
+
+	uv = vector3{ 0.0f, 1.0f, 0.0f };
+	uv.x = static_cast<float>(current_char_desc.x_) / input_font->GetInfos().common_.scaleW_;
+	uv.y = static_cast<float>(current_char_desc.y_ + current_char_desc.height_) / input_font->GetInfos().common_.scaleH_;
+
+
+	square.vertices.emplace_back(uv.x);
+	square.vertices.emplace_back(uv.y);
+	square.vertices.emplace_back(uv.z);
+
+
+
+
+
+	square.number_of_vertex_ = 6;
 	square.Initialize_VAO_VBO();
 
 

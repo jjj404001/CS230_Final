@@ -61,7 +61,7 @@ class Font : public Object
 public:
 	unsigned int shader_ = 0;
 
-	void Initialize(unsigned int& input_shader);
+	void Initialize(unsigned int& input_shader, std::string file_name);
 
 	Informations GetInfos() { return info_; }
 	std::unordered_map<unsigned int, CharDesc> GetCharDesc() { return characters_; };
