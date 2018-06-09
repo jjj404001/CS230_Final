@@ -15,7 +15,7 @@ void Text::Initialize(std::string input_string, Font& input_font)
 		auto size = vector2(font_info_->characters_.at(i).width_, font_info_->characters_.at(i).height_);
 
 		Mesh mesh;
-		mesh = Mesh::Create_Square(size);
+		mesh = Mesh::Create_Font_Square(i, font_info_, size);
 
 
 		Texture texture;

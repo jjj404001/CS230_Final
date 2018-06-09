@@ -63,4 +63,6 @@ public:
 
 	void Initialize(unsigned int& input_shader);
 
+	Informations GetInfos() { return info_; }
+	std::unordered_map<unsigned int, CharDesc> GetCharDesc() { return characters_; };
 };

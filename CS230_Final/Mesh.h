@@ -7,6 +7,7 @@
 #include "Color.h"
 
 
+class Font;
 
 class Mesh
 {
@@ -27,12 +28,14 @@ class Mesh
 
 	void Emplemplace_back_whole_attrib(const float size, const vector3 input_Positon, const Color input_Color);
 	void Emplemplace_back_whole_attrib(const vector2 size, const vector3 input_Positon, const Color input_Color);
+	void Emplemplace_back_whole_attrib_UV(const char input_char, const vector2 size, Font* input_font, const vector3 input_Positon, const Color input_Color);
 public:
 	static Mesh Create_Triangle(float size = 100.0f, Color input_color = Color(0.3f, 0.0f, 0.0f));
 	static Mesh Create_Square(float size = 100.0f, Color input_color = Color(0.0f, 0.3f, 0.0f));
 	static Mesh Create_Square(vector2 size = vector2(100.0f), Color input_color = Color(0.0f, 0.3f, 0.0f));
 	static Mesh Create_Circle(float size = 100.0f, int resolution = 10, Color input_color = Color(0.0f, 0.0f, 0.3f));
 	static Mesh Create_Line(float size = 100.0f, float angle = 0.0f, Color input_color = Color(0.3f, 0.0f, 0.0f));
+	static Mesh Create_Font_Square(const char input_char, Font* input_font, vector2 size = vector2(100.0f), Color input_color = Color(0.0f, 0.3f, 0.0f));
 
 	void AddPoint(vector2 input_vector);
 	void AddPoint(vector3 input_vector);

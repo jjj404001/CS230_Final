@@ -1,7 +1,8 @@
 #include "Mesh.h"
+#include "Font.h"
 #include <cmath>
 #define PI 3.14159265f
-
+#define FONT_SIZE vector2(256,256)
 unsigned int Mesh::number_of_element_per_stride = 10; // Position 3 + Color 4 + Texture 3
 
 namespace Math
@@ -52,6 +53,35 @@ void Mesh::Emplemplace_back_whole_attrib(const vector2 size, const vector3 input
 
 	number_of_vertex_++;
 }
+
+void Mesh::Emplemplace_back_whole_attrib_UV(const char input_char, const vector2 size, Font* input_font, const vector3 input_Positon, const Color input_Color)
+{
+	// Position
+	vertices.emplace_back(input_Positon.x);
+	vertices.emplace_back(input_Positon.y);
+	vertices.emplace_back(input_Positon.z);
+
+	// Color
+	vertices.emplace_back(input_Color.Red);
+	vertices.emplace_back(input_Color.Green);
+	vertices.emplace_back(input_Color.Blue);
+	vertices.emplace_back(input_Color.Alpha);
+
+	auto uv = vector3{ (size.x / 2 + input_Positon.x) / size.x, (size.y / 2 - input_Positon.y) / size.y, 0.0f };
+
+	uv.x += input_font->GetCharDesc().at(input_char).x_ ;
+	uv.x /= input_font->GetInfos().common_.scaleW_;
+	uv.y += input_font->GetCharDesc().at(input_char).y_;
+	uv.y /= input_font->GetInfos().common_.scaleW_;
+
+	vertices.emplace_back(uv.x);
+	vertices.emplace_back(uv.y);
+	vertices.emplace_back(uv.z);
+
+
+	number_of_vertex_++;
+}
+
 
 //TODO: Apply ndc
 Mesh Mesh::Create_Triangle(float size, Color input_color)
@@ -200,6 +230,36 @@ Mesh Mesh::Create_Line(float size, float angle, Color input_color)
 	line.primitive_        = GL_LINE_STRIP;
 
 	return line;
+}
+
+Mesh Mesh::Create_Font_Square(const char input_char, Font* input_font, vector2 size, Color input_color)
+{
+	Mesh square;
+
+	const auto bottom_left = vector3(-size.x / 2, -size.y / 2, 0.0f);
+	const auto bottom_right = vector3(size.x / 2, -size.y / 2, 0.0f);
+	const auto top_right = vector3(size.x / 2, size.y / 2, 0.0f);
+	const auto top_left = vector3(-size.x / 2, size.y / 2, 0.0f);
+
+
+
+	square.Emplemplace_back_whole_attrib_UV(input_char, size, input_font, bottom_left, input_color);
+	square.Emplemplace_back_whole_attrib_UV(input_char, size, input_font, bottom_right, input_color);
+	square.Emplemplace_back_whole_attrib_UV(input_char, size, input_font, top_right, input_color);
+
+	square.Emplemplace_back_whole_attrib_UV(input_char, size, input_font, top_right, input_color);
+	square.Emplemplace_back_whole_attrib_UV(input_char, size, input_font, top_left, input_color);
+	square.Emplemplace_back_whole_attrib_UV(input_char, size, input_font, bottom_left, input_color);
+
+
+	square.Initialize_VAO_VBO();
+
+
+
+	square.bytes_of_data = static_cast<unsigned int>(square.vertices.size()) * sizeof(float);
+	square.primitive_ = GL_TRIANGLES;
+
+	return square;
 }
 
 void Mesh::AddPoint(vector2 input_vector)
