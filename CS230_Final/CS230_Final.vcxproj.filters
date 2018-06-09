@@ -19,6 +19,9 @@
     <Filter Include="Source Files\Graphic\Font">
       <UniqueIdentifier>{869c5d27-e703-4889-b143-8d616a2e4e79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Graphic\Text">
+      <UniqueIdentifier>{92e6f5ee-5adc-43bf-b242-cd38f82d087d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -47,6 +50,9 @@
     </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Source Files\Graphic\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Source Files\Graphic\Text</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="Font.h">
       <Filter>Source Files\Graphic\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Source Files\Graphic\Text</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

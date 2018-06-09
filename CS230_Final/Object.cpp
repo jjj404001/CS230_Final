@@ -40,3 +40,20 @@ void Object::Update(RECT input_rect)
 
 	mesh_.Update_VAO_VBO();
 }
+
+Object::Object()
+{
+}
+
+Object::Object(Transform input_transform, Mesh input_mesh)
+{
+	transform_ = input_transform;
+	mesh_ = input_mesh;
+}
+
+Object::Object(Transform input_transform, Mesh input_mesh, Texture input_texture)
+{
+	transform_ = input_transform;
+	mesh_ = input_mesh;
+	texture_ = input_texture;
+}

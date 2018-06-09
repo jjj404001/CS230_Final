@@ -3,7 +3,7 @@
 #include <iostream>
 #define MAX_LINE 255
 
-void Font::Initialize()
+void Font::Initialize(unsigned int& input_shader)
 {
 	std::ifstream file("Texture/EnglishFont.fnt");
 	char input_string[MAX_LINE];
@@ -27,40 +27,61 @@ void Font::Initialize()
 			SetCommons(input_string);
 		else if (line == "page")
 			SetPage(input_string);
+		else if (line == "char")
+			SetChar(input_string);
 
 	}
+
+	font_texture_.LoadFromImageFile("Texture/" + info_.page_.file_);
+
+	shader_ = input_shader;
+
 
 	file.close();
 }
 
 void Font::SetCoreInformation(const std::string input_string)
 {
-	GetLineSetString("face", input_string, info.name_);
-	GetLineSetNumber("size", input_string, info.size_);
+	GetLineSetString("face", input_string, info_.name_);
+	GetLineSetNumber("size", input_string, info_.size_);
 }
 
 void Font::SetCommons(const std::string input_string)
 {
-	GetLineSetNumber("lineHeight", input_string, info.common_.lineHeight_);
-	GetLineSetNumber("base", input_string, info.common_.base_);
-	GetLineSetNumber("scaleW", input_string, info.common_.scaleW_);
-	GetLineSetNumber("scaleH", input_string, info.common_.scaleH_);
-	GetLineSetNumber("pages", input_string, info.common_.pages_);
+	GetLineSetNumber("lineHeight", input_string, info_.common_.lineHeight_);
+	GetLineSetNumber("base", input_string, info_.common_.base_);
+	GetLineSetNumber("scaleW", input_string, info_.common_.scaleW_);
+	GetLineSetNumber("scaleH", input_string, info_.common_.scaleH_);
+	GetLineSetNumber("pages", input_string, info_.common_.pages_);
 }
 
 void Font::SetPage(const std::string input_string)
 {
-	unsigned int id = 0;
-	std::string file = "EnglishFont_0.png";
-	GetLineSetNumber("pages", input_string, info.page_.id_);
-	GetLineSetString("file", input_string, info.page_.file_);
+	GetLineSetNumber("pages", input_string, info_.page_.id_);
+	GetLineSetString("file", input_string, info_.page_.file_);
+}
+
+void Font::SetChar(const std::string input_string)
+{
+	// char id=32   x=84    y=38    width=3     height=1     xoffset=-1    yoffset=31    xadvance=8     page=0  chnl=15
+	CharDesc current_char;
+	GetLineSetNumber("id", input_string, current_char.id_);
+	GetLineSetNumber("x", input_string, current_char.x_);
+	GetLineSetNumber("y", input_string, current_char.y_);
+	GetLineSetNumber("width", input_string, current_char.width_);
+	GetLineSetNumber("height", input_string, current_char.height_);
+	GetLineSetNumber("xoffset", input_string, current_char.xoffset_);
+	GetLineSetNumber("yoffset", input_string, current_char.yoffset_);
+	GetLineSetNumber("xadvance", input_string, current_char.xadvance_);
+
+	characters_.insert_or_assign(current_char.id_, current_char );
 }
 
 void Font::GetLineSetString(std::string keyword, std::string inputline, std::string& target)
 {
 	keyword += "=\"";
 	auto offset = inputline.find(keyword);
-	std::cout << keyword[offset] << std::endl;
+
 	if (offset != std::wstring::npos)
 	{
 		offset += keyword.length();

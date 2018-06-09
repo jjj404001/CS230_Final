@@ -3,6 +3,7 @@
 #include "Object.h"
 #include "ShaderSource.h"
 #include "Font.h"
+#include "Text.h"
 
 
 class Graphics
@@ -20,6 +21,7 @@ class Graphics
 	unsigned int polygon_mod = GL_FILL;
 
 	std::vector<Object> objects_list;
+	std::vector<Text> text_list;
 	unsigned int current_index_of_mesh = 0;
 
 	RECT rect_;
@@ -32,6 +34,9 @@ public:
 
 	void Initialize();
 	void Update();
+
+	void Objects_update();
+	void Texts_update();
 
 	void SetRect(RECT input_rect) { rect_ = input_rect; }
 

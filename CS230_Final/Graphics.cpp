@@ -15,8 +15,19 @@ void Graphics::Initialize()
 	SetUpShader(shader_program_POS_COLOR, VERT_SOURCE_COLOR_INPUT, FRAG_SOURCE_COLOR_INPUT);
 	SetUpShader(shader_program_POS_TEX, VERT_SOURCE_TEXTURE_POS, FRAG_SOURCE_TEXTURE_POS);
 
-	font.Initialize();
+	font.Initialize(shader_program_POS_TEX);
 
+	Text text;
+	text.Initialize("ABCDEFG", font);
+	text_list.push_back(text);
+
+	/*for(auto i : text.text_objects_)
+	{
+		objects_list.emplace_back(*i);
+	}*/
+
+	// TODO: Object.Initialize()
+	
 	Object o1;
 	o1.mesh_ = Mesh::Create_Triangle(100.0f);
 	o1.texture_.LoadFromImageFile("Texture/EnglishFont_0.png");
@@ -44,7 +55,12 @@ void Graphics::Initialize()
 
 void Graphics::Update()
 {
+	Objects_update();
+	Texts_update();
+}
 
+void Graphics::Objects_update()
+{
 	for (auto current_object : objects_list)
 	{
 		current_object.Update(rect_);
@@ -52,10 +68,30 @@ void Graphics::Update()
 			glBindTexture(GL_TEXTURE_2D, current_object.texture_.GetTextureData());
 		glUseProgram(current_object.shader);
 
-		
+
 
 		glBindVertexArray(current_object.mesh_.Get_VAO());
 		glDrawArrays(current_object.mesh_.Get_Primitive(), FIXED_INDEX, current_object.mesh_.Get_Num_of_vert());
+	}
+}
+
+void Graphics::Texts_update()
+{
+	for(auto current_text : text_list)
+	{
+		current_text.Update();
+		for (auto current_object : current_text.text_objects_)
+		{
+			current_object.Update(rect_);
+			if (current_object.texture_.GetTextureData() != NULL)
+				glBindTexture(GL_TEXTURE_2D, current_object.texture_.GetTextureData());
+			glUseProgram(current_object.shader);
+
+
+
+			glBindVertexArray(current_object.mesh_.Get_VAO());
+			glDrawArrays(current_object.mesh_.Get_Primitive(), FIXED_INDEX, current_object.mesh_.Get_Num_of_vert());
+		}
 	}
 }
 

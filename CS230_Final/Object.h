@@ -5,14 +5,16 @@
 
 class Object
 {
-	friend class Graphics;
-
-
+public:
 	Transform transform_;
 	Mesh mesh_;
 	Texture texture_;
-public:
 	unsigned int shader;
 
+
 	void Update(RECT input_rect);
+
+	Object();
+	Object(Transform input_transform, Mesh input_mesh);
+	Object(Transform input_transform, Mesh input_mesh, Texture input_texture);
 };

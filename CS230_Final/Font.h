@@ -2,10 +2,26 @@
 #include <string>
 #include "Object.h"
 #include <list>
+#include <unordered_map>
 
 
 class Font : public Object
 {
+	friend class Text;
+	struct CharDesc
+	{
+		unsigned int id_ = 32;
+		unsigned int x_ = 84;
+		unsigned int y_ = 38;
+		unsigned int width_ = 3;
+		unsigned int height_ = 1;
+		unsigned int xoffset_ = -1;
+		unsigned int yoffset_ = 31;
+		unsigned int xadvance_ = 8;
+		unsigned int page_ = 0;
+		//unsigned int chnl = 15;
+	};
+
 	struct Informations
 	{
 		struct Common
@@ -23,37 +39,28 @@ class Font : public Object
 		};
 
 
-		struct CharDesc
-		{
-			unsigned int id_ = 32;
-			unsigned int x_ = 84;
-			unsigned int y_ = 38;
-			unsigned int width_ = 3;
-			unsigned int height_ = 1;
-			unsigned int xoffset_ = -1;
-			unsigned int yoffset_ = 31;
-			unsigned int xadvance_ = 8;
-			unsigned int page_ = 0;
-			//unsigned int chnl = 15;
-		};
 		std::string name_ = "EnglishFont";
 		unsigned int size_ = 32;
 		Common common_;
 		Page page_;
-		std::list<CharDesc> char_descriptions_;
 	};
-	
-	Informations info;
 
-	unsigned int count = 0;
+	Texture font_texture_;
+	
+	Informations info_;
+	unsigned int count_ = 0;
+	std::unordered_map<unsigned int, CharDesc> characters_{};
 
 	void SetCoreInformation(const std::string input_string);
 	void SetCommons(const std::string input_string);
 	void SetPage(const std::string input_string);
+	void SetChar(const std::string input_string);
+
 	void GetLineSetString(std::string keyword, std::string inputline, std::string& target);
 	void GetLineSetNumber(std::string keyword, std::string inputline, unsigned int& target);
 public:
-	void Initialize();
+	unsigned int shader_ = 0;
 
-	void CharDesc(const std::string input_string);
+	void Initialize(unsigned int& input_shader);
+
 };
