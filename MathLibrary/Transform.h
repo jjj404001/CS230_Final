@@ -16,5 +16,6 @@ public:
 	void SetScale(vector2 input) { scale_ = input; };
 
 	vector2 GetScale() { return scale_; };
+	vector2 GetTranslation() { return translation_; };
 
 };

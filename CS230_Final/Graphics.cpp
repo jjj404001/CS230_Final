@@ -18,7 +18,7 @@ void Graphics::Initialize()
 	font.Initialize(shader_program_POS_TEX, "Texture/Arial.fnt");
 
 	Text text;
-	text.Initialize("Font success...", font);
+	text.Initialize("Font success... \nNewLine", font);
 	text_list.push_back(text);
 
 	/*for(auto i : text.text_objects_)
