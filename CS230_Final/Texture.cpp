@@ -1,6 +1,7 @@
 #include "Texture.h"
 #include <GL/glew.h>
 #include <iostream>
+#include "stb_image.h"
 
 
 

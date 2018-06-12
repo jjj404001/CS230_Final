@@ -38,6 +38,8 @@ public:
 	void Objects_update();
 	void Texts_update();
 
+	void TakeScreenShot();
+
 	void SetRect(RECT input_rect) { rect_ = input_rect; }
 
 	unsigned int GetPolyMode() { return polygon_mod; }

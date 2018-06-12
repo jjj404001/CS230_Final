@@ -1,5 +1,6 @@
 #include "Graphics.h"
 #include <iostream>
+#include "stb_image_write.h"
 
 
 #define FIXED_INDEX 0
@@ -18,7 +19,8 @@ void Graphics::Initialize()
 	font.Initialize(shader_program_POS_TEX, "Texture/Arial.fnt");
 
 	Text text;
-	text.Initialize("Font success... \nNewLine", font);
+	//text.Initialize("ABCDEFGHIJKLMNOPQRSTUVWXYZ", font);
+	text.Initialize("ABCD ", font, rect_);
 	text_list.push_back(text);
 
 	/*for(auto i : text.text_objects_)
@@ -79,7 +81,8 @@ void Graphics::Texts_update()
 {
 	for(auto current_text : text_list)
 	{
-		current_text.Update();
+		current_text.Update(rect_);
+
 		for (auto current_object : current_text.text_objects_)
 		{
 			current_object.Update(rect_);
@@ -93,6 +96,36 @@ void Graphics::Texts_update()
 			glDrawArrays(current_object.mesh_.Get_Primitive(), FIXED_INDEX, current_object.mesh_.Get_Num_of_vert());
 		}
 	}
+}
+
+void Graphics::TakeScreenShot()
+{
+	Image image;
+
+
+	glReadBuffer(GL_BACK);
+
+
+	const auto pixel_width = int(rect_.right);
+	const auto pixel_height = int(rect_.bottom);
+	image.ResizeToPixelWidthHeight(pixel_width, pixel_height);
+	if (glReadnPixels != nullptr)
+	{
+		glReadnPixels(0, 0, pixel_width, pixel_height, GL_RGBA, GL_UNSIGNED_BYTE, image.GetPixelsBufferBytesSize(), image.GetPixelsPointer());
+	}
+	else
+	{
+		// TODO Use the older Read Pixels to copy the back buffer pixels from the GPU to the CPU
+		// Note we want the entire framebuffer
+		// Note the format for Image is assumed to be RGBA where each element is an unsigned byte.
+		// Note because we can use GetPixelsPointer off of the Image class to store the pixels.
+		// glReadnPixels - http://docs.gl/gl4/glReadPixels
+		glReadPixels(0, 0, pixel_width, pixel_height, GL_RGBA, GL_UNSIGNED_BYTE, image.GetPixelsPointer());
+	}
+	//image.FlipVertically();
+	image.SaveToPNG_File("ScreenShot.png");
+	
+	//return image;
 }
 
 void Graphics::AddObject(Object input_object, unsigned int input_shader)

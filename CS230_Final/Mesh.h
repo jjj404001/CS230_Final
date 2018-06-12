@@ -12,6 +12,7 @@ class Font;
 class Mesh
 {
 	friend class Object;
+	friend class Text;
 
 
 	std::vector<float> vertices; // Collection of vertices position and color.
@@ -40,6 +41,7 @@ public:
 
 	void AddPoint(vector2 input_vector);
 	void AddPoint(vector3 input_vector);
+	void AddColor(Color input_color);
 
 	void Initialize_VAO_VBO();
 	void Update_VAO_VBO();

@@ -203,6 +203,17 @@ void OpenGL_window::Input_KeyDown(WPARAM wParam, LPARAM lParam)
 		case VK_RIGHT:
 			HandleTransform(wParam);
 			break;
+		case VK_P:
+			graphic.TakeScreenShot();
+			break;
+		case VK_TAB:
+			if(graphic.GetPolyMode() == GL_FILL)
+				graphic.SetPolyMode(GL_LINE);
+			else if (graphic.GetPolyMode() == GL_LINE)
+				graphic.SetPolyMode(GL_POINT);
+			else if (graphic.GetPolyMode() == GL_POINT)
+				graphic.SetPolyMode(GL_FILL);
+			break;
 		default: ;
 	}
 }

@@ -434,6 +434,14 @@ void Mesh::AddPoint(vector3 input_vector)
 	vertices.emplace_back(input_vector.z); // Maybe always 0.0f
 }
 
+void Mesh::AddColor(Color input_color)
+{
+	vertices.emplace_back(input_color.Red);
+	vertices.emplace_back(input_color.Green);
+	vertices.emplace_back(input_color.Blue);
+	vertices.emplace_back(input_color.Alpha);
+}
+
 void Mesh::Initialize_VAO_VBO()
 {
 	glGenVertexArrays(1, &VAO);
