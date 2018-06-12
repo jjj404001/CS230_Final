@@ -30,6 +30,7 @@ public:
 	unsigned int shader_program_POS_RED;
 	unsigned int shader_program_POS_COLOR;
 	unsigned int shader_program_POS_TEX;
+	unsigned int shader_program_FONT;
 
 
 	void Initialize();

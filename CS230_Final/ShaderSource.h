@@ -99,3 +99,60 @@ void main()
     FragColor = texture(ourTexture, TexCoord);
 }
 )"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#define VERT_SOURCE_COLOR_POS_FONT R"(
+#version 330 core
+layout (location = 0) in vec3 BufferPos;
+layout (location = 1) in vec3 BufferColor;
+layout (location = 2) in vec2 BufferTexCord;
+
+out vec3 Color;
+out vec2 TexCord;
+
+void main()
+{
+    gl_Position = vec4(BufferPos, 1.0);
+    Color = BufferColor;
+    TexCord = BufferTexCord;
+}
+)"
+
+#define FRAG_SOURCE_COLOR_POS_FONT R"(
+#version 330 core
+out vec4 FragColor;
+  
+in vec3 Color;
+in vec2 TexCord;
+
+uniform sampler2D Texture;
+
+void main()
+{
+    vec4 temp = texture2D(Texture, TexCord);
+
+	if(temp.r == 0.0 && temp.g == 0.0 && temp.b == 0.0)
+		discard;
+	else
+		temp = vec4(Color , 1.0);
+
+	FragColor = temp;
+}
+)"

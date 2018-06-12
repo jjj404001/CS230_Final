@@ -15,12 +15,15 @@ void Graphics::Initialize()
 	//SetUpShader(shader_program_POS_RED, VERT_SOURCE_POSITION, FRAG_SOURCE_COLOR_RED);
 	SetUpShader(shader_program_POS_COLOR, VERT_SOURCE_COLOR_INPUT, FRAG_SOURCE_COLOR_INPUT);
 	SetUpShader(shader_program_POS_TEX, VERT_SOURCE_TEXTURE_POS, FRAG_SOURCE_TEXTURE_POS);
+	SetUpShader(shader_program_FONT, VERT_SOURCE_COLOR_POS_FONT, FRAG_SOURCE_COLOR_POS_FONT);
 
-	font.Initialize(shader_program_POS_TEX, "Texture/Arial.fnt");
+	font.Initialize(shader_program_FONT, "Texture/Arial.fnt");
 
 	Text text;
 	//text.Initialize("ABCDEFGHIJKLMNOPQRSTUVWXYZ", font);
-	text.Initialize("ABCD ", font, rect_);
+	text.Initialize("ABCD AB	AB\nABCD", font, Color(0, 0, 0, 0) ,rect_);
+
+
 	text_list.push_back(text);
 
 	/*for(auto i : text.text_objects_)

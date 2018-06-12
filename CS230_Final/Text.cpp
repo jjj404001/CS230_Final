@@ -1,7 +1,15 @@
 #include "Text.h"
 #include <iostream>
 
-void Text::Initialize(std::string input_string, Font& input_font, RECT input_rect)
+void Text::SetScale(vector2 size)
+{
+	for(auto& current_object : text_objects_)
+	{
+		current_object.transform_.SetScale(size);
+	}
+}
+
+void Text::Initialize(std::string input_string, Font& input_font, Color input_color, RECT input_rect)
 {
 	font_info_ = &input_font;
 	string_ = input_string;
@@ -13,11 +21,11 @@ void Text::Initialize(std::string input_string, Font& input_font, RECT input_rec
 
 	for(auto current_char : input_string)
 	{
-		auto current_char_desc = font_info_->GetCharDesc().at(current_char);
+		
 		// If current character is new line, go to next line and ignore below.
 		if (current_char == '\n')
 		{
-			starting_point.x = 0.0f;
+			starting_point.x = -static_cast<float>(input_rect.right);
 			starting_point.y -= line_height;
 			
 
@@ -37,17 +45,19 @@ void Text::Initialize(std::string input_string, Font& input_font, RECT input_rec
 		// else if character is whith space. 
 		else if (current_char == L' ')
 		{
-			starting_point.x += current_char_desc.xadvance_;
+			starting_point.x += font_info_->GetCharDesc().at(' ').xadvance_;
 
 			continue;
 		}
+
+		auto current_char_desc = font_info_->GetCharDesc().at(current_char);
 		// Quad's size is current character's size with in font.
 		const vector2 quad_size = { static_cast<float>(current_char_desc.width_)
 									,static_cast<float>(current_char_desc.height_) };
 
 		Mesh mesh;
 		// If character pass all test above, add char quad to mesh.
-		AddCharQuadToMesh(mesh, current_char_desc, quad_size, starting_point, Color(0.3f, 0.0f, 0.0f), line_height);
+		AddCharQuadToMesh(mesh, font_info_, current_char_desc, quad_size, starting_point, input_color, line_height);
 		// Load texture
 		Texture texture = font_info_->font_texture_;
 
@@ -122,7 +132,7 @@ void Text::Update(RECT input_rect)
 
 
 
-void Text::AddCharQuadToMesh(Mesh& mesh, Font::CharDesc character, vector2 image_dimensions,
+void Text::AddCharQuadToMesh(Mesh& mesh, Font* input_font, Font::CharDesc character, vector2 image_dimensions,
 							 vector2 current_position, Color input_color, float line_height)
 {
   // Get mesh's width and height from character's width and height. 
@@ -149,11 +159,24 @@ void Text::AddCharQuadToMesh(Mesh& mesh, Font::CharDesc character, vector2 image
 
 
 	// Texture coordinate
-	const auto u_0 = static_cast<float>(character.x_ / image_dimensions.x);
+	/*const auto u_0 = static_cast<float>(character.x_ / image_dimensions.x);
 	const auto v_0 = static_cast<float>(character.y_ / image_dimensions.y);
 
 	const auto u_1 = static_cast<float>(character.x_ + character.width_) / image_dimensions.x;
-	const auto v_1 = static_cast<float>(character.y_ + character.height_) / image_dimensions.y;
+	const auto v_1 = static_cast<float>(character.y_ + character.height_) / image_dimensions.y;*/
+
+	
+	const auto font_width  = static_cast<float>(input_font->GetInfos().common_.scaleW_);
+	const auto font_height = static_cast<float>(input_font->GetInfos().common_.scaleH_);
+
+	const auto font_x = static_cast<float>(character.x_);
+	const auto font_y = static_cast<float>(character.y_);
+
+	const auto u_0 = font_x / font_width ;
+	const auto v_0 = font_y / font_height;
+	const auto u_1 = static_cast<float>(font_x + character.width_)  / font_width;
+	const auto v_1 = static_cast<float>(font_y + character.height_) / font_height;
+
 
 
 	// First Triangle
