@@ -65,7 +65,7 @@ public:
 	MSG& GetGLMessage();
 	HDC* GetDeviceContext();
 	HWND& GetHWND() { return hWnd; };
-	void ResizeOpenGLViewport();
+	void ResizeOpenGLViewport(HWND hWnd);
 	void Input_KeyDown(WPARAM wParam, LPARAM lParam);
 	void Input_MouseMove(LPARAM lParam);
 

@@ -78,7 +78,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			main_opengl.quit = true;
 			return 0;
 		case WM_SIZE:
-			main_opengl.ResizeOpenGLViewport();
+			main_opengl.ResizeOpenGLViewport(hWnd);
 			break;
 		case WM_KEYDOWN://if keyboard key is pressed.
 		{

@@ -70,25 +70,6 @@ void Text::Initialize(std::string input_string, Font& input_font, Color input_co
 
 		// Recalculate starting point for next character.
 		starting_point.x += current_char_desc.width_ + current_char_desc.xoffset_;
-
-
-
-
-		
-		/*mesh = Mesh::Create_Font_Square(current_char, font_info_);
-		Texture texture;
-		texture = font_info_->font_texture_;
-		
-
-		Object obj;
-		obj.mesh_ = mesh;
-		obj.texture_ = texture;
-
-		
-
-		obj.shader = font_info_->shader_;
-
-		text_objects_.push_back(obj);*/
 	}
 
 }
@@ -99,14 +80,21 @@ void Text::Update(RECT input_rect)
 	if (text_objects_.empty())
 		return;
 
+	auto starting_point = text_objects_.begin()->transform_;
+	
 
 	for (auto current_char : text_objects_)
+	{
 		current_char.Update(input_rect);
+	}
 }
 
 
 
-
+void Text::SetText(std::string input_string)
+{
+	text_objects_.clear();
+}
 
 
 

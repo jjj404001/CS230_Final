@@ -51,13 +51,6 @@ bool OpenGL_window::Create_Old_Context(HINSTANCE hInstance)
 
 
 
-	//fake_window.PFDID = ChoosePixelFormat(fake_window.device_context, &fake_window.PFD);
-	//if (!fake_window.PFDID)
-	//	return 1;
-
-	//if (!SetPixelFormat(fake_window.device_context, fake_window.PFDID, &fake_window.PFD))
-	//	return 1;
-
 	PixelFormat = ChoosePixelFormat(device_context, &PFD);
 	if (!PixelFormat)
 		return false;
@@ -136,7 +129,7 @@ HDC* OpenGL_window::GetDeviceContext()
 	return &device_context;
 }
 
-void OpenGL_window::ResizeOpenGLViewport()
+void OpenGL_window::ResizeOpenGLViewport(HWND hwnd)
 {
 	if (hWnd == nullptr)
 		return;

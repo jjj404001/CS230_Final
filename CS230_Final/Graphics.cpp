@@ -19,17 +19,12 @@ void Graphics::Initialize()
 
 	font.Initialize(shader_program_FONT, "Texture/Arial.fnt");
 
+	//TODO: Text.Initialize()
 	Text text;
-	//text.Initialize("ABCDEFGHIJKLMNOPQRSTUVWXYZ", font);
 	text.Initialize("ABCD AB	AB\nABCD", font, Color(0, 0, 0, 0) ,rect_);
-
-
 	text_list.push_back(text);
 
-	/*for(auto i : text.text_objects_)
-	{
-		objects_list.emplace_back(*i);
-	}*/
+
 
 	// TODO: Object.Initialize()
 	
@@ -60,7 +55,7 @@ void Graphics::Initialize()
 
 void Graphics::Update()
 {
-	//Objects_update();
+	Objects_update();
 	Texts_update();
 }
 
@@ -114,7 +109,7 @@ void Graphics::TakeScreenShot()
 	image.ResizeToPixelWidthHeight(pixel_width, pixel_height);
 	if (glReadnPixels != nullptr)
 	{
-		glReadnPixels(0, 0, pixel_width, pixel_height, GL_RGBA, GL_UNSIGNED_BYTE, image.GetPixelsBufferBytesSize(), image.GetPixelsPointer());
+		glReadnPixels(0, 0, pixel_width, pixel_height, GL_RGBA, GL_UNSIGNED_BYTE, image.GetPixelsBufferBytesSize(), image.GetPixelsPointer()[0]);
 	}
 	else
 	{
