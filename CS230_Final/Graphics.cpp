@@ -108,19 +108,12 @@ void Graphics::TakeScreenShot()
 	const auto pixel_height = int(rect_.bottom);
 	image.ResizeToPixelWidthHeight(pixel_width, pixel_height);
 	if (glReadnPixels != nullptr)
-	{
-		glReadnPixels(0, 0, pixel_width, pixel_height, GL_RGBA, GL_UNSIGNED_BYTE, image.GetPixelsBufferBytesSize(), image.GetPixelsPointer()[0]);
-	}
+		glReadnPixels(0, 0, pixel_width, pixel_height, GL_RGBA, GL_UNSIGNED_BYTE, image.GetPixelsBufferBytesSize(), image.GetPixelsPointer());
 	else
-	{
-		// TODO Use the older Read Pixels to copy the back buffer pixels from the GPU to the CPU
-		// Note we want the entire framebuffer
-		// Note the format for Image is assumed to be RGBA where each element is an unsigned byte.
-		// Note because we can use GetPixelsPointer off of the Image class to store the pixels.
-		// glReadnPixels - http://docs.gl/gl4/glReadPixels
 		glReadPixels(0, 0, pixel_width, pixel_height, GL_RGBA, GL_UNSIGNED_BYTE, image.GetPixelsPointer());
-	}
-	//image.FlipVertically();
+
+	image.SetNumberOfChannel(4);// GL_RGBA
+	image.FlipVertically();
 	image.SaveToPNG_File("ScreenShot.png");
 	
 	//return image;

@@ -14,8 +14,11 @@ void Object::Update(RECT input_rect)
 		const auto z_comp = (current_vertex + 2);
 
         // Convert to screen space
-        *x_comp /= input_rect.right;
-        *y_comp /= input_rect.bottom;
+        //*x_comp /= input_rect.right;
+        //*y_comp /= input_rect.bottom;
+		// or..
+		*x_comp /= 1000.0f;
+		*y_comp /= 1000.0f;
 
         // Using scale
 		*x_comp *= transform_.scale_.x;
@@ -35,6 +38,9 @@ void Object::Update(RECT input_rect)
 		// Move to next vertext position's x.
 		current_vertex += Mesh::number_of_element_per_stride;
 	}
+	
+
+
 
 
 

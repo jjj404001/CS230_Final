@@ -19,7 +19,33 @@ bool Image::LoadFromPNG_File(std::string file_name)
 
 bool Image::SaveToPNG_File(std::string file_name)
 {
-	stbi_write_png("ScreenShot.png", width_, height_, number_of_channel_, data_, sizeof(Color) * width_);
+	stbi_write_png("ScreenShot.png", width_, height_, number_of_channel_, &pixels[0], sizeof(Color) * width_);
 
 	return true;
+}
+
+void Image::ResizeToPixelWidthHeight(int input_width, int input_height)
+{ 
+	const size_t newSize = (input_width * input_height);
+	width_ = static_cast<int>(input_width);
+	height_ = static_cast<int>(input_height);
+	pixels.resize(newSize);
+}
+
+void Image::FlipVertically()
+{
+	if (pixels.empty())
+		return;
+
+
+	std::vector<Color> temp{};
+
+	for (int i = 0; i < height_; ++i)
+	{
+		for (int j = 0; j < width_; ++j)
+		{
+			temp.push_back(pixels.at(((height_ - i - 1) * width_) + j));
+		}
+	}
+	pixels = temp;
 }

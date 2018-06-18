@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
+#include <vector>
 #include "Color.h"
+
 
 class Image
 {
@@ -8,6 +10,7 @@ class Image
 	using ImageData = unsigned char*;
 
 
+	std::vector<Color> pixels{};
 	ImageData data_ = nullptr;
 	int width_ = 0;
 	int height_ = 0;
@@ -17,12 +20,19 @@ public:
 	bool LoadFromPNG_File(std::string file_name);
 	bool SaveToPNG_File(std::string file_name);
 
-	template<typename Number>
-	void ResizeToPixelWidthHeight(Number width, Number height) { width_ = static_cast<int>(width); height_ = static_cast<int>(height); }
-	ImageData* GetPixelsPointer() { return &data_; }
-	int GetPixelsBufferBytesSize() { return static_cast<int>(width_ * height_ * sizeof(Color)); }
+
+	void ResizeToPixelWidthHeight(int input_width, int input_height);
+	void FlipVertically();
+
+	ImageData* GetPixelData() { return &data_; }
+	Color* GetPixelsPointer() { return &pixels[0]; };
+	int GetPixelsBufferBytesSize() { return static_cast<int>(pixels.size() * sizeof(Color)); }
 
 	int GetWidth() { return width_; }
 	int GetHeight() { return height_; }
 	int GetNumberOfChannel() { return number_of_channel_; }
+
+	void SetWidth(int input) { width_ = input; }
+	void SetHeight(int input) { height_ = input; }
+	void SetNumberOfChannel(int input) { number_of_channel_ = input; }
 };
