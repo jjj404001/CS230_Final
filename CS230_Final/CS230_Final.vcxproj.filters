@@ -54,6 +54,9 @@
     <ClCompile Include="Text.cpp">
       <Filter>Source Files\Graphic\Text</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Graphic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenGL_window.h">
@@ -100,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>Source Files\Graphic\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Source Files\Graphic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

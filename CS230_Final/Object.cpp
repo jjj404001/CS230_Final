@@ -1,9 +1,10 @@
 #include "Object.h"
+#include "Camera.h"
 #include <iostream>
 
 
 // TODO : after check, implement with ndc.
-void Object::Update(RECT input_rect)
+void Object::Update(Camera input_rect)
 {
 	// Loop through every vertecies.
 	auto current_vertex = mesh_.vertices.begin();
@@ -12,6 +13,9 @@ void Object::Update(RECT input_rect)
 		const auto x_comp = current_vertex;
 		const auto y_comp = (current_vertex + 1);
 		const auto z_comp = (current_vertex + 2);
+
+		*x_comp += input_rect.GetCenter().x;
+		*y_comp += input_rect.GetCenter().y;
 
         // Convert to screen space
         //*x_comp /= input_rect.right;
@@ -30,8 +34,8 @@ void Object::Update(RECT input_rect)
 		*y_comp = (original_x * -sinf(transform_.rotation_)) + (*y_comp * cosf(transform_.rotation_));
 
         // Finally, using translation.
-		*x_comp += transform_.translation_.x / input_rect.right;
-		*y_comp += transform_.translation_.y / input_rect.bottom;
+		*x_comp += transform_.translation_.x / input_rect.GetRight().x;
+		*y_comp += transform_.translation_.y / input_rect.GetUp().y;
 
 
 

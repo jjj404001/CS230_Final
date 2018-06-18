@@ -4,11 +4,13 @@
 #include "ShaderSource.h"
 #include "Font.h"
 #include "Text.h"
-
+#include "Camera.h"
 
 class Graphics
 {
+	friend class OpenGL_window;
 	Font font;
+	Camera camera;
 
 	unsigned int vertex_shader;
 	const char*  vertex_shader_source = VERT_SOURCE_POSITION;
@@ -24,7 +26,7 @@ class Graphics
 	std::vector<Text> text_list;
 	unsigned int current_index_of_mesh = 0;
 
-	RECT rect_;
+	//RECT rect_;
 public:
 	unsigned int shader_program_POS_BLACK;
 	unsigned int shader_program_POS_RED;
@@ -41,7 +43,7 @@ public:
 
 	void TakeScreenShot();
 
-	void SetRect(RECT input_rect) { rect_ = input_rect; }
+	//void SetRect(RECT input_rect) { rect_ = input_rect; }
 
 	unsigned int GetPolyMode() { return polygon_mod; }
 	void SetPolyMode(unsigned int input) { polygon_mod = input; }

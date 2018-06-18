@@ -1,4 +1,5 @@
 #include "Text.h"
+#include "Camera.h"
 #include <iostream>
 
 void Text::SetScale(vector2 size)
@@ -9,15 +10,14 @@ void Text::SetScale(vector2 size)
 	}
 }
 
-void Text::Initialize(std::string input_string, Font& input_font, Color input_color, RECT input_rect)
+void Text::Initialize(std::string input_string, Font& input_font, Color input_color, Camera input_rect)
 {
 	font_info_ = &input_font;
 	string_ = input_string;
 
 	const auto line_height = font_info_->GetInfos().common_.lineHeight_;
 	// Starting point is upper left of window.
-	vector2 starting_point = { -static_cast<float>(input_rect.right),
-		static_cast<float>(input_rect.bottom) - line_height };
+	vector2 starting_point = { -(input_rect.GetRight().x), (input_rect.GetUp().y - line_height) };
 
 	for(auto current_char : input_string)
 	{
@@ -25,7 +25,7 @@ void Text::Initialize(std::string input_string, Font& input_font, Color input_co
 		// If current character is new line, go to next line and ignore below.
 		if (current_char == '\n')
 		{
-			starting_point.x = -static_cast<float>(input_rect.right);
+			starting_point.x = -static_cast<float>(input_rect.GetRight().x);
 			starting_point.y -= line_height;
 			
 
@@ -74,7 +74,7 @@ void Text::Initialize(std::string input_string, Font& input_font, Color input_co
 
 }
 
-void Text::Update(RECT input_rect)
+void Text::Update(Camera input_rect)
 {
 	// If there is no text, do not update
 	if (text_objects_.empty())

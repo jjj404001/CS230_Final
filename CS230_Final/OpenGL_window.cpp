@@ -4,6 +4,7 @@
 #include "VirtualKeyCodes.h"
 
 
+
 #define GREEN 0.0f, 0.586f, 0.0f, 1.0f
 // Prototype
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -138,12 +139,19 @@ void OpenGL_window::ResizeOpenGLViewport(HWND hwnd)
 
 	// Extend
 	GetClientRect(hWnd, &rRect);
-	glViewport(-1, -1, rRect.right, rRect.bottom); // Set viewport
-	glOrtho(rRect.left, rRect.right, rRect.bottom, rRect.top, 1.0f, -1.0f);
+
+	graphic.camera.SetSize(rRect.right, rRect.bottom);
+	const auto right  = graphic.camera.GetRight().x;
+	const auto bottom = graphic.camera.GetUp().y;
+	const auto left  = 0;
+	const auto up    = 0;
+	const auto center = graphic.camera.GetCenter();
+	glViewport(-1, -1, right, bottom); // Set viewport
+	glOrtho(left, right, bottom, up, 1.0f, -1.0f);
 	glMatrixMode(GL_PROJECTION);
 
 	// Set rect for ndc.
-	graphic.SetRect(rRect);
+	//graphic.SetRect(rRect);
 }
 
 void OpenGL_window::Input_KeyDown(WPARAM wParam, LPARAM lParam)

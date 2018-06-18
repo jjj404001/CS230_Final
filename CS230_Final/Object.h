@@ -3,6 +3,7 @@
 #include "Transform.h"
 #include "Texture.h"
 
+class Camera;
 class Object
 {
 public:
@@ -12,7 +13,7 @@ public:
 	unsigned int shader;
 
 
-	void Update(RECT input_rect);
+	void Update(Camera input_rect);
 
 	Object();
 	Object(Transform input_transform, Mesh input_mesh);

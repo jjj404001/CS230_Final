@@ -1,6 +1,7 @@
 #pragma once
 #include "Font.h"
 
+class Camera;
 class Text
 {
 	std::string string_;
@@ -15,8 +16,8 @@ public:
 
 	void SetScale(vector2 size = vector2(1.0f, 1.0f));
 
-	void Initialize(std::string input_string, Font& input_font, Color input_color, RECT input_rect);
-	void Update(RECT input_rect);
+	void Initialize(std::string input_string, Font& input_font, Color input_color, Camera input_rect);
+	void Update(Camera input_rect);
 
 	void SetText(std::string input_string);
 

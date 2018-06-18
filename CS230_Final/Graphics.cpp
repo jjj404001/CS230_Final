@@ -21,7 +21,7 @@ void Graphics::Initialize()
 
 	//TODO: Text.Initialize()
 	Text text;
-	text.Initialize("ABCD AB	AB\nABCD", font, Color(0, 0, 0, 0) ,rect_);
+	text.Initialize("ABCD AB	AB\nABCD", font, Color(0, 0, 0, 0), camera);
 	text_list.push_back(text);
 
 
@@ -63,7 +63,7 @@ void Graphics::Objects_update()
 {
 	for (auto current_object : objects_list)
 	{
-		current_object.Update(rect_);
+		current_object.Update(camera);
 		if (current_object.texture_.GetTextureData() != NULL)
 			glBindTexture(GL_TEXTURE_2D, current_object.texture_.GetTextureData());
 		glUseProgram(current_object.shader);
@@ -79,11 +79,11 @@ void Graphics::Texts_update()
 {
 	for(auto current_text : text_list)
 	{
-		current_text.Update(rect_);
+		current_text.Update(camera);
 
 		for (auto current_object : current_text.text_objects_)
 		{
-			current_object.Update(rect_);
+			current_object.Update(camera);
 			if (current_object.texture_.GetTextureData() != NULL)
 				glBindTexture(GL_TEXTURE_2D, current_object.texture_.GetTextureData());
 			glUseProgram(current_object.shader);
@@ -104,8 +104,8 @@ void Graphics::TakeScreenShot()
 	glReadBuffer(GL_BACK);
 
 
-	const auto pixel_width = int(rect_.right);
-	const auto pixel_height = int(rect_.bottom);
+	const auto pixel_width = int(camera.right_.x);
+	const auto pixel_height = int(camera.up_.y);
 	image.ResizeToPixelWidthHeight(pixel_width, pixel_height);
 	if (glReadnPixels != nullptr)
 		glReadnPixels(0, 0, pixel_width, pixel_height, GL_RGBA, GL_UNSIGNED_BYTE, image.GetPixelsBufferBytesSize(), image.GetPixelsPointer());
