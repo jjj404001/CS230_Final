@@ -24,18 +24,18 @@ void Object::Update(Camera input_rect)
 			*x_comp /= STANDARD;
 			*y_comp /= STANDARD;
 
-			// Using scale
-			*x_comp *= transform_.scale_.x;
-			*y_comp *= transform_.scale_.y;
-
+			
+			// Finally, using translation.
+			*x_comp += transform_.translation_.x / input_rect.GetRight().x;
+			*y_comp += transform_.translation_.y / input_rect.GetUp().y;
 			const auto original_x = *x_comp;
 			// Using rotation
 			*x_comp = (original_x *  cosf(transform_.rotation_)) + (*y_comp * sinf(transform_.rotation_ ));
 			*y_comp = (original_x * -sinf(transform_.rotation_)) + (*y_comp * cosf(transform_.rotation_));
 
-			// Finally, using translation.
-			*x_comp += transform_.translation_.x / input_rect.GetRight().x;
-			*y_comp += transform_.translation_.y / input_rect.GetUp().y;
+			// Using scale
+			*x_comp *= transform_.scale_.x;
+			*y_comp *= transform_.scale_.y;
 
 
 

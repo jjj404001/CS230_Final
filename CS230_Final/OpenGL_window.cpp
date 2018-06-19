@@ -363,8 +363,8 @@ void OpenGL_window::Update()
 	timer.Clock_Start();
 
 	if (fps >= 60 && vsync_on)
-		Sleep(static_cast<DWORD>(timer.GetDuration().count())); // For lab
-		//Sleep(static_cast<DWORD>(1000 - timer.GetDuration().count())); // For home
+		//Sleep(static_cast<DWORD>(timer.GetDuration().count())); // For lab
+		Sleep(static_cast<DWORD>(1000 - timer.GetDuration().count())); // For home
 	// Sleep for 1second - ellapsed time. so we can rest remaining of second.
 
 	
@@ -400,6 +400,9 @@ void OpenGL_window::Update()
 
 	if (ellapsed_time > 1.0)
 	{
+		std::string name = CLASS_NAME + std::to_string(fps);
+		std::string name_additional = " Ellapsed time between frame : " + std::to_string(ellapsed_time);
+		SetWindowText(hWnd, (name + name_additional).c_str());
 		std::cout << "FPS  : " << fps << std::endl;
 		std::cout << "TIME : " << ellapsed_time << std::endl;
 

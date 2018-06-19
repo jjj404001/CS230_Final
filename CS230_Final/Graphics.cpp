@@ -19,9 +19,17 @@ void Graphics::Initialize()
 
 	font.Initialize(shader_program_FONT, "Texture/Arial.fnt");
 
-	//TODO: Text.Initialize()
+	//TODO: Text.Initialize(), WARNING!! Uppercase only.
+	std::string instruction = "PRESS ENTER TO MAXIMIZE SCREEN.\n";
+	instruction += "PRESS P TO TAKE SCREEN SHOT.\n";
+	instruction += "PRESS TAB TO CHANGE RENDER MODE.\n";
+	instruction += "PRESS C TO CHANGE TRANSFORM MODE.(CAMERA AND OBJ.).\n";
+	instruction += "PRESS SPACE TO SELECT NEXT OBJECT.\n";
+	instruction += "PRESS G TO TRANSLATE, R TO ROTATE, S TO SCALE.\n";
+	instruction += "MOUSE WHEEL TO ZOOM IN AND ZOOM OUT.\n";
+
 	Text text;
-	text.Initialize(true, "ABCD AB	AB\nABCD", font, Color(0, 0, 0, 0), camera);
+	text.Initialize(true, instruction.c_str(), font, Color(0, 0, 0, 0), camera);
 	text_list.push_back(text);
 
 
@@ -29,29 +37,32 @@ void Graphics::Initialize()
 	// TODO: Object.Initialize()
 	
 	Object o1;
-	o1.mesh_ = Mesh::Create_Triangle(100.0f);
-	o1.texture_.LoadFromImageFile("Texture/EnglishFont_0.png");
-	o1.transform_.translation_.x = -800;
-	o1.transform_.translation_.y =  500;
+	o1.mesh_ = Mesh::Create_Triangle(800.0f);
+	o1.texture_.LoadFromImageFile("Texture/test_texture.png");
+	o1.transform_.translation_.x = -500;
+	o1.transform_.translation_.y =  300;
 	Object o2;
-	o2.mesh_ = Mesh::Create_Square(200.0f);
-	o2.texture_.LoadFromImageFile("Texture/EnglishFont_0.png");
+	o2.mesh_ = Mesh::Create_Square(800.0f);
+	o2.texture_.LoadFromImageFile("Texture/test_texture.png");
+	o2.transform_.translation_.x = 500;
+	o2.transform_.translation_.y = 300;
 	Object o3;
-	o3.mesh_ = Mesh::Create_Circle(300.0f, 50);
-	o3.texture_.LoadFromImageFile("Texture/EnglishFont_0.png");
+	o3.mesh_ = Mesh::Create_Circle(800.0f, 50);
+	o3.texture_.LoadFromImageFile("Texture/test_texture.png");
+	o3.transform_.translation_.x = -500;
+	o3.transform_.translation_.y = -500;
 	Object o4;
-	o4.mesh_ = Mesh::Create_Line(2000.0f, 0.0f);
-	o4.texture_.LoadFromImageFile("Texture/EnglishFont_0.png");
+	o4.mesh_ = Mesh::Create_Line(800.0f, 0.0f);
+	o4.texture_.LoadFromImageFile("Texture/test_texture.png");
+	o4.transform_.translation_.x = 500;
+	o4.transform_.translation_.y = -500;
 
-	Object o5;
-	o5.mesh_ = Mesh::Create_Square(vector2(700.0f, 900.0f));
-	o5.texture_.LoadFromImageFile("Texture/test_texture.png");
+
 
 	AddObject(o1, shader_program_POS_COLOR);
 	AddObject(o2, shader_program_POS_COLOR);
 	AddObject(o3, shader_program_POS_COLOR);
 	AddObject(o4, shader_program_POS_COLOR);
-	AddObject(o5, shader_program_POS_COLOR);
 }
 
 

@@ -6,7 +6,7 @@
 #include <list>
 #include <iostream>
 
-#define CLASS_NAME "OpenGL_window.h man we a"
+#define CLASS_NAME "JJJ's Final assignment FPS:"
 #define WINDOW_SIZE 1000
 #define TRANSFORM_FACTOR 1.0f // move for 10 pixel
 

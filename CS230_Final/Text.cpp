@@ -52,12 +52,12 @@ void Text::Initialize(bool is_HUD, std::string input_string, Font& input_font, C
 
 		auto current_char_desc = font_info_->GetCharDesc().at(current_char);
 		// Quad's size is current character's size with in font.
-		const vector2 quad_size = { static_cast<float>(current_char_desc.width_)
-									,static_cast<float>(current_char_desc.height_) };
+		const vector2 quad_size = { static_cast<float>(current_char_desc.width_ )
+													,static_cast<float>(current_char_desc.height_ ) };
 
 		Mesh mesh;
 		// If character pass all test above, add char quad to mesh.
-		AddCharQuadToMesh(mesh, font_info_, current_char_desc, quad_size, starting_point, input_color, line_height);
+		AddCharQuadToMesh(mesh, font_info_, current_char_desc, starting_point, input_color, line_height);
 		// Load texture
 		Texture texture = font_info_->font_texture_;
 
@@ -121,7 +121,7 @@ void Text::SetText(std::string input_string)
 
 
 
-void Text::AddCharQuadToMesh(Mesh& mesh, Font* input_font, Font::CharDesc character, vector2 image_dimensions,
+void Text::AddCharQuadToMesh(Mesh& mesh, Font* input_font, Font::CharDesc character,
 							 vector2 current_position, Color input_color, float line_height)
 {
   // Get mesh's width and height from character's width and height. 
@@ -146,13 +146,6 @@ void Text::AddCharQuadToMesh(Mesh& mesh, Font* input_font, Font::CharDesc charac
 	bottom_left.y += line_height - (character.yoffset_ + character.height_);
 	bottom_right.y += line_height - (character.yoffset_ + character.height_);
 
-
-	// Texture coordinate
-	/*const auto u_0 = static_cast<float>(character.x_ / image_dimensions.x);
-	const auto v_0 = static_cast<float>(character.y_ / image_dimensions.y);
-
-	const auto u_1 = static_cast<float>(character.x_ + character.width_) / image_dimensions.x;
-	const auto v_1 = static_cast<float>(character.y_ + character.height_) / image_dimensions.y;*/
 
 	
 	const auto font_width  = static_cast<float>(input_font->GetInfos().common_.scaleW_);

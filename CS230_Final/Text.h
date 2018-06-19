@@ -8,7 +8,6 @@ class Text
 	vector2 starting_coordinate_ = {0.0f, 0.0f};
 	unsigned int line_count_ = 0;
 	
-	
 
 public:
 	Font * font_info_ = nullptr;
@@ -21,6 +20,6 @@ public:
 
 	void SetText(std::string input_string);
 
-	static void AddCharQuadToMesh(Mesh& mesh, Font* input_font, Font::CharDesc character, vector2 image_dimensions,
+	static void AddCharQuadToMesh(Mesh& mesh, Font* input_font, Font::CharDesc character,
 									vector2 current_position, Color input_color, float line_height);
 };
