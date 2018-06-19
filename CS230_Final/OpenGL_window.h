@@ -32,6 +32,7 @@ class OpenGL_window
 	unsigned int fps = 0;
 	double ellapsed_time = 0.0;
 	bool vsync_on = false;
+	bool camera_mode = false;
 
 
 	int PFDID = NULL;
@@ -52,6 +53,7 @@ public:
 
 	void SelectNextObject();
 	void HandleTransform(WPARAM wParam);
+	void HandleCameraTransform(WPARAM wParam);
 
 
 

@@ -1,7 +1,7 @@
 #include "Object.h"
 #include "Camera.h"
 #include <iostream>
-
+#define STANDARD 1000.0f
 
 // TODO : after check, implement with ndc.
 void Object::Update(Camera input_rect)
@@ -21,8 +21,8 @@ void Object::Update(Camera input_rect)
 			//*x_comp /= input_rect.right;
 			//*y_comp /= input_rect.bottom;
 			// or..
-			*x_comp /= 1000.0f;
-			*y_comp /= 1000.0f;
+			*x_comp /= STANDARD;
+			*y_comp /= STANDARD;
 
 			// Using scale
 			*x_comp *= transform_.scale_.x;
@@ -59,23 +59,32 @@ void Object::Update(Camera input_rect)
 			//*x_comp /= input_rect.right;
 			//*y_comp /= input_rect.bottom;
 			// or..
-			*x_comp /= 1000.0f;
-			*y_comp /= 1000.0f;
+			*x_comp /= STANDARD;
+			*y_comp /= STANDARD;
 
 			// Using scale
 			*x_comp *= transform_.scale_.x * input_rect.GetZoom();
 			*y_comp *= transform_.scale_.y * input_rect.GetZoom();
 
-			const auto original_x = *x_comp;
+			auto original_x = *x_comp;
 			// Using rotation
 			*x_comp = (original_x *  cosf(transform_.rotation_ + input_rect.GetRotation())) + (*y_comp * sinf(transform_.rotation_ + input_rect.GetRotation()));
-			*y_comp = (original_x * -sinf(transform_.rotation_ + input_rect.GetRotation())) + (*y_comp * cosf(transform_.rotation_ + input_rect.GetRotation()));
+			*y_comp = (original_x * -sinf(transform_.rotation_  + input_rect.GetRotation())) + (*y_comp * cosf(transform_.rotation_ + input_rect.GetRotation()));
+
+			auto translation_x = transform_.translation_.x;
+			auto translation_y = transform_.translation_.y;
+
+			original_x = translation_x;
+			// Using rotation again for camera.
+			translation_x = (original_x *  cosf(input_rect.GetRotation())) + (translation_y * sinf(input_rect.GetRotation()));
+			translation_y = (original_x * -sinf(input_rect.GetRotation())) + (translation_y * cosf(input_rect.GetRotation()));
+
 
 			// Finally, using translation.
-			*x_comp += transform_.translation_.x / input_rect.GetRight().x * input_rect.GetZoom();
-			*y_comp += transform_.translation_.y / input_rect.GetUp().y * input_rect.GetZoom();
+			*x_comp += translation_x / input_rect.GetRight().x * input_rect.GetZoom();
+			*y_comp += translation_y / input_rect.GetUp().y * input_rect.GetZoom();
 
-
+			
 
 			// Move to next vertext position's x.
 			current_vertex += Mesh::number_of_element_per_stride;

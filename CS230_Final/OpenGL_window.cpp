@@ -207,7 +207,10 @@ void OpenGL_window::Input_KeyDown(WPARAM wParam, LPARAM lParam)
 		case VK_DOWN:
 		case VK_LEFT:
 		case VK_RIGHT:
-			HandleTransform(wParam);
+			if (camera_mode)
+				HandleCameraTransform(wParam);
+			else
+				HandleTransform(wParam);
 			break;
 		case VK_P:
 			graphic.TakeScreenShot();
@@ -219,6 +222,9 @@ void OpenGL_window::Input_KeyDown(WPARAM wParam, LPARAM lParam)
 				graphic.SetPolyMode(GL_POINT);
 			else if (graphic.GetPolyMode() == GL_POINT)
 				graphic.SetPolyMode(GL_FILL);
+			break;
+		case VK_C:
+				camera_mode = !camera_mode;
 			break;
 		case VK_V:
 				vsync_on = !vsync_on;
@@ -326,6 +332,30 @@ void OpenGL_window::HandleTransform(WPARAM wParam)
 		graphic.ScaleSelected(current_object, input_vector);
 	else if (edit_mode_ == Rotation) // ONLY WORKS WITH HORIZONTAL ARROW.
 		graphic.RotateSelected(current_object, input_vector);
+}
+
+void OpenGL_window::HandleCameraTransform(WPARAM wParam)
+{
+	auto input_vector = vector2();
+
+
+	// Check input and set vector for transform.
+	// Use if statement for diagonal functionality.
+	if (wParam == VK_UP)
+		input_vector.y += TRANSFORM_FACTOR;
+	if (wParam == VK_DOWN)
+		input_vector.y -= TRANSFORM_FACTOR;
+	if (wParam == VK_LEFT)
+		input_vector.x -= TRANSFORM_FACTOR;
+	if (wParam == VK_RIGHT)
+		input_vector.x += TRANSFORM_FACTOR;
+
+
+
+	if (edit_mode_ == Translation)
+		graphic.camera.MoveCamera(input_vector);
+	else if (edit_mode_ == Rotation) // ONLY WORKS WITH HORIZONTAL ARROW.
+		graphic.camera.RotateCamera(input_vector);
 }
 
 void OpenGL_window::Update()

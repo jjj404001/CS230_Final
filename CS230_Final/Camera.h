@@ -18,10 +18,11 @@ public:
 	Camera(vector2 camera_center, vector2 camera_up);
 
 	vector2 GetCenter() const { return center_; }
-	void SetCenter(vector2 camera_center);
+	void SetCenter(vector2 camera_center) { center_ = camera_center; };
 	void SetSize(long input_right, long input_bottom);
 	void ResizeCamera(short mouse_delta);
-	void RotateCamera();
+	void MoveCamera(vector2 input_vector);
+	void RotateCamera(vector2 input_vector);
 	vector2 GetUp() const { return up_; }
 	vector2 GetRight() const { return right_; }
 	float GetZoom() const { return zoom_; }
