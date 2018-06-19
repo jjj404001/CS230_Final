@@ -31,7 +31,7 @@ class OpenGL_window
 
 	unsigned int fps = 0;
 	double ellapsed_time = 0.0;
-	bool vsync_on = false;
+	bool vsync_on = true;
 	bool camera_mode = false;
 
 

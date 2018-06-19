@@ -2,6 +2,7 @@
 #include <iostream>
 #include "stb_image_write.h"
 
+#include <matrix4.h>
 
 #define FIXED_INDEX 0
 #define PI 3.14159265f // TODO: Duplicate with mesh file. fix it
@@ -82,6 +83,22 @@ void Graphics::Objects_update()
 		glUseProgram(current_object.shader);
 
 
+		const auto uniView = glGetUniformLocation(current_object.shader, "view");
+		const auto uniProjection = glGetUniformLocation(current_object.shader, "proj");
+		
+
+		matrix4 Proj;
+		matrix4 View;
+
+
+
+
+
+
+		Proj = matrix4::Build_translation(vector3(10.0f, 10.0f, 0.0f)) * matrix4::Build_rotation(current_object.transform_.rotation_) * matrix4::Build_scale(current_object.transform_.scale_);
+		glUniformMatrix4fv(uniProjection, 1, GL_FALSE, &Proj.value[0][0]);
+		View = matrix4::Build_scale(vector2(1/camera.right_.x, 1/camera.up_.y));
+		glUniformMatrix4fv(uniView, 1, GL_FALSE, &View.value[0][0]);
 
 		glBindVertexArray(current_object.mesh_.Get_VAO());
 		glDrawArrays(current_object.mesh_.Get_Primitive(), FIXED_INDEX, current_object.mesh_.Get_Num_of_vert());
@@ -101,7 +118,19 @@ void Graphics::Texts_update()
 				glBindTexture(GL_TEXTURE_2D, current_object.texture_.GetTextureData());
 			glUseProgram(current_object.shader);
 
+			const auto uniView = glGetUniformLocation(current_object.shader, "view");
+			const auto uniProjection = glGetUniformLocation(current_object.shader, "proj");
 
+
+			matrix4 Proj;
+			matrix4 View;
+
+
+
+			Proj = matrix4::Build_translation(vector3(camera.center_.x, camera.center_.y, 0.0f)) * matrix4::Build_rotation(camera.rotation_) * matrix4::Build_scale(camera.zoom_);
+			glUniformMatrix4fv(uniProjection, 1, GL_FALSE, &Proj.value[0][0]);
+			View = matrix4::Build_scale(vector2(1 / camera.right_.x, 1 / camera.up_.y));
+			glUniformMatrix4fv(uniView, 1, GL_FALSE, &View.value[0][0]);
 
 			glBindVertexArray(current_object.mesh_.Get_VAO());
 			glDrawArrays(current_object.mesh_.Get_Primitive(), FIXED_INDEX, current_object.mesh_.Get_Num_of_vert());

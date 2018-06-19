@@ -27,6 +27,12 @@
     <ClCompile Include="vector3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="matrix4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vector4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="affine2d.hpp">
@@ -42,6 +48,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix4.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vector4.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,8 +11,13 @@ class Camera
 	vector2 up_{ 0, 1 };
 	vector2 right_{ 1, 0 };
 
+	float zNear =  1.0f;
+	float zFar  = -1.0f;
+
 	float rotation_ = 0.0f;
 	float zoom_    = 1.0f;
+
+	float fov_ = 0.5f; // radian
 public:
 	Camera() = default;
 	Camera(vector2 camera_center, vector2 camera_up);
@@ -27,6 +32,8 @@ public:
 	vector2 GetRight() const { return right_; }
 	float GetZoom() const { return zoom_; }
 	float GetRotation() const { return rotation_; }
+	float GetNear() const { return zNear; }
+	float GetFar() const { return zFar; }
 
 	void ResetUp(vector2 camera_up = { 0, 1 });
 

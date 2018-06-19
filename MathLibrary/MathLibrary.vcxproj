@@ -117,15 +117,19 @@
   <ItemGroup>
     <ClCompile Include="affine2d.cpp" />
     <ClCompile Include="matrix2.cpp" />
+    <ClCompile Include="matrix4.cpp" />
     <ClCompile Include="vector2.cpp" />
     <ClCompile Include="vector3.cpp" />
+    <ClCompile Include="vector4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="affine2d.hpp" />
     <ClInclude Include="matrix2.hpp" />
+    <ClInclude Include="matrix4.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="vector2.hpp" />
     <ClInclude Include="vector3.hpp" />
+    <ClInclude Include="vector4.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

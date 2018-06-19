@@ -13,10 +13,10 @@ class Graphics
 	Camera camera;
 
 	unsigned int vertex_shader;
-	const char*  vertex_shader_source = VERT_SOURCE_POSITION;
+	const char*  vertex_shader_source;
 
 	unsigned int fragment_shader;
-	const char*  fragment_shader_source = FRAG_SOURCE_COLOR_BLACK;
+	const char*  fragment_shader_source;
 
 	
 

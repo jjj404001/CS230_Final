@@ -1,45 +1,5 @@
 #pragma once
 
-
-#define VERT_SOURCE_POSITION R"(
-#version 330 core
-layout(location = 0) in vec3 aPos;
-void main()
-{
-	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
-}
-							)"
-#define FRAG_SOURCE_COLOR_RED R"(
-								#version 330 core
-out vec4 FragColor;
-
-void main()
-{
-	FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
-} 
-								)"
-
-#define FRAG_SOURCE_COLOR_BLUE R"(
-								#version 330 core
-out vec4 FragColor;
-
-void main()
-{
-	FragColor = vec4(0.0f, 0.0f, 1.0f, 1.0f);
-} 
-								)"
-
-#define FRAG_SOURCE_COLOR_BLACK R"(
-#version 330 core
-out vec4 FragColor;
-
-void main()
-{
-	FragColor = vec4(0.0f, 0.0f, 0.0f, 1.0f);
-} 
-								)"
-
-
 #define VERT_SOURCE_COLOR_INPUT R"(
 #version 330 core
 layout (location = 0) in vec3 attribute_Pos;  // Attribute at 0 is position.
@@ -47,9 +7,12 @@ layout (location = 1) in vec3 attribute_Color;// Attribute at 1 is color.
 
 out vec3 vert_shader_out;
 
+uniform mat4 view;
+uniform mat4 proj;
+
 void main()
 {
-	gl_Position = vec4(attribute_Pos, 1.0);
+	gl_Position = proj * view * vec4(attribute_Pos, 1.0);
 	vert_shader_out = attribute_Color;
 } 
 								)"
@@ -70,18 +33,21 @@ void main()
 
 #define VERT_SOURCE_TEXTURE_POS R"(
 #version 330 core
-layout (location = 0) in vec3 aPos;
-layout (location = 1) in vec3 aColor;
-layout (location = 2) in vec2 aTexCoord;
+layout (location = 0) in vec3 attribute_Pos;
+layout (location = 1) in vec3 attribute_Color;
+layout (location = 2) in vec2 attribute_Texture;
 
 out vec3 ourColor;
 out vec2 TexCoord;
 
+uniform mat4 view;
+uniform mat4 proj;
+
 void main()
 {
-    gl_Position = vec4(aPos, 1.0);
-    ourColor = aColor;
-    TexCoord = aTexCoord;
+    gl_Position = view * proj * vec4(attribute_Pos, 1.0);
+    ourColor = attribute_Color;
+    TexCoord = attribute_Texture;
 }
 )"
 
@@ -127,9 +93,12 @@ layout (location = 2) in vec2 BufferTexCord;
 out vec3 Color;
 out vec2 TexCord;
 
+uniform mat4 view;
+uniform mat4 proj;
+
 void main()
 {
-    gl_Position = vec4(BufferPos, 1.0);
+    gl_Position =  view * proj * vec4(BufferPos, 1.0);
     Color = BufferColor;
     TexCord = BufferTexCord;
 }

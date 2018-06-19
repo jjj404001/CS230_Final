@@ -147,8 +147,10 @@ void OpenGL_window::ResizeOpenGLViewport(HWND hwnd)
 	const auto left  = 0;
 	const auto up    = 0;
 	const auto center = graphic.camera.GetCenter();
+	const auto z_near = graphic.camera.GetNear();
+	const auto z_far  = graphic.camera.GetFar();
 	glViewport(-1, -1, static_cast<GLsizei>(right), static_cast<GLsizei>(bottom)); // Set viewport
-	glOrtho(left, right, bottom, up, 1.0f, -1.0f);
+	glOrtho(left, right, bottom, up, z_near, z_far);
 	glMatrixMode(GL_PROJECTION);
 	// Set rect for ndc.
 	//graphic.SetRect(rRect);
@@ -364,8 +366,7 @@ void OpenGL_window::Update()
 
 	if (fps >= 60 && vsync_on)
 		//Sleep(static_cast<DWORD>(timer.GetDuration().count())); // For lab
-		Sleep(static_cast<DWORD>(1000 - timer.GetDuration().count())); // For home
-	// Sleep for 1second - ellapsed time. so we can rest remaining of second.
+		Sleep(1000.0 - ellapsed_time * 1000); // For home
 
 	
 
