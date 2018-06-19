@@ -57,7 +57,7 @@ void Text::Initialize(bool is_HUD, std::string input_string, Font& input_font, C
 
 		Mesh mesh;
 		// If character pass all test above, add char quad to mesh.
-		AddCharQuadToMesh(mesh, font_info_, current_char_desc, starting_point, input_color, line_height);
+		AddCharQuadToMesh(mesh, font_info_, current_char_desc, starting_point, input_color, static_cast<float>(line_height));
 		// Load texture
 		Texture texture = font_info_->font_texture_;
 

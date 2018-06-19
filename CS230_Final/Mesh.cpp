@@ -78,7 +78,7 @@ void Mesh::Emplemplace_back_whole_attrib(const vector3 input_Positon, const Colo
 
 void Mesh::Emplemplace_back_whole_attrib_UV(const char input_char, Font* input_font, const vector3 input_Positon, const Color input_Color)
 {
-	vector2 size = vector2(input_font->GetCharDesc().at(input_char).width_, input_font->GetCharDesc().at(input_char).height_);
+	vector2 size = vector2(static_cast<float>(input_font->GetCharDesc().at(input_char).width_), static_cast<float>(input_font->GetCharDesc().at(input_char).height_));
 
 
 	// Position
@@ -263,7 +263,7 @@ Mesh Mesh::Create_Font_Square(const char input_char, Font* input_font, Color inp
 {
 	Mesh square;
 	const auto current_char_desc = input_font->GetCharDesc().at(input_char);
-	vector2 size = vector2(input_font->GetCharDesc().at(input_char).width_, input_font->GetCharDesc().at(input_char).height_);
+	vector2 size = vector2(static_cast<float>(input_font->GetCharDesc().at(input_char).width_), static_cast<float>(input_font->GetCharDesc().at(input_char).height_));
 
 	const auto bottom_left = vector3(-size.x / 2, -size.y / 2, 0.0f);
 	const auto bottom_right = vector3(size.x / 2, -size.y / 2, 0.0f);

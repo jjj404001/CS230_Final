@@ -147,7 +147,7 @@ void OpenGL_window::ResizeOpenGLViewport(HWND hwnd)
 	const auto left  = 0;
 	const auto up    = 0;
 	const auto center = graphic.camera.GetCenter();
-	glViewport(-1, -1, right, bottom); // Set viewport
+	glViewport(-1, -1, static_cast<GLsizei>(right), static_cast<GLsizei>(bottom)); // Set viewport
 	glOrtho(left, right, bottom, up, 1.0f, -1.0f);
 	glMatrixMode(GL_PROJECTION);
 	// Set rect for ndc.
