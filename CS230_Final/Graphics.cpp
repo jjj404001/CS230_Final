@@ -21,7 +21,7 @@ void Graphics::Initialize()
 
 	//TODO: Text.Initialize()
 	Text text;
-	text.Initialize("ABCD AB	AB\nABCD", font, Color(0, 0, 0, 0), camera);
+	text.Initialize(true, "ABCD AB	AB\nABCD", font, Color(0, 0, 0, 0), camera);
 	text_list.push_back(text);
 
 
@@ -31,6 +31,8 @@ void Graphics::Initialize()
 	Object o1;
 	o1.mesh_ = Mesh::Create_Triangle(100.0f);
 	o1.texture_.LoadFromImageFile("Texture/EnglishFont_0.png");
+	o1.transform_.translation_.x = -800;
+	o1.transform_.translation_.y =  500;
 	Object o2;
 	o2.mesh_ = Mesh::Create_Square(200.0f);
 	o2.texture_.LoadFromImageFile("Texture/EnglishFont_0.png");

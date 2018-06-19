@@ -31,6 +31,7 @@ class OpenGL_window
 
 	unsigned int fps = 0;
 	double ellapsed_time = 0.0;
+	bool vsync_on = false;
 
 
 	int PFDID = NULL;
@@ -66,6 +67,7 @@ public:
 	HDC* GetDeviceContext();
 	HWND& GetHWND() { return hWnd; };
 	void ResizeOpenGLViewport(HWND hWnd);
+	void ResizeCamera(short delta);
 	void Input_KeyDown(WPARAM wParam, LPARAM lParam);
 	void Input_MouseMove(LPARAM lParam);
 

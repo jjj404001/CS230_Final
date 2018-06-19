@@ -5,6 +5,7 @@
 
 
 
+
 #define GREEN 0.0f, 0.586f, 0.0f, 1.0f
 // Prototype
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -149,9 +150,13 @@ void OpenGL_window::ResizeOpenGLViewport(HWND hwnd)
 	glViewport(-1, -1, right, bottom); // Set viewport
 	glOrtho(left, right, bottom, up, 1.0f, -1.0f);
 	glMatrixMode(GL_PROJECTION);
-
 	// Set rect for ndc.
 	//graphic.SetRect(rRect);
+}
+
+void OpenGL_window::ResizeCamera(short delta)
+{
+	graphic.camera.ResizeCamera(delta);
 }
 
 void OpenGL_window::Input_KeyDown(WPARAM wParam, LPARAM lParam)
@@ -214,6 +219,9 @@ void OpenGL_window::Input_KeyDown(WPARAM wParam, LPARAM lParam)
 				graphic.SetPolyMode(GL_POINT);
 			else if (graphic.GetPolyMode() == GL_POINT)
 				graphic.SetPolyMode(GL_FILL);
+			break;
+		case VK_V:
+				vsync_on = !vsync_on;
 			break;
 		default: ;
 	}
@@ -324,7 +332,7 @@ void OpenGL_window::Update()
 {
 	timer.Clock_Start();
 
-	if (fps >= 60)
+	if (fps >= 60 && vsync_on)
 		Sleep(static_cast<DWORD>(timer.GetDuration().count())); // For lab
 		//Sleep(static_cast<DWORD>(1000 - timer.GetDuration().count())); // For home
 	// Sleep for 1second - ellapsed time. so we can rest remaining of second.

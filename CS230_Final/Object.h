@@ -11,6 +11,7 @@ public:
 	Mesh mesh_;
 	Texture texture_;
 	unsigned int shader;
+	bool is_HUD = false;
 
 
 	void Update(Camera input_rect);

@@ -10,7 +10,7 @@ void Text::SetScale(vector2 size)
 	}
 }
 
-void Text::Initialize(std::string input_string, Font& input_font, Color input_color, Camera input_rect)
+void Text::Initialize(bool is_HUD, std::string input_string, Font& input_font, Color input_color, Camera input_rect)
 {
 	font_info_ = &input_font;
 	string_ = input_string;
@@ -66,6 +66,7 @@ void Text::Initialize(std::string input_string, Font& input_font, Color input_co
 		builded_object.mesh_ = mesh;
 		builded_object.texture_ = texture;
 		builded_object.shader = font_info_->shader_;
+		builded_object.is_HUD = is_HUD;
 		text_objects_.push_back(builded_object);
 
 		// Recalculate starting point for next character.

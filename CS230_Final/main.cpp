@@ -108,7 +108,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 		case WM_MOUSEWHEEL: //if mouse wheel is rolled.
 		{
-
+			auto delta = GET_WHEEL_DELTA_WPARAM(wParam);
+			main_opengl.ResizeCamera(delta);
 		}
 		break;
 		case WM_MOUSEMOVE: //if mouse is moved.
