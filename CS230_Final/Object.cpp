@@ -15,8 +15,20 @@ void Object::Update(Camera input_rect)
 			const auto y_comp = (current_vertex + 1);
 			const auto z_comp = (current_vertex + 2);
 
-			
 
+
+
+
+			// Using scale
+			*x_comp *= transform_.scale_.x;
+			*y_comp *= transform_.scale_.y;
+			const auto original_x = *x_comp;
+			// Using rotation
+			*x_comp = (original_x *  cosf(transform_.rotation_)) + (*y_comp * sinf(transform_.rotation_));
+			*y_comp = (original_x * -sinf(transform_.rotation_)) + (*y_comp * cosf(transform_.rotation_));
+			// Finally, using translation.
+			*x_comp += transform_.translation_.x + input_rect.GetCenter().x;
+			*y_comp += transform_.translation_.y + input_rect.GetCenter().y;
 
 
 			// Move to next vertext position's x.

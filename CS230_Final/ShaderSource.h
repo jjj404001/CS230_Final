@@ -45,7 +45,7 @@ uniform mat4 proj;
 
 void main()
 {
-    gl_Position = view * proj * vec4(attribute_Pos, 1.0);
+	gl_Position = proj * view * vec4(attribute_Pos, 1.0);
     ourColor = attribute_Color;
     TexCoord = attribute_Texture;
 }
@@ -98,7 +98,7 @@ uniform mat4 proj;
 
 void main()
 {
-    gl_Position =  view * proj * vec4(BufferPos, 1.0);
+    	gl_Position = proj * view * vec4(BufferPos, 1.0);
     Color = BufferColor;
     TexCord = BufferTexCord;
 }

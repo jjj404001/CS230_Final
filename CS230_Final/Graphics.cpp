@@ -95,7 +95,8 @@ void Graphics::Objects_update()
 
 
 
-		Proj = matrix4::Build_translation(vector3( camera.center_.x, camera.center_.y, 0.0f)) * matrix4::Build_rotation(current_object.transform_.rotation_) * matrix4::Build_scale(current_object.transform_.scale_);
+		//Proj = matrix4::Build_translation(vector3( camera.center_.x, camera.center_.y, 0.0f)) * matrix4::Build_rotation(current_object.transform_.rotation_) * matrix4::Build_scale(current_object.transform_.scale_);
+		Proj = matrix4::Build_identity();
 		glUniformMatrix4fv(uniProjection, 1, GL_FALSE, &Proj.value[0][0]);
 		View = matrix4::Build_rotation(camera.rotation_) * matrix4::Build_scale(vector2(camera.zoom_ / camera.right_.x, camera.zoom_ / camera.up_.y));
 		glUniformMatrix4fv(uniView, 1, GL_FALSE, &View.value[0][0]);
@@ -128,10 +129,12 @@ void Graphics::Texts_update()
 
 
 
-			Proj = matrix4::Build_translation(vector3(camera.center_.x, camera.center_.y, 0.0f)) * matrix4::Build_rotation(camera.rotation_) * matrix4::Build_scale(camera.zoom_);
+			//Proj = matrix4::Build_translation(vector3( camera.center_.x, camera.center_.y, 0.0f)) * matrix4::Build_rotation(current_object.transform_.rotation_) * matrix4::Build_scale(current_object.transform_.scale_);
+			Proj = matrix4::Build_identity();
 			glUniformMatrix4fv(uniProjection, 1, GL_FALSE, &Proj.value[0][0]);
-			View = matrix4::Build_scale(vector2(1 / camera.right_.x, 1 / camera.up_.y));
+			View = matrix4::Build_rotation(camera.rotation_) * matrix4::Build_scale(vector2(camera.zoom_ / camera.right_.x, camera.zoom_ / camera.up_.y));
 			glUniformMatrix4fv(uniView, 1, GL_FALSE, &View.value[0][0]);
+
 
 			glBindVertexArray(current_object.mesh_.Get_VAO());
 			glDrawArrays(current_object.mesh_.Get_Primitive(), FIXED_INDEX, current_object.mesh_.Get_Num_of_vert());
