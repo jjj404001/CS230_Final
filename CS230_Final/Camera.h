@@ -6,6 +6,7 @@
 class Camera
 {
 	friend class Graphics;
+	friend class Object;
 
 	vector2 center_{ 0, 0 };
 	vector2 up_{ 0, 1 };

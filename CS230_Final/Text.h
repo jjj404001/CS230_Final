@@ -15,8 +15,9 @@ public:
 
 	void SetScale(vector2 size = vector2(1.0f, 1.0f));
 
-	void Initialize(bool is_HUD, std::string input_string, Font& input_font, Color input_color, Camera input_rect);
+	void Initialize(bool is_HUD, std::string input_string, Font& input_font, Color input_color, Camera input_rect, vector2 translation = {0.0f, 0.0f});
 	void Update(Camera input_rect);
+	void Free();
 
 	void SetText(std::string input_string);
 

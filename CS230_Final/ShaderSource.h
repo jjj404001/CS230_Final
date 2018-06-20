@@ -7,15 +7,15 @@ layout (location = 1) in vec3 attribute_Color;// Attribute at 1 is color.
 
 out vec3 vert_shader_out;
 
-uniform mat4 view;
-uniform mat4 proj;
+uniform mat4 combined;
+//uniform mat4 proj;
 
 void main()
 {
-	gl_Position = proj * view * vec4(attribute_Pos, 1.0);
+	gl_Position = combined * vec4(attribute_Pos, 1.0);
 	vert_shader_out = attribute_Color;
 } 
-								)"
+)"
 
 
 #define FRAG_SOURCE_COLOR_INPUT R"(

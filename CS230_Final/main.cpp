@@ -51,6 +51,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 
 	
 	main_opengl.GetGraphicHandle().Initialize();
+	main_opengl.TurnOnMonitorVerticalSynchronization(true);
 	while (!main_opengl.quit)
 	{
 		main_opengl.Update();

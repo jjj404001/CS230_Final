@@ -31,6 +31,10 @@ class OpenGL_window
 
 	unsigned int fps = 0;
 	double ellapsed_time = 0.0;
+
+	unsigned int previous_fps = 0;
+	double previous_ellapsed_time = 0.0;
+
 	bool vsync_on = true;
 	bool camera_mode = false;
 
@@ -63,6 +67,9 @@ public:
 	bool Create_Old_Context(HINSTANCE hInstance);
 	bool Destroy_Old_Context();
 	bool Create_Context(HINSTANCE hInstance, Attributes input_attrib, OpenGL_window& fake, int nCmdShow);
+
+	void TurnOnMonitorVerticalSynchronization(bool enable) const;
+	bool IsMonitorVerticalSynchronizationOn() const;
 
 
 	MSG& GetGLMessage();
