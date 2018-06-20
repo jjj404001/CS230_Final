@@ -124,26 +124,6 @@ bool OpenGL_window::Create_Context(const HINSTANCE hInstance, const Attributes i
 	return true;
 }
 
-void OpenGL_window::TurnOnMonitorVerticalSynchronization(bool enable) const
-{
-	if (rendering_context != nullptr)
-	{
-		// https://www.khronos.org/registry/OpenGL/extensions/EXT/WGL_EXT_swap_control.txt
-		wglSwapIntervalEXT(0); // < test
-	}
-}
-
-bool OpenGL_window::IsMonitorVerticalSynchronizationOn() const
-{
-	if (rendering_context == nullptr)
-	{
-		std::cout << "!!No opengl context" << std::endl;
-	}
-	// TODO call wglGetSwapIntervalEXT() and check it's return value
-	// https://www.khronos.org/registry/OpenGL/extensions/EXT/WGL_EXT_swap_control.txt
-	return wglGetSwapIntervalEXT();
-}
-
 MSG& OpenGL_window::GetGLMessage()
 {
 	return Message;

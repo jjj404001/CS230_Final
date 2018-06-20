@@ -18,7 +18,7 @@ class Camera
 	float rotation_ = 0.0f;
 	float zoom_    = 1.0f;
 
-	float fov_ = 0.5f; // radian
+	float fov_ = 0.0f; // radian
 public:
 	Camera() = default;
 	Camera(vector2 camera_center, vector2 camera_up);

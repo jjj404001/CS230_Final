@@ -68,12 +68,11 @@ public:
 	bool Destroy_Old_Context();
 	bool Create_Context(HINSTANCE hInstance, Attributes input_attrib, OpenGL_window& fake, int nCmdShow);
 
-	void TurnOnMonitorVerticalSynchronization(bool enable) const;
-	bool IsMonitorVerticalSynchronizationOn() const;
 
 
 	MSG& GetGLMessage();
 	HDC* GetDeviceContext();
+	HGLRC* GetRenderingContext() { return &rendering_context; };
 	HWND& GetHWND() { return hWnd; };
 	void ResizeOpenGLViewport(HWND hWnd);
 	void ResizeCamera(short delta);
