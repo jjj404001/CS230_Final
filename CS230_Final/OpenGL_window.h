@@ -5,6 +5,8 @@
 #include "Edit.h"
 #include <list>
 #include <iostream>
+#include <imgui.h>
+#include <imgui_impl_opengl3.h>
 
 #define CLASS_NAME "JJJ's Final assignment FPS:"
 #define WINDOW_SIZE 1000
