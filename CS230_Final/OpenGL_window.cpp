@@ -50,6 +50,7 @@ bool OpenGL_window::Create_Old_Context(HINSTANCE hInstance)
 	PFD.cColorBits = 32;
 	PFD.cAlphaBits = 8;
 	PFD.cDepthBits = 24;
+	PFD.iLayerType = PFD_MAIN_PLANE;
 
 
 
@@ -122,6 +123,7 @@ bool OpenGL_window::Create_Context(const HINSTANCE hInstance, const Attributes i
 
 	return true;
 }
+
 MSG& OpenGL_window::GetGLMessage()
 {
 	return Message;
@@ -364,9 +366,8 @@ void OpenGL_window::Update()
 {
 	timer.Clock_Start();
 
-	if (fps >= 60 && vsync_on)
-		//Sleep(static_cast<DWORD>(timer.GetDuration().count())); // For lab
-		Sleep(1000.0 - ellapsed_time * 1000); // For home
+	if (fps >= 30 && vsync_on)
+		Sleep(1000.0 - (ellapsed_time * 1000));
 
 	
 
@@ -385,12 +386,11 @@ void OpenGL_window::Update()
 
 	//graphic.SetPolyMode(GL_LINE);
 	glPolygonMode(GL_FRONT_AND_BACK, graphic.GetPolyMode());
-
-
-
 	glClearColor(GREEN);
 	glClear(GL_COLOR_BUFFER_BIT);
-	graphic.Update();
+	graphic.Update(vector2(MousePos.x, MousePos.y));
+	
+
 	SwapBuffers(*GetDeviceContext());
 
 
@@ -399,13 +399,20 @@ void OpenGL_window::Update()
 	ellapsed_time += duration;
 	fps++;
 
+	std::string name = CLASS_NAME + std::to_string(previous_fps);
+	std::string name_additional = " Ellapsed time between frame : " + std::to_string(previous_ellapsed_time);
+
+	std::string mouse_pos_string = "  Mouse Position : (" + std::to_string(MousePos.x) + "," + std::to_string(-MousePos.y) + ")";
+
+	SetWindowText(hWnd, (name + name_additional + mouse_pos_string).c_str());
+	
 	if (ellapsed_time > 1.0)
 	{
-		std::string name = CLASS_NAME + std::to_string(fps);
-		std::string name_additional = " Ellapsed time between frame : " + std::to_string(ellapsed_time);
-		SetWindowText(hWnd, (name + name_additional).c_str());
 		std::cout << "FPS  : " << fps << std::endl;
 		std::cout << "TIME : " << ellapsed_time << std::endl;
+
+		previous_fps = fps;
+		previous_ellapsed_time = ellapsed_time;
 
 		fps = 0;
 		ellapsed_time = 0.0;

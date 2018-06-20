@@ -27,7 +27,11 @@ void Graphics::Initialize()
 	instruction += "PRESS C TO CHANGE TRANSFORM MODE.(CAMERA AND OBJ.).\n";
 	instruction += "PRESS SPACE TO SELECT NEXT OBJECT.\n";
 	instruction += "PRESS G TO TRANSLATE, R TO ROTATE, S TO SCALE.\n";
+	instruction += "PRESS v TO turn .\n";
 	instruction += "MOUSE WHEEL TO ZOOM IN AND ZOOM OUT.\n";
+
+
+
 
 	Text text;
 	text.Initialize(true, instruction.c_str(), font, Color(0, 0, 0, 0), camera);
@@ -67,7 +71,7 @@ void Graphics::Initialize()
 }
 
 
-void Graphics::Update()
+void Graphics::Update(vector2 mousePos_input)
 {
 	Objects_update();
 	Texts_update();
@@ -78,32 +82,6 @@ void Graphics::Objects_update()
 	for (auto current_object : objects_list)
 	{
 		current_object.Update(camera);
-		if (current_object.texture_.GetTextureData() != NULL)
-			glBindTexture(GL_TEXTURE_2D, current_object.texture_.GetTextureData());
-		glUseProgram(current_object.shader);
-
-
-		const auto uniView = glGetUniformLocation(current_object.shader, "view");
-		const auto uniProjection = glGetUniformLocation(current_object.shader, "proj");
-		
-
-		matrix4 proj;
-		matrix4 view;
-
-
-
-
-
-
-		//proj = matrix4::Build_translation(vector3( camera.center_.x / 100, camera.center_.y / 100, 0.0f)) * matrix4::Build_rotation(current_object.transform_.rotation_) * matrix4::Build_scale(current_object.transform_.scale_);
-		proj = matrix4::Build_identity();
-		glUniformMatrix4fv(uniProjection, 1, GL_FALSE, &proj.value[0][0]);
-		view = matrix4::Build_rotation(camera.rotation_) * matrix4::Build_scale(vector2(camera.zoom_ / camera.right_.x, camera.zoom_ / camera.up_.y));
-		glUniformMatrix4fv(uniView, 1, GL_FALSE, &view.value[0][0]);
-
-
-		glBindVertexArray(current_object.mesh_.Get_VAO());
-		glDrawArrays(current_object.mesh_.Get_Primitive(), FIXED_INDEX, current_object.mesh_.Get_Num_of_vert());
 	}
 }
 
@@ -116,28 +94,6 @@ void Graphics::Texts_update()
 		for (auto current_object : current_text.text_objects_)
 		{
 			current_object.Update(camera);
-			if (current_object.texture_.GetTextureData() != NULL)
-				glBindTexture(GL_TEXTURE_2D, current_object.texture_.GetTextureData());
-			glUseProgram(current_object.shader);
-
-			const auto uniView = glGetUniformLocation(current_object.shader, "view");
-			const auto uniProjection = glGetUniformLocation(current_object.shader, "proj");
-
-
-			matrix4 proj;
-			matrix4 view;
-
-
-
-			//proj = matrix4::Build_translation(vector3( camera.center_.x / 100, camera.center_.y / 100, 0.0f)) * matrix4::Build_rotation(current_object.transform_.rotation_) * matrix4::Build_scale(current_object.transform_.scale_);
-			proj = matrix4::Build_identity();
-			glUniformMatrix4fv(uniProjection, 1, GL_FALSE, &proj.value[0][0]);
-			view = matrix4::Build_rotation(camera.rotation_) * matrix4::Build_scale(vector2(camera.zoom_ / camera.right_.x, camera.zoom_ / camera.up_.y));
-			glUniformMatrix4fv(uniView, 1, GL_FALSE, &view.value[0][0]);
-
-
-			glBindVertexArray(current_object.mesh_.Get_VAO());
-			glDrawArrays(current_object.mesh_.Get_Primitive(), FIXED_INDEX, current_object.mesh_.Get_Num_of_vert());
 		}
 	}
 }
@@ -171,6 +127,11 @@ void Graphics::AddObject(Object input_object, unsigned int input_shader)
 	objects_list.emplace_back(input_object);
 	objects_list.back().mesh_.Set_Index(current_index_of_mesh);
 	current_index_of_mesh += objects_list.back().mesh_.Get_Num_of_vert();
+}
+
+void Graphics::AddCursor(unsigned input_shader)
+{
+	cursor.shader = input_shader;
 }
 
 void Graphics::MoveEverything()

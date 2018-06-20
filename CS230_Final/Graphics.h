@@ -12,6 +12,8 @@ class Graphics
 	Font font;
 	Camera camera;
 
+	Object cursor;
+
 	unsigned int vertex_shader;
 	const char*  vertex_shader_source;
 
@@ -36,7 +38,7 @@ public:
 
 
 	void Initialize();
-	void Update();
+	void Update(vector2 mousePos);
 
 	void Objects_update();
 	void Texts_update();
@@ -52,6 +54,7 @@ public:
 
 
 	void AddObject(Object input_object, unsigned int input_shader);
+	void AddCursor(unsigned int input_shader);
 
 	void SetUpShader(unsigned int& shader_program, const char* input_vertext_source, const char*  input_fragment_source);
 

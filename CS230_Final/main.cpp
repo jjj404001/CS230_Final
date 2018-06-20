@@ -51,6 +51,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 
 	
 	main_opengl.GetGraphicHandle().Initialize();
+	if (main_opengl.GetRenderingContext() != nullptr)
+		wglSwapIntervalEXT(0); 
 	while (!main_opengl.quit)
 	{
 		main_opengl.Update();

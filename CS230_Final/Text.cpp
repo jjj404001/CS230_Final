@@ -10,14 +10,16 @@ void Text::SetScale(vector2 size)
 	}
 }
 
-void Text::Initialize(bool is_HUD, std::string input_string, Font& input_font, Color input_color, Camera input_rect)
+void Text::Initialize(bool is_HUD, std::string input_string, Font& input_font, Color input_color, Camera input_rect, vector2 translation)
 {
+	text_objects_.clear();
+
 	font_info_ = &input_font;
 	string_ = input_string;
 
 	const auto line_height = font_info_->GetInfos().common_.lineHeight_;
 	// Starting point is upper left of window.
-	vector2 starting_point = { -(input_rect.GetRight().x), (input_rect.GetUp().y - line_height) };
+	vector2 starting_point = { -(input_rect.GetRight().x) + translation.x, (input_rect.GetUp().y - line_height) + translation.y };
 
 	for(auto current_char : input_string)
 	{
@@ -93,6 +95,11 @@ void Text::Update(Camera input_rect)
 
 
 void Text::SetText(std::string input_string)
+{
+	text_objects_.clear();
+}
+
+void Text::Free()
 {
 	text_objects_.clear();
 }

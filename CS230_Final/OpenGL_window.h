@@ -33,6 +33,10 @@ class OpenGL_window
 
 	unsigned int fps = 0;
 	double ellapsed_time = 0.0;
+
+	unsigned int previous_fps = 0;
+	double previous_ellapsed_time = 0.0;
+
 	bool vsync_on = true;
 	bool camera_mode = false;
 
@@ -67,8 +71,10 @@ public:
 	bool Create_Context(HINSTANCE hInstance, Attributes input_attrib, OpenGL_window& fake, int nCmdShow);
 
 
+
 	MSG& GetGLMessage();
 	HDC* GetDeviceContext();
+	HGLRC* GetRenderingContext() { return &rendering_context; };
 	HWND& GetHWND() { return hWnd; };
 	void ResizeOpenGLViewport(HWND hWnd);
 	void ResizeCamera(short delta);
