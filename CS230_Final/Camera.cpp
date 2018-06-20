@@ -28,7 +28,10 @@ void Camera::MoveCamera(vector2 input_vector)
 
 void Camera::RotateCamera(vector2 input_vector)
 {
-	rotation_ += +ROTATION_FACTOR;
+	if(input_vector.x > 0)
+		rotation_ += ROTATION_FACTOR;
+	else
+		rotation_ -= ROTATION_FACTOR;
 }
 
 

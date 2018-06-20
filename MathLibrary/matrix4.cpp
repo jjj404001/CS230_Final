@@ -74,12 +74,7 @@ matrix4& matrix4::operator*=(matrix4 input_matrix)
 
 matrix4 matrix4::Build_translation(vector3 input)
 {
-	matrix4 result = { 0.0f, };
-
-	result.value[0][0] = 1.0f;
-	result.value[1][1] = 1.0f;
-	result.value[2][2] = 1.0f;
-	result.value[3][3] = 1.0f;
+	matrix4 result = matrix4::Build_identity();
 
 	result.value[0][3] = input.x;
 	result.value[1][3] = input.y;
@@ -143,7 +138,7 @@ matrix4 matrix4::Build_scale(vector2 input_factor)
 
 	result.value[0][0] = input_factor.x;
 	result.value[1][1] = input_factor.y;
-	result.value[2][2] = 0.0f;
+	result.value[2][2] = 1.0f;
 	result.value[3][3] = 1.0f;
 
 	return result;
