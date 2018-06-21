@@ -9,11 +9,10 @@ class Camera
 	friend class Object;
 
 	vector2 center_{ 0, 0 };
-	vector2 up_{ 0, 1 };
-	vector2 right_{ 1, 0 };
+	vector2 up_{ 0 , 1 };
+	vector2 right_{ 1 , 0 };
 
-	float zNear =  1.0f;
-	float zFar  = -1.0f;
+
 
 	float rotation_ = 0.0f;
 	float zoom_    = 1.0f;
@@ -25,7 +24,6 @@ public:
 
 	vector2 GetCenter() const { return center_; }
 	void SetCenter(vector2 camera_center) { center_ = camera_center; };
-	void SetSize(long input_right, long input_bottom);
 	void ResizeCamera(short mouse_delta);
 	void MoveCamera(vector2 input_vector);
 	void RotateCamera(vector2 input_vector);
@@ -33,8 +31,7 @@ public:
 	vector2 GetRight() const { return right_; }
 	float GetZoom() const { return zoom_; }
 	float GetRotation() const { return rotation_; }
-	float GetNear() const { return zNear; }
-	float GetFar() const { return zFar; }
+
 
 	void ResetUp(vector2 camera_up = { 0, 1 });
 

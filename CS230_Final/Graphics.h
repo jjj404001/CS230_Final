@@ -28,7 +28,7 @@ class Graphics
 	std::vector<Text> text_list;
 	unsigned int current_index_of_mesh = 0;
 
-	//RECT rect_;
+	RECT rect_;
 public:
 	unsigned int shader_program_POS_BLACK;
 	unsigned int shader_program_POS_RED;
@@ -45,7 +45,8 @@ public:
 
 	void TakeScreenShot();
 
-	//void SetRect(RECT input_rect) { rect_ = input_rect; }
+	void SetRect(RECT input_rect) { rect_ = input_rect; }
+	RECT& GetRect() { return rect_; }
 
 	unsigned int GetPolyMode() { return polygon_mod; }
 	void SetPolyMode(unsigned int input) { polygon_mod = input; }

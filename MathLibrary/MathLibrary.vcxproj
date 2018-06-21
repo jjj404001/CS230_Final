@@ -118,6 +118,7 @@
     <ClCompile Include="affine2d.cpp" />
     <ClCompile Include="matrix2.cpp" />
     <ClCompile Include="matrix4.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="vector2.cpp" />
     <ClCompile Include="vector3.cpp" />
     <ClCompile Include="vector4.cpp" />

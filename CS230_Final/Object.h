@@ -14,7 +14,7 @@ public:
 	bool is_HUD = false;
 
 
-	void Update(Camera input_rect);
+	void Update(RECT input_rect, Camera input_camera);
 
 	Object();
 	Object(Transform input_transform, Mesh input_mesh);

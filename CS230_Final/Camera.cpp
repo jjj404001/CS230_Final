@@ -3,11 +3,6 @@
 #define TRANSLATION_FACTOR 10.0f
 #define SCALE_FACTOR 1.0f
 #define ROTATION_FACTOR 3.14159265f *2.0f / 20.0f
-void Camera::SetSize(long input_right, long input_bottom)
-{
-	right_.x = static_cast<float>(input_right);
-	up_.y    = static_cast<float>(input_bottom);
-}
 
 void Camera::ResizeCamera(short mouse_delta)
 {
@@ -32,6 +27,35 @@ void Camera::RotateCamera(vector2 input_vector)
 		rotation_ += ROTATION_FACTOR;
 	else
 		rotation_ -= ROTATION_FACTOR;
+}
+
+affine2d Camera::CameraToWorld() const
+{
+	const affine2d TranslationAndRotation = { right_.x,  right_.y, 0.0f,
+										up_.x,     up_.y, 0.0f,
+										center_.x, center_.y, 1.0f };
+
+	return TranslationAndRotation;
+}
+
+affine2d Camera::WorldToCamera() const
+{
+	affine2d CameraToWorldMatrix = CameraToWorld();
+
+	// Build camera to world matrix's inverse matrix.
+
+	affine2d translationInverse = { 1.0f,      0.0f, 0.0f,
+									0.0f,      1.0f, 0.0f,
+									-CameraToWorldMatrix(2,0), -CameraToWorldMatrix(2,1), 1.0f };
+
+
+
+	affine2d rotationInverse = { CameraToWorldMatrix(0,0), CameraToWorldMatrix(0,1), 0.0f,
+								CameraToWorldMatrix(1,0), CameraToWorldMatrix(1,1), 0.0f,
+								0.0f, 0.0f, 1.0f };
+
+
+	return rotationInverse * translationInverse;
 }
 
 

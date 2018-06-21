@@ -5,42 +5,8 @@
 #define STANDARD 1000.0f
 #define PI 3.14159265f 
 // TODO : after check, implement with ndc.
-void Object::Update(Camera input_rect)
+void Object::Update(RECT input_rect, Camera input_camera)
 {
-	//// Loop through every vertecies.
-	//{
-	//	auto current_vertex = mesh_.vertices.begin();
-	//	while (current_vertex != mesh_.vertices.end())
-	//	{
-	//		const auto x_comp = current_vertex;
-	//		const auto y_comp = (current_vertex + 1);
-	//		const auto z_comp = (current_vertex + 2);
-
-
-
-
-
-	//		//// Using scale
-	//		//*x_comp *= transform_.scale_.x;
-	//		//*y_comp *= transform_.scale_.y;
-	//		//const auto original_x = *x_comp;
-	//		//// Using rotation
-	//		//*x_comp = (original_x *  cosf(transform_.rotation_)) + (*y_comp * sinf(transform_.rotation_));
-	//		//*y_comp = (original_x * -sinf(transform_.rotation_)) + (*y_comp * cosf(transform_.rotation_));
-	//		//// Finally, using translation.
-	//		//*x_comp += transform_.translation_.x + input_rect.GetCenter().x;
-	//		//*y_comp += transform_.translation_.y + input_rect.GetCenter().y;
-
-
-	//		// Move to next vertext position's x.
-	//		current_vertex += Mesh::number_of_element_per_stride;
-	//	}
-	//}
-
-
-
-
-
 	mesh_.Update_VAO_VBO();
 
 
@@ -48,49 +14,49 @@ void Object::Update(Camera input_rect)
 		glBindTexture(GL_TEXTURE_2D, texture_.GetTextureData());
 	glUseProgram(shader);
 
+	const auto proj = affine2d::build_affine_scale(input_camera.zoom_ * 2 / input_rect.right, input_camera.zoom_ * 2 / input_rect.bottom);
+	auto view = affine2d::build_affine_identity();
+	auto world = affine2d::build_affine_identity();
+
+	
+
+	
+	// rotation.
+	view.affine_map[0][0] = input_camera.right_.x;
+	view.affine_map[0][1] = input_camera.right_.y;
+	view.affine_map[1][0] = input_camera.up_.x;
+	view.affine_map[1][1] = input_camera.up_.y;
+	// translation to opposite direction, to make it to 0.
+	view.affine_map[0][2] = input_camera.right_ * -input_camera.center_;
+	view.affine_map[1][2] = input_camera.up_    * -input_camera.center_;
+
+	view *= affine2d::build_affine_rotation(input_camera.rotation_);
+
+
+	
+
+	auto T = affine2d::build_affine_translation(transform_.translation_.x, transform_.translation_.y);
+	auto R = affine2d::build_affine_rotation(-transform_.rotation_);
+	auto S = affine2d::build_affine_scale(transform_.scale_.x, transform_.scale_.y);
+
+	// WIP
+	if (is_HUD)
+	{
+		T = affine2d::build_affine_translation(transform_.translation_.x - input_camera.center_.x, input_camera.center_.y);
+		R *= affine2d::build_affine_rotation(-transform_.rotation_ -input_camera.rotation_);
+		S *= affine2d::build_affine_scale(1/input_camera.zoom_); // 1 / zoom to convert to original scale.
+	}
+	// Use this order because we transpose.
+	world =  T *  R * S ;
+
+	
+
+
 
 	const auto uniCombined = glGetUniformLocation(shader, "combined");
-	const auto uniTranslate = glGetUniformLocation(shader, "translate");
+	const auto combined = (proj * view * world).transpose();
 
-
-	matrix4 proj = matrix4::Build_scale(vector2(1 / (input_rect.right_.x * input_rect.zoom_ / 2), 1 / (input_rect.up_.y * input_rect.zoom_ / 2)))
-				 * matrix4::Build_rotation(input_rect.rotation_);
-	matrix4 view_t = matrix4::Build_identity();
-	matrix4 view_r = matrix4::Build_identity();
-	matrix4 view   = matrix4::Build_identity();
-	matrix4 world;
-
-
-
-	view_t.value[0][3] = -input_rect.center_.x;
-	view_t.value[1][3] = -input_rect.center_.y;
-
-	view_r.value[0][0] = input_rect.right_.x / 2;//ux
-	view_r.value[0][1] = input_rect.right_.y / 2;//uy
-	view_r.value[1][0] = input_rect.up_.x / 2;//vx
-	view_r.value[1][1] = input_rect.up_.y / 2;//vy
-
-
-
-	view = view_r * view_t;
-
-	const auto S = vector2(transform_.scale_.x / (input_rect.right_.x * input_rect.zoom_ / 2), transform_.scale_.y / (input_rect.up_.y * input_rect.zoom_ / 2));
-	const auto R = transform_.rotation_ + input_rect.rotation_;
-	const auto T = vector3(-transform_.translation_.x / (input_rect.right_.x * input_rect.zoom_), -transform_.translation_.y / (input_rect.up_.y * input_rect.zoom_), 0.0f);
-
-
-	world = matrix4::Build_scale(S) * matrix4::Build_rotation(R) *matrix4::Build_translation(T);
-
-
-
-
-	const auto combined = proj * view * world;
-
-	glUniformMatrix4fv(uniCombined, 1, GL_FALSE, &combined.value[0][0]);
-	// proj * view * world * point
-	//glUniformMatrix4fv(worldoc, 1, )
-	//auto combined = proj * view * world;
-	// combined * point
+	glUniformMatrix3fv(uniCombined, 1, GL_FALSE, &combined.affine_map[0][0]);
 
 
 	glBindVertexArray(mesh_.Get_VAO());

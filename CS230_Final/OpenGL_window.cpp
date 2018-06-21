@@ -143,19 +143,10 @@ void OpenGL_window::ResizeOpenGLViewport(HWND hwnd)
 	// Extend
 	GetClientRect(hWnd, &rRect);
 
-	graphic.camera.SetSize(rRect.right, rRect.bottom);
-	const auto right  = graphic.camera.GetRight().x;
-	const auto bottom = graphic.camera.GetUp().y;
-	const auto left  = 0;
-	const auto up    = 0;
-	const auto center = graphic.camera.GetCenter();
-	const auto z_near = graphic.camera.GetNear();
-	const auto z_far  = graphic.camera.GetFar();
-	glViewport(-1, -1, static_cast<GLsizei>(right), static_cast<GLsizei>(bottom)); // Set viewport
-	glOrtho(left, right, bottom, up, z_near, z_far);
+	graphic.SetRect(rRect);
+	glViewport(-1, -1, rRect.right, rRect.bottom); // Set viewport
+	glOrtho(0, 0, rRect.right, rRect.top, 1, -1);
 	glMatrixMode(GL_PROJECTION);
-	// Set rect for ndc.
-	//graphic.SetRect(rRect);
 }
 
 void OpenGL_window::ResizeCamera(short delta)
@@ -366,8 +357,10 @@ void OpenGL_window::Update()
 {
 	timer.Clock_Start();
 
-	if (fps >= 30 && vsync_on)
-		Sleep(1000.0 - (ellapsed_time * 1000));
+	if (vsync_on)
+		wglSwapIntervalEXT(1);
+	else
+		wglSwapIntervalEXT(0);
 
 	
 
