@@ -77,7 +77,7 @@ void Text::Initialize(bool is_HUD, std::string input_string, Font& input_font, C
 
 }
 
-void Text::Update(Camera input_rect)
+void Text::Update(RECT input_rect, Camera input_camera)
 {
 	// If there is no text, do not update
 	if (text_objects_.empty())
@@ -88,7 +88,7 @@ void Text::Update(Camera input_rect)
 
 	for (auto current_char : text_objects_)
 	{
-		current_char.Update(input_rect);
+		current_char.Update(input_rect, input_camera);
 	}
 }
 

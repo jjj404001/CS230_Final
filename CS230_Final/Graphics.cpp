@@ -81,7 +81,7 @@ void Graphics::Objects_update()
 {
 	for (auto current_object : objects_list)
 	{
-		current_object.Update(camera);
+		current_object.Update(rect_, camera);
 	}
 }
 
@@ -89,11 +89,11 @@ void Graphics::Texts_update()
 {
 	for(auto current_text : text_list)
 	{
-		current_text.Update(camera);
+		current_text.Update(rect_, camera);
 
 		for (auto current_object : current_text.text_objects_)
 		{
-			current_object.Update(camera);
+			current_object.Update(rect_, camera);
 		}
 	}
 }
@@ -106,8 +106,8 @@ void Graphics::TakeScreenShot()
 	glReadBuffer(GL_BACK);
 
 
-	const auto pixel_width = int(camera.right_.x);
-	const auto pixel_height = int(camera.up_.y);
+	const auto pixel_width = rect_.right;
+	const auto pixel_height = rect_.bottom;
 	image.ResizeToPixelWidthHeight(pixel_width, pixel_height);
 	if (glReadnPixels != nullptr)
 		glReadnPixels(0, 0, pixel_width, pixel_height, GL_RGBA, GL_UNSIGNED_BYTE, image.GetPixelsBufferBytesSize(), image.GetPixelsPointer());

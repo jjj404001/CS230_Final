@@ -5,7 +5,7 @@
 #define STANDARD 1000.0f
 #define PI 3.14159265f 
 // TODO : after check, implement with ndc.
-void Object::Update(Camera input_rect)
+void Object::Update(RECT input_rect, Camera input_camera)
 {
 	//// Loop through every vertecies.
 	//{
@@ -28,8 +28,8 @@ void Object::Update(Camera input_rect)
 	//		//*x_comp = (original_x *  cosf(transform_.rotation_)) + (*y_comp * sinf(transform_.rotation_));
 	//		//*y_comp = (original_x * -sinf(transform_.rotation_)) + (*y_comp * cosf(transform_.rotation_));
 	//		//// Finally, using translation.
-	//		//*x_comp += transform_.translation_.x + input_rect.GetCenter().x;
-	//		//*y_comp += transform_.translation_.y + input_rect.GetCenter().y;
+	//		//*x_comp += transform_.translation_.x + input_camera.GetCenter().x;
+	//		//*y_comp += transform_.translation_.y + input_camera.GetCenter().y;
 
 
 	//		// Move to next vertext position's x.
@@ -50,43 +50,35 @@ void Object::Update(Camera input_rect)
 
 
 	const auto uniCombined = glGetUniformLocation(shader, "combined");
-	const auto uniTranslate = glGetUniformLocation(shader, "translate");
 
+	const auto proj = build_affine_scale(input_camera.zoom_ / input_rect.right, input_camera.zoom_ / input_rect.bottom);
+	auto view = build_affine_identity();
+	auto world = build_affine_identity();
 
-	matrix4 proj = matrix4::Build_scale(vector2(1 / (input_rect.right_.x * input_rect.zoom_ / 2), 1 / (input_rect.up_.y * input_rect.zoom_ / 2)))
-				 * matrix4::Build_rotation(input_rect.rotation_);
-	matrix4 view_t = matrix4::Build_identity();
-	matrix4 view_r = matrix4::Build_identity();
-	matrix4 view   = matrix4::Build_identity();
-	matrix4 world;
+	// rotation.
+	view.affine_map[0][0] = input_camera.right_.x;
+	view.affine_map[0][1] = input_camera.right_.y;
+	view.affine_map[1][0] = input_camera.up_.x;
+	view.affine_map[1][1] = input_camera.up_.y;
+	// translation to opposite direction, to make it to 0.
+	view.affine_map[0][2] = input_camera.right_ * input_camera.center_;
+	view.affine_map[1][2] = input_camera.up_    * input_camera.center_;
 
+	affine2d test = build_affine_identity();
 
-
-	view_t.value[0][3] = -input_rect.center_.x;
-	view_t.value[1][3] = -input_rect.center_.y;
-
-	view_r.value[0][0] = input_rect.right_.x / 2;//ux
-	view_r.value[0][1] = input_rect.right_.y / 2;//uy
-	view_r.value[1][0] = input_rect.up_.x / 2;//vx
-	view_r.value[1][1] = input_rect.up_.y / 2;//vy
-
-
-
-	view = view_r * view_t;
-
-	const auto S = vector2(transform_.scale_.x / (input_rect.right_.x * input_rect.zoom_ / 2), transform_.scale_.y / (input_rect.up_.y * input_rect.zoom_ / 2));
-	const auto R = transform_.rotation_ + input_rect.rotation_;
-	const auto T = vector3(-transform_.translation_.x / (input_rect.right_.x * input_rect.zoom_), -transform_.translation_.y / (input_rect.up_.y * input_rect.zoom_), 0.0f);
-
-
-	world = matrix4::Build_scale(S) * matrix4::Build_rotation(R) *matrix4::Build_translation(T);
+	
+	const auto T = build_affine_translation(transform_.translation_.x, transform_.translation_.y);
+	const auto R = build_affine_rotation(-transform_.rotation_);
+	const auto S = build_affine_scale(transform_.scale_.x, transform_.scale_.y);
 
 
 
+	world = S * R * T;
 
 	const auto combined = proj * view * world;
 
-	glUniformMatrix4fv(uniCombined, 1, GL_FALSE, &combined.value[0][0]);
+
+	glUniformMatrix3fv(uniCombined, 1, GL_FALSE, &combined.affine_map[0][0]);
 	// proj * view * world * point
 	//glUniformMatrix4fv(worldoc, 1, )
 	//auto combined = proj * view * world;

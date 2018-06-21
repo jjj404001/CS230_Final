@@ -3,11 +3,6 @@
 #define TRANSLATION_FACTOR 10.0f
 #define SCALE_FACTOR 1.0f
 #define ROTATION_FACTOR 3.14159265f *2.0f / 20.0f
-void Camera::SetSize(long input_right, long input_bottom)
-{
-	right_.x = static_cast<float>(input_right);
-	up_.y    = static_cast<float>(input_bottom);
-}
 
 void Camera::ResizeCamera(short mouse_delta)
 {

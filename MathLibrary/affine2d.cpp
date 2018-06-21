@@ -222,8 +222,8 @@ affine2d build_affine_translation(float xposition, float yposition)
 {
 	affine2d translation = build_affine_identity(); //initialize translatino matrix with identity matrix.
 	
-	translation(2,0) = xposition;
-	translation(2,1) = yposition;
+	translation.affine_map[0][2] = xposition;
+	translation.affine_map[1][2] = yposition;
 	
 	
 	//return builded translation matrix.

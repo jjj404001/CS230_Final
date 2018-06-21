@@ -7,12 +7,12 @@ layout (location = 1) in vec3 attribute_Color;// Attribute at 1 is color.
 
 out vec3 vert_shader_out;
 
-uniform mat4 combined;
+uniform mat3 combined;
 
 
 void main()
 {
-	gl_Position = combined * vec4(attribute_Pos, 1.0);
+	gl_Position = vec4(combined * attribute_Pos, 1.0);
 	vert_shader_out = attribute_Color;
 } 
 )"
@@ -40,11 +40,12 @@ layout (location = 2) in vec2 attribute_Texture;
 out vec3 ourColor;
 out vec2 TexCoord;
 
-uniform mat4 combined;
+uniform mat3 combined;
+
 
 void main()
 {
-	gl_Position = combined * vec4(attribute_Pos, 1.0);
+	gl_Position = vec4(combined * attribute_Pos, 1.0);
     ourColor = attribute_Color;
     TexCoord = attribute_Texture;
 }
