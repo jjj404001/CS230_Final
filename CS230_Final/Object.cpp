@@ -63,7 +63,7 @@ void Object::Update(RECT input_rect, Camera input_camera)
 
 
 
-	auto T = affine2d::build_affine_translation(transform_.translation_.x, transform_.translation_.y);
+	const auto T = affine2d::build_affine_translation(transform_.translation_.x, transform_.translation_.y);
 	const auto R = affine2d::build_affine_rotation(-transform_.rotation_);
 	const auto S = affine2d::build_affine_scale(transform_.scale_.x, transform_.scale_.y);
 
@@ -73,10 +73,7 @@ void Object::Update(RECT input_rect, Camera input_camera)
 
 
 	const auto uniCombined = glGetUniformLocation(shader, "combined");
-	const auto uniTranslation = glGetUniformLocation(shader, "translation");
-
 	const auto combined = proj * view * world;
-	const float translation[3] = { transform_.translation_.x, transform_.translation_.x, 0.0f };
 
 	glUniformMatrix3fv(uniCombined, 1, GL_FALSE, &combined.affine_map[0][0]);
 	// proj * view * world * point
