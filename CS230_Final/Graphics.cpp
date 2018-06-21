@@ -79,7 +79,7 @@ void Graphics::Initialize()
 }
 
 
-void Graphics::Update(vector2 mousePos_input)
+void Graphics::Update(vector2 /*mousePos_input*/)
 {
 	Objects_update();
 	Texts_update();

@@ -102,7 +102,7 @@ RECENT REVISION HISTORY:
     Christian Floisand      Kevin Schmidt                         github:darealshinji
     Blazej Dariusz Roszkowski                                     github:Michaelangel007
 */
-
+#pragma warning(disable: 4100)
 #ifndef STBI_INCLUDE_STB_IMAGE_H
 #define STBI_INCLUDE_STB_IMAGE_H
 

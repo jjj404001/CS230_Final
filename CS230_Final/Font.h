@@ -10,15 +10,15 @@ class Font : public Object
 	friend class Text;
 	struct CharDesc
 	{
-		unsigned int id_ = 32;
-		unsigned int x_ = 84;
-		unsigned int y_ = 38;
-		unsigned int width_ = 3;
-		unsigned int height_ = 1;
-		unsigned int xoffset_ = -1;
-		unsigned int yoffset_ = 31;
-		unsigned int xadvance_ = 8;
-		unsigned int page_ = 0;
+		unsigned int id_;
+		unsigned int x_;
+		unsigned int y_;
+		unsigned int width_;
+		unsigned int height_;
+		unsigned int xoffset_;
+		unsigned int yoffset_;
+		unsigned int xadvance_;
+		unsigned int page_;
 		//unsigned int chnl = 15;
 	};
 
