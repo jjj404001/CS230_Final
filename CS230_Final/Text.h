@@ -8,7 +8,7 @@ class Text
 	vector2 starting_coordinate_ = {0.0f, 0.0f};
 	unsigned int line_count_ = 0;
 	
-
+	bool is_hud = false;
 public:
 	Font * font_info_ = nullptr;
 	std::list<Object> text_objects_;
@@ -20,6 +20,7 @@ public:
 	void Free();
 
 	void SetText(std::string input_string);
+	void SetHUD(bool hud) { is_hud = hud; };
 
 	static void AddCharQuadToMesh(Mesh& mesh, Font* input_font, Font::CharDesc character,
 									vector2 current_position, Color input_color, float line_height);

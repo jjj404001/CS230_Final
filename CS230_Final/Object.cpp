@@ -7,40 +7,6 @@
 // TODO : after check, implement with ndc.
 void Object::Update(RECT input_rect, Camera input_camera)
 {
-	//// Loop through every vertecies.
-	//{
-	//	auto current_vertex = mesh_.vertices.begin();
-	//	while (current_vertex != mesh_.vertices.end())
-	//	{
-	//		const auto x_comp = current_vertex;
-	//		const auto y_comp = (current_vertex + 1);
-	//		const auto z_comp = (current_vertex + 2);
-
-
-
-
-
-	//		//// Using scale
-	//		//*x_comp *= transform_.scale_.x;
-	//		//*y_comp *= transform_.scale_.y;
-	//		//const auto original_x = *x_comp;
-	//		//// Using rotation
-	//		//*x_comp = (original_x *  cosf(transform_.rotation_)) + (*y_comp * sinf(transform_.rotation_));
-	//		//*y_comp = (original_x * -sinf(transform_.rotation_)) + (*y_comp * cosf(transform_.rotation_));
-	//		//// Finally, using translation.
-	//		//*x_comp += transform_.translation_.x + input_camera.GetCenter().x;
-	//		//*y_comp += transform_.translation_.y + input_camera.GetCenter().y;
-
-
-	//		// Move to next vertext position's x.
-	//		current_vertex += Mesh::number_of_element_per_stride;
-	//	}
-	//}
-
-
-
-
-
 	mesh_.Update_VAO_VBO();
 
 
@@ -51,6 +17,8 @@ void Object::Update(RECT input_rect, Camera input_camera)
 	const auto proj = affine2d::build_affine_scale(input_camera.zoom_ * 2 / input_rect.right, input_camera.zoom_ * 2 / input_rect.bottom);
 	auto view = affine2d::build_affine_identity();
 	auto world = affine2d::build_affine_identity();
+
+	
 
 	
 	// rotation.
@@ -65,12 +33,19 @@ void Object::Update(RECT input_rect, Camera input_camera)
 	view *= affine2d::build_affine_rotation(input_camera.rotation_);
 
 
+	
 
-	const auto T = affine2d::build_affine_translation(transform_.translation_.x, transform_.translation_.y);
-	const auto R = affine2d::build_affine_rotation(-transform_.rotation_);
-	const auto S = affine2d::build_affine_scale(transform_.scale_.x, transform_.scale_.y);
+	auto T = affine2d::build_affine_translation(transform_.translation_.x, transform_.translation_.y);
+	auto R = affine2d::build_affine_rotation(-transform_.rotation_);
+	auto S = affine2d::build_affine_scale(transform_.scale_.x, transform_.scale_.y);
 
-
+	// WIP
+	if (is_HUD)
+	{
+		T = affine2d::build_affine_translation(transform_.translation_.x - input_camera.center_.x, input_camera.center_.y);
+		R *= affine2d::build_affine_rotation(-transform_.rotation_ -input_camera.rotation_);
+		S *= affine2d::build_affine_scale(1/input_camera.zoom_); // 1 / zoom to convert to original scale.
+	}
 	// Use this order because we transpose.
 	world =  T *  R * S ;
 
@@ -82,10 +57,6 @@ void Object::Update(RECT input_rect, Camera input_camera)
 	const auto combined = (proj * view * world).transpose();
 
 	glUniformMatrix3fv(uniCombined, 1, GL_FALSE, &combined.affine_map[0][0]);
-	// proj * view * world * point
-	//glUniformMatrix4fv(worldoc, 1, )
-	//auto combined = proj * view * world;
-	// combined * point
 
 
 	glBindVertexArray(mesh_.Get_VAO());

@@ -31,11 +31,17 @@ void Graphics::Initialize()
 	instruction += "PRESS V TO TURN ON AND OFF VSYNC .\n";
 	instruction += "MOUSE WHEEL TO ZOOM IN AND ZOOM OUT.\n";
 	
+	int majorV;
+	glGetIntegerv(GL_MAJOR_VERSION, &majorV);
+	int minorV;
+	glGetIntegerv(GL_MINOR_VERSION, &minorV);
 
+	instruction += "OPENGL VERSION :" +std::to_string(majorV) + "." + std::to_string(minorV) + "\n";
+	instruction += "FRAME AND MOUSE INFORMATION IS ON TITLE BAR.\n";
 
 	
 	Text text;
-	text.Initialize(true, instruction.c_str(), font, Color(0, 0, 0, 0), rect_, vector2(-490, 490));
+	text.Initialize(false, instruction.c_str(), font, Color(0, 0, 0, 0), rect_, vector2(-490, 490));
 	text_list.push_back(text);
 	
 
@@ -186,7 +192,7 @@ void Graphics::RotateSelected(Object* input_object, vector2 translation_input)
 {
 	std::cout << "!!Graphics::RotateSelected" << std::endl;
 	// ONLY WORKS WITH HORIZONTAL ARROW.
-	input_object->transform_.rotation_ += translation_input.x * ROTATION_FACTOR;
+	input_object->transform_.rotation_ -= translation_input.x * ROTATION_FACTOR;
 }
 
 

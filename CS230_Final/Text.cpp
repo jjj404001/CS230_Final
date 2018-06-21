@@ -85,8 +85,6 @@ void Text::Update(RECT input_rect, Camera input_camera)
 	if (text_objects_.empty())
 		return;
 
-	auto starting_point = text_objects_.begin()->transform_;
-	
 
 	for (auto current_char : text_objects_)
 	{
