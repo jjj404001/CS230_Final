@@ -27,7 +27,7 @@ class OpenGL_window
 
 	Timer timer;
 	Graphics graphic;
-
+	ImGuiIO io;
 	EditMode edit_mode_ = Translation;
 	
 
@@ -76,6 +76,7 @@ public:
 	HDC* GetDeviceContext();
 	HGLRC* GetRenderingContext() { return &rendering_context; };
 	HWND& GetHWND() { return hWnd; };
+	ImGuiIO& GetImGuiIO() { return io; }
 	void ResizeOpenGLViewport(HWND hWnd);
 	void ResizeCamera(short delta);
 	void Input_KeyDown(WPARAM wParam, LPARAM lParam);
