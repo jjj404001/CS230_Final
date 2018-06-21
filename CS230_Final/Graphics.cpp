@@ -21,6 +21,7 @@ void Graphics::Initialize()
 	font.Initialize(shader_program_FONT, "Texture/Arial.fnt");
 
 	//TODO: Text.Initialize(), WARNING!! Uppercase only.
+	/*
 	std::string instruction = "PRESS ENTER TO MAXIMIZE SCREEN.\n";
 	instruction += "PRESS P TO TAKE SCREEN SHOT.\n";
 	instruction += "PRESS TAB TO CHANGE RENDER MODE.\n";
@@ -29,14 +30,14 @@ void Graphics::Initialize()
 	instruction += "PRESS G TO TRANSLATE, R TO ROTATE, S TO SCALE.\n";
 	instruction += "PRESS v TO turn .\n";
 	instruction += "MOUSE WHEEL TO ZOOM IN AND ZOOM OUT.\n";
+	*/
 
 
-
-
+	/*
 	Text text;
 	text.Initialize(true, instruction.c_str(), font, Color(0, 0, 0, 0), camera);
 	text_list.push_back(text);
-
+	*/
 
 
 	// TODO: Object.Initialize()
@@ -46,6 +47,7 @@ void Graphics::Initialize()
 	o1.texture_.LoadFromImageFile("Texture/test_texture.png");
 	o1.transform_.translation_.x = -500;
 	o1.transform_.translation_.y =  300;
+	/*
 	Object o2;
 	o2.mesh_ = Mesh::Create_Square(800.0f);
 	o2.texture_.LoadFromImageFile("Texture/test_texture.png");
@@ -61,13 +63,13 @@ void Graphics::Initialize()
 	o4.texture_.LoadFromImageFile("Texture/test_texture.png");
 	o4.transform_.translation_.x = 500;
 	o4.transform_.translation_.y = -500;
-
+	*/
 
 
 	AddObject(o1, shader_program_POS_COLOR);
-	AddObject(o2, shader_program_POS_COLOR);
-	AddObject(o3, shader_program_POS_COLOR);
-	AddObject(o4, shader_program_POS_COLOR);
+	//AddObject(o2, shader_program_POS_COLOR);
+	//AddObject(o3, shader_program_POS_COLOR);
+	//AddObject(o4, shader_program_POS_COLOR);
 }
 
 

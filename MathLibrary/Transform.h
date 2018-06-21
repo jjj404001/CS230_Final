@@ -1,5 +1,6 @@
 #pragma once
 #include "vector2.hpp"
+#include "affine2d.hpp"
 
 class Transform
 {
@@ -18,4 +19,5 @@ public:
 	vector2 GetScale() { return scale_; };
 	vector2 GetTranslation() { return translation_; };
 
+	affine2d GetModelToWorld() const;
 };

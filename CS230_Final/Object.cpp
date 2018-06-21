@@ -48,12 +48,9 @@ void Object::Update(RECT input_rect, Camera input_camera)
 		glBindTexture(GL_TEXTURE_2D, texture_.GetTextureData());
 	glUseProgram(shader);
 
-
-	const auto uniCombined = glGetUniformLocation(shader, "combined");
-
-	const auto proj = build_affine_scale(input_camera.zoom_ / input_rect.right, input_camera.zoom_ / input_rect.bottom);
-	auto view = build_affine_identity();
-	auto world = build_affine_identity();
+	const auto proj = affine2d::build_affine_scale(input_camera.zoom_ / input_rect.right, input_camera.zoom_ / input_rect.bottom);
+	auto view = affine2d::build_affine_identity();
+	auto world = affine2d::build_affine_identity();
 
 	// rotation.
 	view.affine_map[0][0] = input_camera.right_.x;
@@ -64,19 +61,22 @@ void Object::Update(RECT input_rect, Camera input_camera)
 	view.affine_map[0][2] = input_camera.right_ * input_camera.center_;
 	view.affine_map[1][2] = input_camera.up_    * input_camera.center_;
 
-	affine2d test = build_affine_identity();
-
-	
-	const auto T = build_affine_translation(transform_.translation_.x, transform_.translation_.y);
-	const auto R = build_affine_rotation(-transform_.rotation_);
-	const auto S = build_affine_scale(transform_.scale_.x, transform_.scale_.y);
 
 
+	auto T = affine2d::build_affine_translation(transform_.translation_.x, transform_.translation_.y);
+	const auto R = affine2d::build_affine_rotation(-transform_.rotation_);
+	const auto S = affine2d::build_affine_scale(transform_.scale_.x, transform_.scale_.y);
 
-	world = S * R * T;
+
+	world = S * R;// *T;
+
+
+
+	const auto uniCombined = glGetUniformLocation(shader, "combined");
+	const auto uniTranslation = glGetUniformLocation(shader, "translation");
 
 	const auto combined = proj * view * world;
-
+	const float translation[3] = { transform_.translation_.x, transform_.translation_.x, 0.0f };
 
 	glUniformMatrix3fv(uniCombined, 1, GL_FALSE, &combined.affine_map[0][0]);
 	// proj * view * world * point

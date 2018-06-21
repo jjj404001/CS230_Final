@@ -128,7 +128,7 @@ affine2d& affine2d::transpose(void)
 }
 
 
-affine2d build_affine_rotation(float degree)
+affine2d affine2d::build_affine_rotation(float degree)
 {
 	affine2d rotationMatrix;                            //rotation matrix.
 	vector3 u = {std::cos(degree), std::sin(degree), 0}; //u,v,t vectors for easy-building affine matrix.
@@ -143,7 +143,7 @@ affine2d build_affine_rotation(float degree)
 }
 
 
-affine2d build_affine_identity(void)
+affine2d affine2d::build_affine_identity(void)
 {
 	affine2d identity;
 	const int number_of_columns = 3; //number of columns
@@ -169,7 +169,7 @@ affine2d build_affine_identity(void)
 	return identity;
 }
 
-affine2d build_affine_scale(float scale_factor)
+affine2d affine2d::build_affine_scale(float scale_factor)
 {
 	affine2d scale;
 	const int number_of_columns = 3; //number of columns
@@ -201,7 +201,7 @@ affine2d build_affine_scale(float scale_factor)
 	return scale;
 }
 
-affine2d build_affine_scale(float scale_factor1, float scale_factor2)
+affine2d affine2d::build_affine_scale(float scale_factor1, float scale_factor2)
 {
 	affine2d scale;
 
@@ -218,7 +218,7 @@ affine2d build_affine_scale(float scale_factor1, float scale_factor2)
 	return scale;
 }
 
-affine2d build_affine_translation(float xposition, float yposition)
+affine2d affine2d::build_affine_translation(float xposition, float yposition)
 {
 	affine2d translation = build_affine_identity(); //initialize translatino matrix with identity matrix.
 	

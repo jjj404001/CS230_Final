@@ -9,8 +9,8 @@ class Camera
 	friend class Object;
 
 	vector2 center_{ 0, 0 };
-	vector2 up_{ 0 , 1 / sqrtf(2) };
-	vector2 right_{ 1 / sqrtf(2), 0 };
+	vector2 up_{ 0 , 1 };
+	vector2 right_{ 1 , 0 };
 
 
 

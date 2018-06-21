@@ -29,4 +29,33 @@ void Camera::RotateCamera(vector2 input_vector)
 		rotation_ -= ROTATION_FACTOR;
 }
 
+affine2d Camera::CameraToWorld() const
+{
+	const affine2d TranslationAndRotation = { right_.x,  right_.y, 0.0f,
+										up_.x,     up_.y, 0.0f,
+										center_.x, center_.y, 1.0f };
+
+	return TranslationAndRotation;
+}
+
+affine2d Camera::WorldToCamera() const
+{
+	affine2d CameraToWorldMatrix = CameraToWorld();
+
+	// Build camera to world matrix's inverse matrix.
+
+	affine2d translationInverse = { 1.0f,      0.0f, 0.0f,
+									0.0f,      1.0f, 0.0f,
+									-CameraToWorldMatrix(2,0), -CameraToWorldMatrix(2,1), 1.0f };
+
+
+
+	affine2d rotationInverse = { CameraToWorldMatrix(0,0), CameraToWorldMatrix(0,1), 0.0f,
+								CameraToWorldMatrix(1,0), CameraToWorldMatrix(1,1), 0.0f,
+								0.0f, 0.0f, 1.0f };
+
+
+	return rotationInverse * translationInverse;
+}
+
 

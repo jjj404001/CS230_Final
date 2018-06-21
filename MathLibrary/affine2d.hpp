@@ -60,14 +60,19 @@ struct affine2d
     affine2d& operator*=(affine2d input_affine);    //*= operator overloading for multyplying affine matrix with affine matrix.
 	
 	affine2d& transpose(void); // transpose given affine matrix.
+
+
+
+
+	static affine2d build_affine_rotation(float degree);                       // build rotation affine matrix with given degree.
+	static affine2d build_affine_identity(void);                               // build identity matrix.
+	static affine2d build_affine_scale(float scale_factor);                     // build uniform affine sacle matrix.
+	static affine2d build_affine_scale(float scale_factor1, float scale_factor2);// build non uniform affine sacle matrix.
+	static affine2d build_affine_translation(float xposition, float yposition);// build translation affine matrix with given number.
 };
 ////////////////////////////////////////////////////
 ////////////////non-member function/////////////////
 ////////////////////////////////////////////////////
 
 
-	affine2d build_affine_rotation(float degree);                       // build rotation affine matrix with given degree.
-	affine2d build_affine_identity(void);                               // build identity matrix.
-	affine2d build_affine_scale(float scale_factor);                     // build uniform affine sacle matrix.
-	affine2d build_affine_scale(float scale_factor1, float scale_factor2);// build non uniform affine sacle matrix.
-	affine2d build_affine_translation(float xposition, float yposition);// build translation affine matrix with given number.
+	

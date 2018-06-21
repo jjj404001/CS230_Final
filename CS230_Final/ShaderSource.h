@@ -12,7 +12,8 @@ uniform mat3 combined;
 
 void main()
 {
-	gl_Position = vec4(combined * attribute_Pos, 1.0);
+	vec3 result = combined * attribute_Pos;
+	gl_Position = vec4( result , 1.0);
 	vert_shader_out = attribute_Color;
 } 
 )"
@@ -41,11 +42,12 @@ out vec3 ourColor;
 out vec2 TexCoord;
 
 uniform mat3 combined;
-
+uniform vec3 translation;
 
 void main()
 {
-	gl_Position = vec4(combined * attribute_Pos, 1.0);
+	vec3 result = combined * attribute_Pos;
+	gl_Position = vec4( result + translation, 1.0);
     ourColor = attribute_Color;
     TexCoord = attribute_Texture;
 }

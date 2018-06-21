@@ -357,7 +357,7 @@ void OpenGL_window::Update()
 {
 	timer.Clock_Start();
 
-	if (fps >= 30 && vsync_on)
+	if (fps >= 60 && vsync_on)
 		Sleep(static_cast<DWORD>(1000.0 - (ellapsed_time * 1000)));
 
 	
