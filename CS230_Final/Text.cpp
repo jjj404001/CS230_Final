@@ -10,7 +10,7 @@ void Text::SetScale(vector2 size)
 	}
 }
 
-void Text::Initialize(bool is_HUD, std::string input_string, Font& input_font, Color input_color, Camera input_rect, vector2 translation)
+void Text::Initialize(bool is_HUD, std::string input_string, Font& input_font, Color input_color, RECT input_rect, vector2 translation)
 {
 	text_objects_.clear();
 
@@ -19,7 +19,7 @@ void Text::Initialize(bool is_HUD, std::string input_string, Font& input_font, C
 
 	const auto line_height = font_info_->GetInfos().common_.lineHeight_;
 	// Starting point is upper left of window.
-	vector2 starting_point = { -(input_rect.GetRight().x) + translation.x, (input_rect.GetUp().y - line_height) + translation.y };
+	vector2 starting_point = { -(input_rect.right /2) + translation.x, (input_rect.bottom /2 - line_height) + translation.y };
 
 	for(auto current_char : input_string)
 	{
@@ -27,7 +27,7 @@ void Text::Initialize(bool is_HUD, std::string input_string, Font& input_font, C
 		// If current character is new line, go to next line and ignore below.
 		if (current_char == '\n')
 		{
-			starting_point.x = -static_cast<float>(input_rect.GetRight().x);
+			starting_point.x = -static_cast<float>(input_rect.right / 2) + translation.x;
 			starting_point.y -= line_height;
 			
 
@@ -55,7 +55,7 @@ void Text::Initialize(bool is_HUD, std::string input_string, Font& input_font, C
 		auto current_char_desc = font_info_->GetCharDesc().at(current_char);
 		// Quad's size is current character's size with in font.
 		const vector2 quad_size = { static_cast<float>(current_char_desc.width_ )
-													,static_cast<float>(current_char_desc.height_ ) };
+									,static_cast<float>(current_char_desc.height_ ) };
 
 		Mesh mesh;
 		// If character pass all test above, add char quad to mesh.
@@ -69,6 +69,8 @@ void Text::Initialize(bool is_HUD, std::string input_string, Font& input_font, C
 		builded_object.texture_ = texture;
 		builded_object.shader = font_info_->shader_;
 		builded_object.is_HUD = is_HUD;
+		// Hard code this to map text's starting point to top left.
+		builded_object.transform_.SetScale(0.5);
 		text_objects_.push_back(builded_object);
 
 		// Recalculate starting point for next character.

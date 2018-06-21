@@ -203,7 +203,7 @@ affine2d affine2d::build_affine_scale(float scale_factor)
 
 affine2d affine2d::build_affine_scale(float scale_factor1, float scale_factor2)
 {
-	affine2d scale;
+	affine2d scale = build_affine_identity();
 
 	
 	

@@ -12,8 +12,8 @@ uniform mat3 combined;
 
 void main()
 {
-	vec3 result = combined * attribute_Pos;
-	gl_Position = vec4( result , 1.0);
+	vec3 position = combined * vec3(attribute_Pos.xy, 1.0f);
+    gl_Position = vec4(position.xy, 0.0, 1.0);
 	vert_shader_out = attribute_Color;
 } 
 )"
@@ -42,12 +42,12 @@ out vec3 ourColor;
 out vec2 TexCoord;
 
 uniform mat3 combined;
-uniform vec3 translation;
+
 
 void main()
 {
-	vec3 result = combined * attribute_Pos;
-	gl_Position = vec4( result + translation, 1.0);
+	vec3 position = combined * vec3(attribute_Pos.xy, 1.0f);
+    gl_Position = vec4(position.xy, 0.0, 1.0);
     ourColor = attribute_Color;
     TexCoord = attribute_Texture;
 }
@@ -88,19 +88,21 @@ void main()
 
 #define VERT_SOURCE_COLOR_POS_FONT R"(
 #version 330 core
-layout (location = 0) in vec3 BufferPos;
+layout (location = 0) in vec3 attribute_Pos;
 layout (location = 1) in vec3 BufferColor;
 layout (location = 2) in vec2 BufferTexCord;
 
 out vec3 Color;
 out vec2 TexCord;
 
-uniform mat4 view;
-uniform mat4 proj;
+
+uniform mat3 combined;
+
 
 void main()
 {
-    	gl_Position = proj * view * vec4(BufferPos, 1.0);
+   vec3 position = combined * vec3(attribute_Pos.xy, 1.0f);
+    gl_Position = vec4(position.xy, 0.0, 1.0);
     Color = BufferColor;
     TexCord = BufferTexCord;
 }

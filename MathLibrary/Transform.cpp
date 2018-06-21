@@ -9,17 +9,17 @@ affine2d Transform::GetModelToWorld() const
 	affine2d model_scale = affine2d::build_affine_scale(scale_.x, scale_.y);
 
 
+
 	// Model to world matrix.
 	affine2d model_matrix = model_translate * model_rotation * model_scale;
 
 
-	// Return value
-	affine2d result = model_matrix;
 
 
 
 
 
 
-	return result;
+
+	return model_matrix;
 }
