@@ -133,7 +133,7 @@ HDC* OpenGL_window::GetDeviceContext()
 	return &device_context;
 }
 
-void OpenGL_window::ResizeOpenGLViewport(HWND hwnd)
+void OpenGL_window::ResizeOpenGLViewport(HWND /*hwnd*/)
 {
 	if (hWnd == nullptr)
 		return;
