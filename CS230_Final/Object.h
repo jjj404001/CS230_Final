@@ -6,6 +6,7 @@
 class Camera;
 class Object
 {
+	friend class OpenGL_window;
 public:
 	Transform transform_;
 	Mesh mesh_;

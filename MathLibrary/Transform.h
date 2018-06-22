@@ -14,9 +14,11 @@ class Transform
 public:
 	void SetTranslation(vector2 input) { translation_ = input; };
 	void SetRotation(float input) { rotation_ = input; };
+	
 	void SetScale(vector2 input) { scale_ = input; };
 
 	vector2 GetScale() { return scale_; };
+	float GetRotation() { return rotation_; };
 	vector2 GetTranslation() { return translation_; };
 
 	affine2d GetModelToWorld() const;

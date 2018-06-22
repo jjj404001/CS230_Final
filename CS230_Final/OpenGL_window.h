@@ -46,6 +46,10 @@ class OpenGL_window
 	int PFDID = NULL;
 	int PixelFormat = NULL;
 
+	bool show_demo_window = true;
+	bool show_another_window = false;
+	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
 	void Check_and_Set_Fullscreen();
 	void SetGui();
 
@@ -67,6 +71,7 @@ public:
 
 
 	void Update();
+	void UpdateGui();
 
 	void Register_OpenGL_Class(HINSTANCE hInstance, bool is_fake);
 	bool Create_Old_Context(HINSTANCE hInstance);
