@@ -13,12 +13,30 @@ namespace Math
 
 void Mesh::ChangeColor(Color input_color)
 {
-	color_ = input_color;
+	auto current_vertex = vertices.begin();
+	auto next_vertex = vertices.begin() + Mesh::number_of_element_per_stride;
+	while (next_vertex != vertices.end())
+	{
+		const auto x_comp_current = current_vertex + 3;
+		const auto y_comp_current = (current_vertex + 4);
+		const auto z_comp_current = (current_vertex + 5);
+
+		const auto x_comp_next = next_vertex;
+		const auto y_comp_next = (next_vertex + 1);
+		const auto z_comp_next = (next_vertex + 2);
+
+		const auto result = (vector2(*x_comp_next - *x_comp_current, *y_comp_next - *y_comp_current));
+
+		// x cos - y sin, x sin + y cos ? dont need
+		edge_dir.push_back(result);
+
+		current_vertex += Mesh::number_of_element_per_stride;
+		next_vertex += Mesh::number_of_element_per_stride;
+	}
 }
 
 void Mesh::Emplemplace_back_whole_attrib(const float size, const vector3 input_Positon, const Color input_Color)
 {
-	color_ = input_Color;
 	// Position
 	vertices.emplace_back(input_Positon.x);
 	vertices.emplace_back(input_Positon.y);
@@ -41,7 +59,6 @@ void Mesh::Emplemplace_back_whole_attrib(const float size, const vector3 input_P
 
 void Mesh::Emplemplace_back_whole_attrib(const vector2 size, const vector3 input_Positon, const Color input_Color)
 {
-	color_ = input_Color;
 	// Position
 	vertices.emplace_back(input_Positon.x);
 	vertices.emplace_back(input_Positon.y);
@@ -64,7 +81,6 @@ void Mesh::Emplemplace_back_whole_attrib(const vector2 size, const vector3 input
 
 void Mesh::Emplemplace_back_whole_attrib(const vector3 input_Positon, const Color input_Color, const vector3 input_uv)
 {
-	color_ = input_Color;
 	// Position
 	vertices.emplace_back(input_Positon.x);
 	vertices.emplace_back(input_Positon.y);
@@ -88,7 +104,7 @@ void Mesh::Emplemplace_back_whole_attrib(const vector3 input_Positon, const Colo
 void Mesh::Emplemplace_back_whole_attrib_UV(const char input_char, Font* input_font, const vector3 input_Positon, const Color input_Color)
 {
 	vector2 size = vector2(static_cast<float>(input_font->GetCharDesc().at(input_char).width_), static_cast<float>(input_font->GetCharDesc().at(input_char).height_));
-	color_ = input_Color;
+
 
 	// Position
 	vertices.emplace_back(input_Positon.x);

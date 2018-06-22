@@ -12,7 +12,8 @@ class Graphics
 	Font font;
 	Camera camera;
 
-	Object cursor;
+
+
 
 	unsigned int vertex_shader;
 	const char*  vertex_shader_source;

@@ -1,7 +1,7 @@
 #include "Graphics.h"
 #include <iostream>
 #include "stb_image_write.h"
-
+#include "Contact.h"
 #include <matrix4.h>
 
 #define FIXED_INDEX 0
@@ -53,24 +53,28 @@ void Graphics::Initialize()
 	o1.texture_.LoadFromImageFile("Texture/test_texture.png");
 	o1.transform_.translation_.x = -250;
 	o1.transform_.translation_.y =  300;
+	o1.name = "Triangle";
 	
 	Object o2;
 	o2.mesh_ = Mesh::Create_Square(400.0f);
 	o2.texture_.LoadFromImageFile("Texture/test_texture.png");
 	o2.transform_.translation_.x = 250;
 	o2.transform_.translation_.y = 300;
+	o2.name = "Square";
+
 	Object o3;
-	o3.mesh_ = Mesh::Create_Circle(400.0f, 50);
+	o3.mesh_ = Mesh::Create_Circle(400.0f, 5);
 	o3.texture_.LoadFromImageFile("Texture/test_texture.png");
 	o3.transform_.translation_.x = -250;
 	o3.transform_.translation_.y = -300;
+	o3.name = "Circle";
+
 	Object o4;
 	o4.mesh_ = Mesh::Create_Line(400.0f, 0.0f);
 	o4.texture_.LoadFromImageFile("Texture/test_texture.png");
 	o4.transform_.translation_.x = 300;
 	o4.transform_.translation_.y = -250;
-	
-
+	o4.name = "Line";
 
 	AddObject(o1, shader_program_POS_COLOR);
 	AddObject(o2, shader_program_POS_COLOR);
@@ -98,11 +102,6 @@ void Graphics::Texts_update()
 	for(auto current_text : text_list)
 	{
 		current_text.Update(rect_, camera);
-
-		for (auto current_object : current_text.text_objects_)
-		{
-			current_object.Update(rect_, camera);
-		}
 	}
 }
 
@@ -139,7 +138,7 @@ void Graphics::AddObject(Object input_object, unsigned int input_shader)
 
 void Graphics::AddCursor(unsigned input_shader)
 {
-	cursor.shader = input_shader;
+
 }
 
 void Graphics::MoveEverything()

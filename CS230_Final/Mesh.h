@@ -16,7 +16,9 @@ class Mesh
 
 
 	std::vector<float> vertices; // Collection of vertices position and color.
+	std::vector<vector2> edge_dir; // Collection of vertices position and color.
 
+	
 
 	unsigned int number_of_vertex_ = 0;// number of vertecies.
 	unsigned int index_ = 0;      // Index in vao.
@@ -26,7 +28,7 @@ class Mesh
 	GLuint VBO; // ....Waste or not? GLuint or unsigned int?
 	GLuint VAO; // ....Waste or not? GLuint or unsigned int?
 	 
-
+	
 	void Emplemplace_back_whole_attrib(const float size, const vector3 input_Positon, const Color input_Color);
 	void Emplemplace_back_whole_attrib(const vector2 size, const vector3 input_Positon, const Color input_Color);
 	void Emplemplace_back_whole_attrib(const vector3 input_Positon, const Color input_Color, const vector3 input_uv);
@@ -46,8 +48,8 @@ public:
 	void Initialize_VAO_VBO();
 	void Update_VAO_VBO();
 
-
-
+	void ChangeColor(Color input_color);
+	std::vector<float>& GetVertices() { return vertices; };
 
 	unsigned int Get_Index() const { return index_; };
 	void Set_Index(const unsigned int input) { index_ = input; };
@@ -58,9 +60,11 @@ public:
 	unsigned int Get_Primitive() const { return primitive_; };
 	void Set_Primitive(const unsigned int input) { primitive_ = input; };
 
+	
+	std::vector<vector2>& GetEdge() { return edge_dir; };
 
 	unsigned int Get_VAO() const { return VAO; };
-
+	Color color_;
 	int bytes_of_data = 0; // Size of vertices in bytes.
 	static unsigned int number_of_element_per_stride;
 };

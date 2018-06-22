@@ -131,7 +131,7 @@ void OpenGL_window::SetGui()
 	// Setup display size (every frame to accommodate for window resizing)
 	RECT size;
 	GetClientRect(hWnd, &size);
-	io.DisplaySize = ImVec2(size.right, size.bottom);
+	io.DisplaySize = ImVec2(static_cast<float>(size.right), static_cast<float>(size.bottom));
 	io.DisplayFramebufferScale = ImVec2(size.right > 0 ? ((float)size.right / size.right) : 0, size.bottom > 0 ? ((float)size.bottom / size.bottom) : 0);
 
 	// Setup time step
@@ -140,30 +140,37 @@ void OpenGL_window::SetGui()
 	//g_Time = current_time;
 
 
-		// Set OS mouse position if requested (only used when ImGuiConfigFlags_NavEnableSetMousePos is enabled by user)
-		if (io.WantSetMousePos)
-		{
-			io.MousePos = ImVec2(-FLT_MAX, -FLT_MAX);
-		}
-		else
-		{
-			// 15 is cursor size.
-			const auto mouse_x = RAWMousePos.x;
-			const auto mouse_y = RAWMousePos.y;
+	// Set OS mouse position if requested (only used when ImGuiConfigFlags_NavEnableSetMousePos is enabled by user)
+	if (io.WantSetMousePos)
+	{
+		io.MousePos = ImVec2(-FLT_MAX, -FLT_MAX);
+	}
+	else
+	{
+		// 15 is cursor size.
+		const auto mouse_x = RAWMousePos.x;
+		const auto mouse_y = RAWMousePos.y;
 
 
-			io.MousePos = ImVec2((float)mouse_x, (float)mouse_y);
-		}
+		io.MousePos = ImVec2((float)mouse_x, (float)mouse_y);
+	}
 	/*else
 	{
 		io.MousePos = ImVec2(-FLT_MAX, -FLT_MAX);
 	}*/
+
+	if(io.WantCaptureKeyboard)
+	{
+		io.KeyMap[ImGuiKey_A] = VK_A;
+	}
 
 	for (int i = 0; i < 3; i++)
 	{
 		// If a mouse press event came, always pass it as "mouse held this frame", so we don't miss click-release events that are shorter than 1 frame.
 		io.MouseDown[i] = MouseButton[i];
 	}
+
+
 }
 
 MSG& OpenGL_window::GetGLMessage()
@@ -343,9 +350,6 @@ void OpenGL_window::SelectNextObject()
 		obj = &(graphic.GetObjectList()[selected_object_index]);
 	else
 	{
-		for (auto current_object : selected_object)
-			current_object->shader = graphic.shader_program_POS_COLOR;
-
 		if (selected_object_index == graphic.GetObjectList().size() - 1)
 		{
 			obj = &(graphic.GetObjectList()[0]);
@@ -356,7 +360,7 @@ void OpenGL_window::SelectNextObject()
 	}
 
 	
-	obj->shader = graphic.shader_program_POS_TEX;
+	//obj->shader = graphic.shader_program_POS_TEX;
 
 	selected_object.clear();
 	selected_object.push_back(obj);
@@ -484,7 +488,9 @@ void OpenGL_window::UpdateGui()
 		return;
 
 
-	ImGui::GetIO().WantCaptureMouse = true;
+	ImGui::GetIO().WantCaptureMouse    = true;
+	ImGui::GetIO().WantCaptureKeyboard = true;
+	
 	ImGui_ImplOpenGL3_NewFrame();
 	SetGui();
 	ImGui::NewFrame();
@@ -492,11 +498,14 @@ void OpenGL_window::UpdateGui()
 		static float f = 0.0f;
 		static int counter = 0;
 
-		float translation[2] = { selected_object.back()->transform_.GetTranslation().x, selected_object.back()->transform_.GetTranslation().y};
+
+
+		float translation[2] = { selected_object.back()->transform_.GetTranslation().x, selected_object.back()->transform_.GetTranslation().y };
 		float rotation = selected_object.back()->transform_.GetRotation();
 		float scale[2] = { selected_object.back()->transform_.GetScale().x, selected_object.back()->transform_.GetScale().y };
+		
 
-		ImGui::Text("Hello, world!");                           // Display some text (you can use a format string too)
+		ImGui::Text(selected_object.back()->name.c_str());                           // Display some text (you can use a format string too)
 		ImGui::SliderFloat2("Translation", &translation[0], -500, 500);            // Edit 1 float using a slider from 0.0f to 1.0f 
 		ImGui::SliderAngle("Angle", &rotation, 0.0f, 360.0f);            // Edit 1 float using a slider from 0.0f to 1.0f 
 		ImGui::SliderFloat2("Scale", &scale[0], 0.0f, 2.0f);            // Edit 1 float using a slider from 0.0f to 1.0f 
@@ -507,32 +516,33 @@ void OpenGL_window::UpdateGui()
 
 		ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
 
-		ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our windows open/close state
-		ImGui::Checkbox("Another Window", &show_another_window);
 
-		if (ImGui::Button("Button"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
-			counter++;
+
+
+
+		if (ImGui::Button("Select next object"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
+			SelectNextObject();
+		if (ImGui::Button("Apply color"))
+		{
+			auto input = Color(clear_color.x * 255, clear_color.y * 255, clear_color.z * 255, clear_color.w * 255);
+			selected_object.back()->mesh_.ChangeColor(input);
+		}
+
+		if (ImGui::Button("Texture"))
+		{
+			selected_object.back()->shader = graphic.shader_program_POS_TEX;
+		}
+
+		if (ImGui::Button("Plain color"))
+		{
+			selected_object.back()->shader = graphic.shader_program_POS_COLOR;
+		}
+
+
 		ImGui::SameLine();
 		ImGui::Text("counter = %d", counter);
-
 	}
 
-	// 2. Show another simple window. In most cases you will use an explicit Begin/End pair to name your windows.
-	if (show_another_window)
-	{
-		ImGui::Begin("Another Window", &show_another_window);
-		ImGui::Text("Hello from another window!");
-		if (ImGui::Button("Close Me"))
-			show_another_window = false;
-		ImGui::End();
-	}
-
-	// 3. Show the ImGui demo window. Most of the sample code is in ImGui::ShowDemoWindow(). Read its code to learn more about Dear ImGui!
-	if (show_demo_window)
-	{
-		ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiCond_FirstUseEver); // Normally user code doesn't need/want to call this because positions are saved in .ini file anyway. Here we just want to make the demo initial state a bit more friendly!
-		ImGui::ShowDemoWindow(&show_demo_window);
-	}
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

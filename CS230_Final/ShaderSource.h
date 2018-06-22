@@ -8,13 +8,14 @@ layout (location = 1) in vec3 attribute_Color;// Attribute at 1 is color.
 out vec3 vert_shader_out;
 
 uniform mat3 combined;
+uniform vec3 colorinput;
 
 
 void main()
 {
 	vec3 position = combined * vec3(attribute_Pos.xy, 1.0f);
     gl_Position = vec4(position.xy, 0.0, 1.0);
-	vert_shader_out = attribute_Color;
+	vert_shader_out = colorinput;
 } 
 )"
 
@@ -28,7 +29,7 @@ void main()
 {
 	FragColor = vec4(vert_shader_out, 1.0);
 } 
-								)"
+)"
 
 
 

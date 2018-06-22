@@ -63,7 +63,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	ImGui_ImplOpenGL3_Init();
 	ImGui::StyleColorsDark();
 	ImGui::CaptureMouseFromApp(true);
-	main_opengl.SetImGuiIO(io);
+	ImGui::CaptureKeyboardFromApp(true);
 	
 
 	while (!main_opengl.quit)

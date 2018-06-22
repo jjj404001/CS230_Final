@@ -151,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Contact.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Image.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Attributes.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Contact.h" />
     <ClInclude Include="Edit.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Graphics.h" />
