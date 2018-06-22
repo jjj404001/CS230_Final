@@ -337,13 +337,13 @@ void OpenGL_window::HandleCameraTransform(WPARAM wParam)
 	// Check input and set vector for transform.
 	// Use if statement for diagonal functionality.
 	if (wParam == VK_UP)
-		input_vector.y += TRANSFORM_FACTOR;
+		input_vector.y += TRANSFORM_FACTOR_CAMERA;
 	if (wParam == VK_DOWN)
-		input_vector.y -= TRANSFORM_FACTOR;
+		input_vector.y -= TRANSFORM_FACTOR_CAMERA;
 	if (wParam == VK_LEFT)
-		input_vector.x -= TRANSFORM_FACTOR;
+		input_vector.x -= TRANSFORM_FACTOR_CAMERA;
 	if (wParam == VK_RIGHT)
-		input_vector.x += TRANSFORM_FACTOR;
+		input_vector.x += TRANSFORM_FACTOR_CAMERA;
 
 
 

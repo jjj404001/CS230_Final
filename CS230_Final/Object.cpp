@@ -54,9 +54,9 @@ void Object::Update(RECT input_rect, Camera input_camera)
 
 
 	const auto uniCombined = glGetUniformLocation(shader, "combined");
-	const auto combined = (proj * view * world).transpose();
+	const auto combined = (proj * view * world);
 
-	glUniformMatrix3fv(uniCombined, 1, GL_FALSE, &combined.affine_map[0][0]);
+	glUniformMatrix3fv(uniCombined, 1, GL_TRUE, &combined.affine_map[0][0]);
 
 
 	glBindVertexArray(mesh_.Get_VAO());

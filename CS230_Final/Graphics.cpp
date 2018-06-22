@@ -21,23 +21,14 @@ void Graphics::Initialize()
 	font.Initialize(shader_program_FONT, "Texture/Arial.fnt");
 
 	//TODO: Text.Initialize(), WARNING!! Uppercase only.
-	
-	std::string instruction = "PRESS ENTER TO MAXIMIZE SCREEN.\n";
-	instruction += "PRESS P TO TAKE SCREEN SHOT.\n";
-	instruction += "PRESS TAB TO CHANGE RENDER MODE.\n";
-	instruction += "PRESS C TO CHANGE TRANSFORM MODE.(CAMERA AND OBJ.).\n";
-	instruction += "PRESS SPACE TO SELECT NEXT OBJECT.\n";
-	instruction += "PRESS G TO TRANSLATE, R TO ROTATE, S TO SCALE.\n";
-	instruction += "PRESS V TO TURN ON AND OFF VSYNC .\n";
-	instruction += "MOUSE WHEEL TO ZOOM IN AND ZOOM OUT.\n";
-	
-	int majorV;
-	glGetIntegerv(GL_MAJOR_VERSION, &majorV);
-	int minorV;
-	glGetIntegerv(GL_MINOR_VERSION, &minorV);
-
-	instruction += "OPENGL VERSION :" +std::to_string(majorV) + "." + std::to_string(minorV) + "\n";
+	auto version = glGetString(GL_VERSION);
+	std::string vName = (char*)version;
+	std::string instruction = "OPENGL VERSION :" + vName + "\n";
 	instruction += "FRAME AND MOUSE INFORMATION IS ON TITLE BAR.\n";
+	instruction += "MAKE SURE YOU READ README.TXT ON SOLUTION DIR.\n";
+	
+
+	
 
 	
 	Text text;

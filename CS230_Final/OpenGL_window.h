@@ -9,6 +9,7 @@
 #define CLASS_NAME "JJJ's Final assignment FPS:"
 #define WINDOW_SIZE 1000
 #define TRANSFORM_FACTOR 1.0f // move for 10 pixel
+#define TRANSFORM_FACTOR_CAMERA 10.0f // move for 10 pixel
 
 class OpenGL_window
 {
