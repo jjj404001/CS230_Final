@@ -48,12 +48,23 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 
 	SetActiveWindow(main_opengl.GetHWND());
 
+	
 
 	
 	main_opengl.GetGraphicHandle().Initialize();
 	if (main_opengl.GetRenderingContext() != nullptr)
 		wglSwapIntervalEXT(0);
 
+
+	// Setup Dear ImGui binding
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	ImGui_ImplOpenGL3_Init();
+	ImGui::StyleColorsDark();
+	ImGui::CaptureMouseFromApp(true);
+	main_opengl.SetImGuiIO(io);
+	
 
 	while (!main_opengl.quit)
 	{
@@ -100,14 +111,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case WM_MBUTTONDOWN: //or middle mouse button
 		case WM_RBUTTONDOWN: //or right mouse button is pressed.
 		{
-			std::cout << "Mouse" << std::endl;
+			main_opengl.Input_MouseButton();
 		}
 		break;
 		case WM_LBUTTONUP: ///if left mouse button
 		case WM_MBUTTONUP: //or middle mouse button
 		case WM_RBUTTONUP: //or right mouse button is released.
 		{
-
+			main_opengl.Input_MouseButtonReleased();
 		}
 		break;
 		case WM_MOUSEWHEEL: //if mouse wheel is rolled.

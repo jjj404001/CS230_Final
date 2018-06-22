@@ -20,6 +20,8 @@ class OpenGL_window
 	MSG Message;
 	WNDCLASS WndClass;
 	POINTS MousePos;
+	POINTS RAWMousePos;
+	bool MouseButton[5];
 
 	PIXELFORMATDESCRIPTOR PFD;
 	int pixelFormatID;
@@ -45,6 +47,7 @@ class OpenGL_window
 	int PixelFormat = NULL;
 
 	void Check_and_Set_Fullscreen();
+	void SetGui();
 
 	std::list<Object*> selected_object;
 	unsigned int selected_object_index = 0;
@@ -70,17 +73,20 @@ public:
 	bool Destroy_Old_Context();
 	bool Create_Context(HINSTANCE hInstance, Attributes input_attrib, OpenGL_window& fake, int nCmdShow);
 
-
+	
 
 	MSG& GetGLMessage();
 	HDC* GetDeviceContext();
 	HGLRC* GetRenderingContext() { return &rendering_context; };
 	HWND& GetHWND() { return hWnd; };
 	ImGuiIO& GetImGuiIO() { return io; }
+	void SetImGuiIO(ImGuiIO& input_io) { io = input_io; }
 	void ResizeOpenGLViewport(HWND hWnd);
 	void ResizeCamera(short delta);
 	void Input_KeyDown(WPARAM wParam, LPARAM lParam);
 	void Input_MouseMove(LPARAM lParam);
+	void Input_MouseButton();
+	void Input_MouseButtonReleased();
 
 	Graphics& GetGraphicHandle() { return graphic; };
 };
