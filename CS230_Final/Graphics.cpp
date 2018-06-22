@@ -1,8 +1,8 @@
 #include "Graphics.h"
 #include <iostream>
 #include "stb_image_write.h"
-#include "Contact.h"
-#include <matrix4.h>
+
+
 
 #define FIXED_INDEX 0
 #define PI 3.14159265f // TODO: Duplicate with mesh file. fix it
@@ -12,8 +12,7 @@
 
 void Graphics::Initialize()
 {
-	//SetUpShader(shader_program_POS_BLACK, VERT_SOURCE_POSITION, FRAG_SOURCE_COLOR_BLACK);
-	//SetUpShader(shader_program_POS_RED, VERT_SOURCE_POSITION, FRAG_SOURCE_COLOR_RED);
+
 	SetUpShader(shader_program_POS_COLOR, VERT_SOURCE_COLOR_INPUT, FRAG_SOURCE_COLOR_INPUT);
 	SetUpShader(shader_program_POS_TEX, VERT_SOURCE_TEXTURE_POS, FRAG_SOURCE_TEXTURE_POS);
 	SetUpShader(shader_program_FONT, VERT_SOURCE_COLOR_POS_FONT, FRAG_SOURCE_COLOR_POS_FONT);
@@ -83,26 +82,12 @@ void Graphics::Initialize()
 }
 
 
-void Graphics::Update(vector2 /*mousePos_input*/)
-{
-	Objects_update();
-	Texts_update();
-}
-
-void Graphics::Objects_update()
+void Graphics::Update()
 {
 	for (auto current_object : objects_list)
-	{
 		current_object.Update(rect_, camera);
-	}
-}
-
-void Graphics::Texts_update()
-{
-	for(auto current_text : text_list)
-	{
+	for (auto current_text : text_list)
 		current_text.Update(rect_, camera);
-	}
 }
 
 void Graphics::TakeScreenShot()
@@ -136,10 +121,6 @@ void Graphics::AddObject(Object input_object, unsigned int input_shader)
 	current_index_of_mesh += objects_list.back().mesh_.Get_Num_of_vert();
 }
 
-void Graphics::AddCursor(unsigned input_shader)
-{
-
-}
 
 void Graphics::MoveEverything()
 {

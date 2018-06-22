@@ -39,10 +39,8 @@ public:
 
 
 	void Initialize();
-	void Update(vector2 mousePos);
+	void Update();
 
-	void Objects_update();
-	void Texts_update();
 
 	void TakeScreenShot();
 
@@ -56,7 +54,6 @@ public:
 
 
 	void AddObject(Object input_object, unsigned int input_shader);
-	void AddCursor(unsigned int input_shader);
 
 	void SetUpShader(unsigned int& shader_program, const char* input_vertext_source, const char*  input_fragment_source);
 

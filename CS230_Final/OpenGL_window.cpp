@@ -452,7 +452,7 @@ void OpenGL_window::Update()
 	glPolygonMode(GL_FRONT_AND_BACK, graphic.GetPolyMode());
 	glClearColor(GREEN);
 	glClear(GL_COLOR_BUFFER_BIT);
-	graphic.Update(vector2(MousePos.x, MousePos.y));
+	graphic.Update();
 	UpdateGui();
 	SwapBuffers(*GetDeviceContext());
 
@@ -462,10 +462,10 @@ void OpenGL_window::Update()
 	ellapsed_time += duration;
 	fps++;
 
-	std::string name = CLASS_NAME + std::to_string(previous_fps);
-	std::string name_additional = " Ellapsed time between frame : " + std::to_string(previous_ellapsed_time);
+	const std::string name = CLASS_NAME + std::to_string(previous_fps);
+	const std::string name_additional = " Ellapsed time between frame : " + std::to_string(previous_ellapsed_time);
 
-	std::string mouse_pos_string = "  Mouse Position : (" + std::to_string(MousePos.x) + "," + std::to_string(-MousePos.y) + ")";
+	const std::string mouse_pos_string = "  Mouse Position : (" + std::to_string(MousePos.x) + "," + std::to_string(-MousePos.y) + ")";
 
 	SetWindowText(hWnd, (name + name_additional + mouse_pos_string).c_str());
 	
@@ -495,38 +495,26 @@ void OpenGL_window::UpdateGui()
 	SetGui();
 	ImGui::NewFrame();
 	{
-		static float f = 0.0f;
-		static int counter = 0;
-
-
-
 		float translation[2] = { selected_object.back()->transform_.GetTranslation().x, selected_object.back()->transform_.GetTranslation().y };
 		float rotation = selected_object.back()->transform_.GetRotation();
 		float scale[2] = { selected_object.back()->transform_.GetScale().x, selected_object.back()->transform_.GetScale().y };
 		
 
-		ImGui::Text(selected_object.back()->name.c_str());                           // Display some text (you can use a format string too)
-		ImGui::SliderFloat2("Translation", &translation[0], -500, 500);            // Edit 1 float using a slider from 0.0f to 1.0f 
-		ImGui::SliderAngle("Angle", &rotation, 0.0f, 360.0f);            // Edit 1 float using a slider from 0.0f to 1.0f 
-		ImGui::SliderFloat2("Scale", &scale[0], 0.0f, 2.0f);            // Edit 1 float using a slider from 0.0f to 1.0f 
+		ImGui::Text(selected_object.back()->name.c_str()); 
+		ImGui::SliderFloat2("Translation", &translation[0], -500, 500); 
+		ImGui::SliderAngle("Angle", &rotation, 0.0f, 360.0f);  
+		ImGui::SliderFloat2("Scale", &scale[0], 0.0f, 2.0f);
 
 		selected_object.back()->transform_.SetTranslation(vector2(translation[0], translation[1]));
 		selected_object.back()->transform_.SetRotation(rotation);
 		selected_object.back()->transform_.SetScale(vector2(scale[0], scale[1]));
 
-		ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
 
 
 
 
-
-		if (ImGui::Button("Select next object"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
+		if (ImGui::Button("Select next object")) 
 			SelectNextObject();
-		if (ImGui::Button("Apply color"))
-		{
-			auto input = Color(clear_color.x * 255, clear_color.y * 255, clear_color.z * 255, clear_color.w * 255);
-			selected_object.back()->mesh_.ChangeColor(input);
-		}
 
 		if (ImGui::Button("Texture"))
 		{
@@ -537,10 +525,6 @@ void OpenGL_window::UpdateGui()
 		{
 			selected_object.back()->shader = graphic.shader_program_POS_COLOR;
 		}
-
-
-		ImGui::SameLine();
-		ImGui::Text("counter = %d", counter);
 	}
 
 

@@ -56,7 +56,9 @@ void Object::Update(RECT input_rect, Camera input_camera)
 	const auto uniCombined = glGetUniformLocation(shader, "combined");
 	const auto uniColor    = glGetUniformLocation(shader, "colorinput");
 	const auto combined = (proj * view * world).transpose();
-	const float color[3] = { mesh_.color_.Red, mesh_.color_.Green, mesh_.color_.Blue};
+	const float color[3] = { static_cast<float>(mesh_.color_.Red), 
+							static_cast<float>(mesh_.color_.Green),
+							static_cast<float>(mesh_.color_.Blue)};
 
 	glUniformMatrix3fv(uniCombined, 1, GL_FALSE, &combined.affine_map[0][0]);
 	glUniform3fv(uniColor, 1, &color[0]);

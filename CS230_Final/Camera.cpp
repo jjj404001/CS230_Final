@@ -11,8 +11,6 @@ void Camera::ResizeCamera(short mouse_delta)
 
 	const auto multiply_factor = 1.0f - mouse_delta / 10.0f;
 
-	//right_ *= zoom_;
-	//up_    *= zoom_;
 
 	zoom_ /= multiply_factor;
 }

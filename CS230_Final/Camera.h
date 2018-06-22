@@ -20,7 +20,6 @@ class Camera
 	float fov_ = 0.0f; // radian
 public:
 	Camera() = default;
-	Camera(vector2 camera_center, vector2 camera_up);
 
 	vector2 GetCenter() const { return center_; }
 	void SetCenter(vector2 camera_center) { center_ = camera_center; };
@@ -33,11 +32,6 @@ public:
 	float GetRotation() const { return rotation_; }
 
 
-	void ResetUp(vector2 camera_up = { 0, 1 });
-
-	void MoveUp(float distance);
-	void MoveRight(float distance);
-	void Rotate(float angle_radians);
 
 	affine2d CameraToWorld() const;
 	affine2d WorldToCamera() const;
